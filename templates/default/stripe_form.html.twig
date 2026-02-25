@@ -45,6 +45,9 @@
                                                 ({{ charged_amount|format_currency(stripe.getCurrency(), {}, galette_lang) }})
                                             </label>
                                         </div>
+                                        {% if amount['description'] is defined and amount['description'] is not empty %}
+                                            <div class="ui visible info message amount-description">{{ amount['description']|raw }}</div>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </div>
