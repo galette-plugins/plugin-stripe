@@ -274,6 +274,7 @@ class Stripe
      * @param array<string, mixed> $metadata Array of metadata to transmit with payment
      * @param string               $amount   Amount of payment
      * @param string               $currency Currency used
+     * @return                     array<string,mixed>|bool
      */
     public function checkout(array $metadata, string $amount, string $currency): array|bool
     {

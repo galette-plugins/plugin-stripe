@@ -70,9 +70,9 @@ class StripeHistory extends History
     /**
      * Add a new entry
      *
-     * @param array|string $action   the action to log
-     * @param string       $argument the argument
-     * @param string       $query    the query (if relevant)
+     * @param array<string, mixed>|string $action   the action to log
+     * @param string                      $argument the argument
+     * @param string                      $query    the query (if relevant)
      *
      * @return bool true if entry was successfully added, false otherwise
      */
@@ -136,6 +136,8 @@ class StripeHistory extends History
 
     /**
      * Gets Stripe history
+     *
+     * @return array<int, object>
      */
     public function getStripeHistory(): array
     {
@@ -176,6 +178,7 @@ class StripeHistory extends History
      * Gets Stripe Payment Method details
      *
      * @param string $id ID of the payment method to retrieve
+     * @return array<string, mixed>
      */
     public function getStripePaymentMethod(string $id): array
     {
@@ -191,7 +194,7 @@ class StripeHistory extends History
     /**
      * Builds the order clause
      *
-     * @return array SQL ORDER clause
+     * @return array<int, string> SQL ORDER clause
      */
     protected function buildOrderClause(): array
     {
@@ -207,7 +210,7 @@ class StripeHistory extends History
     /**
      * Is payment already processed?
      *
-     * @param array $request Verify sign stripe parameter
+     * @param array<string, mixed> $request Verify sign stripe parameter
      */
     public function isProcessed(array $request): bool
     {
