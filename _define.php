@@ -23,7 +23,8 @@ $this->register(
         'stripe_history'            => 'staff',
         'filter_stripe_history'     => 'staff',
         'refresh_currencies'        => 'admin'
-    ]
+    ],
+    dbver: 1.00                                                 //DB version
 );
 
 $this->setCsrfExclusions(
