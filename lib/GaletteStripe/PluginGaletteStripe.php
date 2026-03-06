@@ -23,10 +23,16 @@ declare(strict_types=1);
 
 namespace GaletteStripe;
 
+use DI\Attribute\Inject;
+use Galette\Core\Db;
 use Galette\Core\Login;
+use Galette\Core\Plugins\DashboardProviderInterface;
+use Galette\Core\Plugins\MenuProviderInterface;
 use Galette\Core\Preferences;
 use Galette\Entity\Adherent;
 use Galette\Core\GalettePlugin;
+use GaletteStripe\Stripe;
+use GaletteStripe\StripeHistory;
 
 /**
  * Plugin Galette Legal Notices
@@ -37,15 +43,18 @@ use Galette\Core\GalettePlugin;
  * @author Guillaume AGNIERAY <dev@agnieray.net>
  */
 
-class PluginGaletteStripe extends GalettePlugin
+class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface
 {
     /**
-     * Extra menus entries
+     * Get plugins menus
      *
      * @return array<string, string|array<string,mixed>>
      */
-    public static function getMenusContents(): array
+    public function getMenus(): array
     {
+        #[Inject]
+        private readonly Db $zdb;
+
         /**
          * @var Login $login
          */
@@ -78,11 +87,11 @@ class PluginGaletteStripe extends GalettePlugin
     }
 
     /**
-     * Extra public menus entries
+     * Get plugins public menus
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getPublicMenusItemsList(): array
+    public function getPublicMenus(): array
     {
         return [
             [
@@ -96,11 +105,11 @@ class PluginGaletteStripe extends GalettePlugin
     }
 
     /**
-     * Get dashboards contents
+     * Get plugins dashboards
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getDashboardsContents(): array
+    public function getDashboards(): array
     {
         /** @var Login $login */
         global $login;
@@ -121,46 +130,30 @@ class PluginGaletteStripe extends GalettePlugin
     }
 
     /**
-     * Get current logged-in user dashboards contents
+     * Get current logged-in user plugins dashboards
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getMyDashboardsContents(): array
+    public function getMyDashboards(): array
     {
         return [];
     }
 
     /**
-     * Get actions contents
-     *
-     * @param Adherent $member Member instance
-     *
-     * @return array<int, string|array<string,mixed>>
+     * Is the plugin fully installed (including database, extra configuration, etc.)?
      */
-    public static function getListActionsContents(Adherent $member): array
+    public function isInstalled(): bool
     {
-        return [];
-    }
-
-    /**
-     * Get detailed actions contents
-     *
-     * @param Adherent $member Member instance
-     *
-     * @return array<int, string|array<string,mixed>>
-     */
-    public static function getDetailedActionsContents(Adherent $member): array
-    {
-        return static::getListActionsContents($member);
-    }
-
-    /**
-     * Get batch actions contents
-     *
-     * @return array<int, string|array<string,mixed>>
-     */
-    public static function getBatchActionsContents(): array
-    {
-        return [];
+        try {
+            $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . Stripe::TABLE)->limit(1));
+            $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE)->limit(1));
+            return true;
+        }
+        catch (\Throwable $e) {
+            if (!$this->zdb->isMissingTableException($e)) {
+                throw $e;
+            }
+        }
+        return false;
     }
 }
