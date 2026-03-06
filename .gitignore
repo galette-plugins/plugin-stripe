@@ -2,4 +2,5 @@
 *.exvim*
 dist/
 tempcache/
+lang/*.po~
 vendor/
