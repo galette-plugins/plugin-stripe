@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 11:39+0100\n"
+"POT-Creation-Date: 2026-03-06 15:11+0100\n"
 "PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -21,64 +21,64 @@ msgstr ""
 "(n%100<90 || n%100>99) ? 2 : n!=0 && n%1000000==0 ? 3 : 4);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:74
+#: ../lib/GaletteStripe/Controllers/StripeController.php:72
 msgid "Online payment"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:82
+#: ../lib/GaletteStripe/Controllers/StripeController.php:80
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:83
+#: ../lib/GaletteStripe/Controllers/StripeController.php:81
 msgid "Our apologies for the annoyance."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:90
+#: ../lib/GaletteStripe/Controllers/StripeController.php:88
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:128
+#: ../lib/GaletteStripe/Controllers/StripeController.php:122
 #: ../tempcache/stripe_form.html.twig:258
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:150
+#: ../lib/GaletteStripe/Controllers/StripeController.php:144
 msgid "An error occured loading the checkout form."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:207
+#: ../lib/GaletteStripe/Controllers/StripeController.php:199
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:275
+#: ../lib/GaletteStripe/Controllers/StripeController.php:263
 msgid "Stripe Settings"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:330
+#: ../lib/GaletteStripe/Controllers/StripeController.php:316
 msgid "You have to select a currency."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:337
+#: ../lib/GaletteStripe/Controllers/StripeController.php:322
 msgid "Stripe settings have been saved."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:343
+#: ../lib/GaletteStripe/Controllers/StripeController.php:328
 msgid "An error occured saving stripe settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:550
+#: ../lib/GaletteStripe/Controllers/StripeController.php:528
 msgid "Payment success"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:574
+#: ../lib/GaletteStripe/Controllers/StripeController.php:550
 msgid "Your payment has been aborted!"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgid "Payment reason"
 msgstr ""
 
 #: ../tempcache/stripe_form.html.twig:78
-msgid "Select an payment reason"
+msgid "Select a payment reason"
 msgstr ""
 
 #: ../tempcache/stripe_form.html.twig:185
