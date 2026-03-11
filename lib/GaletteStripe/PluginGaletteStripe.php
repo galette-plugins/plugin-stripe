@@ -29,10 +29,7 @@ use Galette\Core\Login;
 use Galette\Core\Plugins\DashboardProviderInterface;
 use Galette\Core\Plugins\MenuProviderInterface;
 use Galette\Core\Preferences;
-use Galette\Entity\Adherent;
 use Galette\Core\GalettePlugin;
-use GaletteStripe\Stripe;
-use GaletteStripe\StripeHistory;
 
 /**
  * Plugin Galette Legal Notices
@@ -45,6 +42,9 @@ use GaletteStripe\StripeHistory;
 
 class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface
 {
+    #[Inject]
+    private readonly Db $zdb; //@phpstan-ignore-line injected from DI
+
     /**
      * Get plugins menus
      *
@@ -52,9 +52,6 @@ class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface
      */
     public function getMenus(): array
     {
-        #[Inject]
-        private readonly Db $zdb;
-
         /**
          * @var Login $login
          */
