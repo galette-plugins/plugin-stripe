@@ -141,15 +141,9 @@ class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface
      */
     public function isInstalled(): bool
     {
-        try {
-            $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . Stripe::TABLE)->limit(1));
-            $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE)->limit(1));
-            return true;
-        } catch (\Throwable $e) {
-            if (!$this->zdb->isMissingTableException($e)) {
-                throw $e;
-            }
-        }
-        return false;
+        return
+            $this->zdb->tableExists(STRIPE_PREFIX . Stripe::TABLE)
+            && $this->zdb->TableExists(STRIPE_PREFIX . StripeHistory::TABLE)
+        ;
     }
 }
