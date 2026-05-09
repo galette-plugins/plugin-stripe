@@ -59,11 +59,23 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install dependencies
+      - name: Install Core dependencies
         run: |
           cd galette-core
           composer install --ignore-platform-reqs
-          cd galette/plugins/plugin-stripe
+
+      - name: Headers checks
+        run: |
+          cd galette-core
+          ./bin/console galette:headers:check \
+            --project-name="Galette Stripe plugin" \
+            --project-url="https://galette-community.github.io/plugin-stripe" \
+            --start-year="2021" \
+            --directory="galette/plugins/plugin-stripe"
+
+      - name: Install Plugin dependencies
+        run: |
+          cd galette-core/galette/plugins/plugin-stripe
           composer install --ignore-platform-reqs
 
       - name: CS
@@ -86,11 +98,6 @@ jobs:
         run: |
           cd galette-core/galette/plugins/plugin-stripe
           ../../vendor/bin/phpstan analyze --ansi --memory-limit=2G --no-interaction --no-progress
-
-      - name: Headers checks
-        run: |
-          cd galette-core/galette/plugins/plugin-stripe
-          ../../vendor/bin/docheader --docheader=.docheader check lib ./*.php
 
   unit-tests:
     runs-on: ubuntu-latest
