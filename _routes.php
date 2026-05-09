@@ -21,6 +21,7 @@
 
 declare(strict_types=1);
 
+use Galette\Middleware\Authenticate;
 use GaletteStripe\Controllers\StripeController;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -33,12 +34,12 @@ require_once $module['root'] . '/_config.inc.php';
 $app->get(
     '/preferences',
     [StripeController::class, 'preferences']
-)->setName('stripe_preferences')->add($authenticate);
+)->setName('stripe_preferences')->add(Authenticate::class);
 
 $app->post(
     '/preferences',
     [StripeController::class, 'storePreferences']
-)->setName('store_stripe_preferences')->add($authenticate);
+)->setName('store_stripe_preferences')->add(Authenticate::class);
 
 $app->get(
     '/form',
@@ -53,13 +54,13 @@ $app->post(
 $app->get(
     '/logs[/{option:order|reset|page}/{value}]',
     [StripeController::class, 'history']
-)->setName('stripe_history')->add($authenticate);
+)->setName('stripe_history')->add(Authenticate::class);
 
 //history filtering
 $app->post(
     '/history/filter',
     [StripeController::class, 'filter']
-)->setName('filter_stripe_history')->add($authenticate);
+)->setName('filter_stripe_history')->add(Authenticate::class);
 
 $app->post(
     '/webhook',
@@ -76,9 +77,9 @@ $app->get(
     [StripeController::class, 'cancelUrl']
 )->setName('stripe_cancel');
 
-$app->group('/ajax', function (RouteCollectorProxy $app) use ($authenticate): void {
+$app->group('/ajax', function (RouteCollectorProxy $app): void {
     $app->post(
         '/currencies',
         [StripeController::class, 'refreshCurrencies']
-    )->setName('refresh_currencies')->add($authenticate);
+    )->setName('refresh_currencies')->add(Authenticate::class);
 });
