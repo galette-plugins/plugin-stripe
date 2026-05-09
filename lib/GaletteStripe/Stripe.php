@@ -288,7 +288,7 @@ class Stripe
                     'description' => $metadata['item_name'],
                     'metadata' => $metadata,
                 ],
-                'ui_mode' => 'hosted'
+                'ui_mode' => 'hosted_page'
             ]);
             $contents = json_encode($session);
 
