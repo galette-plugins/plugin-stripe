@@ -14,7 +14,7 @@ $this->register(
     desc: 'Stripe integration',                                 //Short description
     author: 'Mathieu PELLEGRIN, manuelh78, Guillaume AGNIERAY', //Author
     version: '1.0.0-alpha1',                                    //Version
-    compver: '1.2.1',                                           //Galette compatible version
+    compver: '1.3.0',                                           //Galette compatible version
     route: 'stripe',                                            //Routing name and translation domain
     date: '2025-12-08',                                         //Release date
     acls: [                                                     //Permissions needed
