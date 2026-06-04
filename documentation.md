@@ -15,7 +15,8 @@ This plugin provides:
 First of all, download the plugin:
 
 [![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-alpha1&color=ffb619
-)](https://github.com/galette-community/plugin-stripe/releases/tag/1.0.0-alpha1)
+)](https://github.com/galette-community/plugin-stripe/releases/tag/1.0.0-alpha1) [![Get Stripe plugin nightly build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
+)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
 
 Extract the downloaded archive into Galette `plugins` directory. For example, on linux (replacing *{url}* and *{version}* with the corresponding values):
 
