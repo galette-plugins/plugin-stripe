@@ -129,7 +129,6 @@ class StripeHistory extends History
     {
         $orig = $this->getHistory();
         $new = [];
-        $dedup = [];
         if (count($orig) > 0) {
             foreach ($orig as $o) {
                 try {
@@ -141,11 +140,6 @@ class StripeHistory extends History
 
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
-                    if (in_array($o['intent_id'], $dedup)) {
-                        $o['duplicate'] = true;
-                    } else {
-                        $dedup[] = $o['intent_id'];
-                    }
 
                     $new[] = $o;
                 } catch (\Exception $e) {
