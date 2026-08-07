@@ -60,6 +60,10 @@
             'collapse': true
         },
         {
+            'label': _T("Status", "stripe"),
+            'collapse': true
+        },
+        {
             'label': _T("Actions"),
             'collapse': true
         }
@@ -128,6 +132,30 @@
         {% else %}
                 {{ _T("No request or unable to read request.", "stripe") }}
         {% endif %}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Status", "stripe") }}">
+                {% if log.state == constant('GaletteStripe\\StripeHistory::STATE_NONE') or log.state == constant('GaletteStripe\\StripeHistory::STATE_PROCESSED') %}
+                    <span class="icon-only">
+                        <i class="check green icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("Payment properly processed", "stripe") }}
+                        </span>
+                    </span>
+                {% elseif log.state == constant('GaletteStripe\\StripeHistory::STATE_ERROR') %}
+                    <span class="icon-only">
+                        <i class="times red icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("An error occurred and the corresponding contribution has not been created", "stripe") }}
+                        </span>
+                    </span>
+                {% elseif log.state == constant('GaletteStripe\\StripeHistory::STATE_ALREADYDONE') %}
+                    <span class="icon-only">
+                        <i class="exclamation triangle orange icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("Duplicate", "stripe") }}
+                        </span>
+                    </span>
+                {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Actions") }}">
                 <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
