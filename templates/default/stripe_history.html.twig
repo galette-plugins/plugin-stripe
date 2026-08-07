@@ -59,7 +59,10 @@
             'label': _T("Method", "stripe"),
             'collapse': true
         },
-        {'label': _T("Request", "stripe")}
+        {
+            'label': _T("Actions"),
+            'collapse': true
+        }
     ] %}
     {{ parent() }}
 {% endblock %}
@@ -126,19 +129,38 @@
                 {{ _T("No request or unable to read request.", "stripe") }}
         {% endif %}
             </td>
-            <td class="left" data-col-label="{{ _T("Request", "stripe") }}">
-                <details class="ui basic styled accordion">
-                    <summary class="title">
-                        <i class="caret down icon" aria-hidden="true"></i> {{ _T("Show/hide full request", "stripe") }}
-                    </summary>
-                    <div class="content">
-                        <pre>{{ log.raw_request }}</pre>
-                    </div>
-                </details>
+            <td class="left" data-col-label="{{ _T("Actions") }}">
+                <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
+                    <i class="info circle blue icon" aria-hidden="true"></i>
+                    <span class="visually-hidden">
+                        {{ _T("View full request of payment nb. %1$s", "stripe")|replace({"%1$s":log.intent_id}) }}
+                    </span>
+                </a>
             </td>
         </tr>
     {% else %}
         <tr><td colspan="6" class="emptylist">{{ _T("logs are empty") }}</td></tr>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% for log in logs %}
+        <div id="modal-{{ loop.index }}" class="ui large modal">
+            <div class="header">
+                {{ _T('Full request of payment nb. %1$s', 'stripe')|replace({'%1$s':log.intent_id}) }}
+            </div>
+            <div class="scrolling content">
+                <pre>{{ log.raw_request }}</pre>
+            </div>
+            <div class="actions">
+                <div class="ui labeled icon deny button">
+                    <i class="times icon" aria-hidden="true"></i>
+                    {{ _T('Close') }}
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}
 
@@ -147,5 +169,16 @@
             $('#nbshow').change(function() {
                 this.form.submit();
             });
+
+            document.addEventListener('click', (e) => {
+              const trigger = e.target.closest('.view-request');
+              if (!trigger) return;
+
+              e.preventDefault();
+
+              const modalSelector = '#' + trigger.dataset.modal;
+              $(modalSelector).modal('show');
+            });
+
         </script>
 {% endblock %}
