@@ -36,15 +36,27 @@
             'collapse': true
         },
         {
-            'label': _T("Name"),
+            'label': _T("Payment nb.", "stripe"),
             'collapse': true
         },
         {
-            'label': _T("Subject"),
+            'label': _T("Payer name", "stripe"),
+            'collapse': true
+        },
+        {
+            'label': _T("Member"),
+            'collapse': true
+        },
+        {
+            'label': _T("Contribution type"),
             'collapse': true
         },
         {
             'label': _T("Amount"),
+            'collapse': true
+        },
+        {
+            'label': _T("Method", "stripe"),
             'collapse': true
         },
         {'label': _T("Request", "stripe")}
@@ -63,6 +75,9 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Date") }}">
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Payment nb.", "stripe") }}">
+                {{ log.intent_id }}
                 {% if log.duplicate is defined %}
                     <i class="exclamation circle red icon tooltip" data-html="{{ _T("Duplicate", "stripe") }}"></i>
                     <span class="visually-hidden">
@@ -70,32 +85,46 @@
                     </span>
                 {% endif %}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Name") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Payer name", "stripe") }}">
+        {% if log.payer_name is not empty %}
+                {{ log.payer_name }}
+        {% else %}
+                {{ _T("None given", "stripe") }}
+        {% endif %}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Member") }}">
         {% if log.request is iterable %}
             {% if log.request.data.object.metadata.member_id is defined %}
                 <a href="{{ url_for("member", {"id": log.request.data.object.metadata.member_id}) }}">
-            {% endif %}
-                {{ log.payer_name }}
-            {% if log.request.data.object.metadata.member_id is defined %}
+                {{ log.request.data.object.metadata.member_id }}
                 </a>
+            {% else %}
+                {{ _T("None", "stripe") }}
             {% endif %}
         {% else %}
                 {{ _T("No request or unable to read request.", "stripe") }}
         {% endif %}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Contribution type") }}">
         {% if log.request is iterable %}
             {% if log.request.data.object.metadata.item_name is defined %}
-                <span class="ui green small label">
-                    {{ _T("Payment nb.", "stripe") }}
-                    {{ log.intent_id }}
-                </span>
-                | {{ log.request.data.object.metadata.item_name }}
+                {{ log.request.data.object.metadata.item_name }}
+            {% else %}
+                {{ _T("None", "stripe") }}
             {% endif %}
         {% endif %}
             </td>
             <td class="right collapsing" data-col-label="{{ _T("Amount") }}">
                 {{ log.amount }}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Method", "stripe") }}">
+        {% if log.request is iterable %}
+            {% if log.request.data.object.payment_method_types.0 is defined %}
+                {{ log.request.data.object.payment_method_types.0 }}
+            {% endif %}
+        {% else %}
+                {{ _T("No request or unable to read request.", "stripe") }}
+        {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Request", "stripe") }}">
                 <details class="ui basic styled accordion">
