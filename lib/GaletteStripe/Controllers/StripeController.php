@@ -409,74 +409,65 @@ class StripeController extends AbstractPluginController
                 );
                 $sh->setState(StripeHistory::STATE_ALREADYDONE);
             } else {
-                // we'll now try to add the relevant cotisation
-                if ($post['data']['object']['status'] == 'succeeded') {
-                    /**
-                    * We will use the following parameters:
-                    * - $post['data']['object']['amount']: the amount
-                    * - $post['data']['object']['metadata']['member_id']: member id
-                    * - $post['data']['object']['metadata']['item_id']: contribution type id
-                    *
-                    * If no member id is provided, we only send to post contribution
-                    * script, Galette does not handle anonymous contributions
-                    */
-                    $amount = $post['data']['object']['amount'];
-                    $member_id = array_key_exists('member_id', $post['data']['object']['metadata']) ? $post['data']['object']['metadata']['member_id'] : '';
-                    $contrib_args = [
-                        'type'          => $post['data']['object']['metadata']['item_id'],
-                        'adh'           => $member_id,
-                        'payment_type'  => PaymentType::STRIPE
-                    ];
-                    $check_contrib_args = [
-                        ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
-                        Adherent::PK            => $member_id,
-                        'type_paiement_cotis'   => PaymentType::STRIPE,
-                        'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
-                    ];
-                    if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
-                        $contrib_args['ext'] = $this->preferences->pref_membership_ext;
-                    }
-                    $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
+                /**
+                 * Let's add the relevant contribution.
+                 * We will use the following parameters:
+                 * - $post['data']['object']['amount']: the amount
+                 * - $post['data']['object']['metadata']['member_id']: member id
+                 * - $post['data']['object']['metadata']['item_id']: contribution type id
+                 *
+                 * If no member id is provided, we only send to post contribution
+                 * script, Galette does not handle anonymous contributions
+                 */
+                $amount = $post['data']['object']['amount'];
+                $member_id = array_key_exists('member_id', $post['data']['object']['metadata']) ? $post['data']['object']['metadata']['member_id'] : '';
+                $contrib_args = [
+                    'type'          => $post['data']['object']['metadata']['item_id'],
+                    'adh'           => $member_id,
+                    'payment_type'  => PaymentType::STRIPE
+                ];
+                $check_contrib_args = [
+                    ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
+                    Adherent::PK            => $member_id,
+                    'type_paiement_cotis'   => PaymentType::STRIPE,
+                    'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
+                ];
+                if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
+                    $contrib_args['ext'] = $this->preferences->pref_membership_ext;
+                }
+                $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
 
-                    // all goes well, we can proceed
-                    if ($real_contrib) {
-                        // Check contribution to set $contrib->errors to [] and handle contribution overlap
-                        $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
-                        if ($valid !== true) {
-                            Analog::log(
-                                'An error occurred while storing a new contribution from Stripe payment:'
-                                . implode("\n   ", $valid),
-                                Analog::ERROR
-                            );
-                            $sh->setState(StripeHistory::STATE_ERROR);
-                            return $response->withStatus(500, 'Internal error');
-                        }
-
-                        if ($contrib->store()) {
-                            // contribution has been stored :)
-                            Analog::log(
-                                'Stripe payment has been successfully registered as a contribution',
-                                Analog::DEBUG
-                            );
-                            $sh->setState(StripeHistory::STATE_PROCESSED);
-                        } else {
-                            // something went wrong :'(
-                            Analog::log(
-                                'An error occured while storing a new contribution from Stripe payment',
-                                Analog::ERROR
-                            );
-                            $sh->setState(StripeHistory::STATE_ERROR);
-                            return $response->withStatus(500, 'Internal error');
-                        }
-                        return $response->withStatus(200);
+                // all goes well, we can proceed
+                if ($real_contrib) {
+                    // Check contribution to set $contrib->errors to [] and handle contribution overlap
+                    $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
+                    if ($valid !== true) {
+                        Analog::log(
+                            'An error occurred while storing a new contribution from Stripe payment:'
+                            . implode("\n   ", $valid),
+                            Analog::ERROR
+                        );
+                        $sh->setState(StripeHistory::STATE_ERROR);
+                        return $response->withStatus(500, 'Internal error');
                     }
-                } else {
-                    Analog::log(
-                        'A stripe payment notification has been received, but is not completed!',
-                        Analog::WARNING
-                    );
-                    $sh->setState(StripeHistory::STATE_INCOMPLETE);
-                    return $response->withStatus(500, 'Internal error');
+
+                    if ($contrib->store()) {
+                        // contribution has been stored :)
+                        Analog::log(
+                            'Stripe payment has been successfully registered as a contribution',
+                            Analog::DEBUG
+                        );
+                        $sh->setState(StripeHistory::STATE_PROCESSED);
+                    } else {
+                        // something went wrong :'(
+                        Analog::log(
+                            'An error occured while storing a new contribution from Stripe payment',
+                            Analog::ERROR
+                        );
+                        $sh->setState(StripeHistory::STATE_ERROR);
+                        return $response->withStatus(500, 'Internal error');
+                    }
+                    return $response->withStatus(200);
                 }
             }
             return $response->withStatus(200);

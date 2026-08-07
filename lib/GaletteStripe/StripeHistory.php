@@ -35,8 +35,7 @@ class StripeHistory extends History
     public const int STATE_NONE = 0;
     public const int STATE_PROCESSED = 1;
     public const int STATE_ERROR = 2;
-    public const int STATE_INCOMPLETE = 3;
-    public const int STATE_ALREADYDONE = 4;
+    public const int STATE_ALREADYDONE = 3;
 
     private int $id;
 
