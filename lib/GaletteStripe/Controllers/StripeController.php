@@ -404,7 +404,7 @@ class StripeController extends AbstractPluginController
 
             if ($sh->isProcessed($post)) {
                 Analog::log(
-                    'A stripe payment notification has been received, but it is already processed!',
+                    'A Stripe payment intent has been received, but it has already been processed!',
                     Analog::WARNING
                 );
                 $sh->setState(StripeHistory::STATE_ALREADYDONE);
@@ -443,7 +443,7 @@ class StripeController extends AbstractPluginController
                     $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
                     if ($valid !== true) {
                         Analog::log(
-                            'An error occurred while storing a new contribution from Stripe payment:'
+                            'Checking values before storing a new contribution from a Stripe payment failed:'
                             . implode("\n   ", $valid),
                             Analog::ERROR
                         );
@@ -454,14 +454,14 @@ class StripeController extends AbstractPluginController
                     if ($contrib->store()) {
                         // contribution has been stored :)
                         Analog::log(
-                            'Stripe payment has been successfully registered as a contribution',
+                            'A Stripe payment has been successfully stored as a contribution',
                             Analog::DEBUG
                         );
                         $sh->setState(StripeHistory::STATE_PROCESSED);
                     } else {
                         // something went wrong :'(
                         Analog::log(
-                            'An error occured while storing a new contribution from Stripe payment',
+                            'An error occured while storing a new contribution from a Stripe payment',
                             Analog::ERROR
                         );
                         $sh->setState(StripeHistory::STATE_ERROR);
