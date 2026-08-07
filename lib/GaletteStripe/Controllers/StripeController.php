@@ -390,22 +390,9 @@ class StripeController extends AbstractPluginController
 
         if (
             isset($post['type'])
-            && ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')
-            && ($post['data']['object']['metadata']['item_id'] || $post['data']['object']['lines']['data'][0]['metadata']['item_id'])
+            && $post['type'] == 'payment_intent.succeeded'
+            && $post['data']['object']['metadata']['item_id']
         ) {
-            //We accept subscription invoice (annual or monthly) ; https://stripe.com/docs/billing/subscriptions/overview
-            //Todo : rewrite a more cleaner
-            if ($post['type'] == 'invoice.payment_succeeded') {
-                $post['data']['object']['metadata'] = array_merge($post['data']['object']['metadata'], $post['data']['object']['lines']['data'][0]['metadata']);
-                $post['data']['object']['amount_received'] = $post['data']['object']['amount_paid'];
-                $post['data']['object']['amount'] = $post['data']['object']['amount_due'];
-                $post['data']['object']['description'] = $post['data']['object']['lines']['data'][0]['metadata']['item_name'];
-
-                if ($post['data']['object']['status'] == 'paid') {
-                    $post['data']['object']['status'] = 'succeeded';
-                }
-            }
-
             $sh = new StripeHistory($this->zdb, $this->login, $this->preferences);
             $sh->add($post);
 
