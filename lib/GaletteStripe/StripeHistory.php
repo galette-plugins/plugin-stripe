@@ -36,7 +36,8 @@ class StripeHistory extends History
     public const int STATE_NONE = 0;
     public const int STATE_PROCESSED = 1;
     public const int STATE_ERROR = 2;
-    public const int STATE_ALREADYDONE = 3;
+    public const int STATE_PUBLIC = 3;
+    public const int STATE_ALREADYDONE = 4;
 
     private int $id;
 
@@ -162,7 +163,6 @@ class StripeHistory extends History
      * Gets Member full name
      *
      * @param string $id ID of the member to retrieve
-     * @return string
      */
     protected function getMemberFullName(string $id): string
     {
@@ -225,7 +225,7 @@ class StripeHistory extends History
         $select->where(
             [
                 'intent_id' => $request['data']['object']['id'],
-                'state'     => self::STATE_PROCESSED
+                'state'     => [self::STATE_PROCESSED, self::STATE_PUBLIC]
             ]
         );
         $results = $this->zdb->execute($select);
