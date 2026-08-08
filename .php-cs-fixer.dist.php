@@ -8,7 +8,7 @@ $finder = (new PhpCsFixer\Finder())
 
 return (new PhpCsFixer\Config())
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
-    ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.plugin-galette-paypal.cache')
+    ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.plugin-galette-stripe.cache')
     ->setRules([
         '@PSR12' => true,
         '@PER-CS' => true,
