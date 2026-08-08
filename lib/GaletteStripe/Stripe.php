@@ -30,9 +30,6 @@ class Stripe
 {
     public const string TABLE = 'preferences';
 
-    public const string PAYMENT_PENDING = 'Pending';
-    public const string PAYMENT_COMPLETE = 'Complete';
-
     private Db $zdb;
     private Preferences $preferences;
 
