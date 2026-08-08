@@ -468,6 +468,12 @@ class StripeController extends AbstractPluginController
                         return $response->withStatus(500, 'Internal error');
                     }
                     return $response->withStatus(200);
+                } else {
+                    Analog::log(
+                        'A Stripe payment has been successfully stored as a public donation',
+                        Analog::DEBUG
+                    );
+                    $sh->setState(StripeHistory::STATE_PUBLIC);
                 }
             }
             return $response->withStatus(200);
