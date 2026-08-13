@@ -152,6 +152,16 @@
                 {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Actions") }}">
+                {% if log.request is iterable %}
+                    {% if log.request.receipt_url is defined %}
+                        <a href="{{ log.request.receipt_url }}" class="icon-only" target="_blank">
+                            <i class="receipt green icon" aria-hidden="true"></i>
+                            <span class="visually-hidden">
+                                {{ _T("View Stripe receipt of payment nb. %1$s sent by email to the payer", "stripe")|replace({"%1$s": log.intent_id}) }}
+                            </span>
+                        </a>
+                    {% endif %}
+                {% endif %}
                 <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
                     <i class="info circle blue icon" aria-hidden="true"></i>
                     <span class="visually-hidden">
