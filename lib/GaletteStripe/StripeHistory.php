@@ -16,6 +16,7 @@ use Galette\Core\Galette;
 use Galette\Core\Login;
 use Galette\Core\History;
 use Galette\Core\Preferences;
+use Galette\Entity\Adherent;
 use Galette\Filters\HistoryList;
 use Stripe\StripeClient;
 
@@ -138,6 +139,9 @@ class StripeHistory extends History
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
+                    $member_id = $oa['data']['object']['metadata']['member_id'] ?? '0';
+
+                    $o['member_fullname'] = $this->getMemberFullName($member_id);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 
@@ -152,6 +156,29 @@ class StripeHistory extends History
             }
         }
         return $new;
+    }
+
+    /**
+     * Gets Member full name
+     *
+     * @param string $id ID of the member to retrieve
+     * @return string
+     */
+    protected function getMemberFullName(string $id): string
+    {
+        $fullname = _T('None', 'stripe');
+
+        $select = $this->zdb->select(Adherent::TABLE);
+        $select->columns(['prenom_adh', 'nom_adh']);
+        $select->where(['id_adh' => $id]);
+        $result = $this->zdb->execute($select);
+        $row = $result->current();
+
+        if ($row) {
+            $fullname = mb_strtoupper($row['nom_adh']) . ' ' . $row['prenom_adh'];
+        }
+
+        return $fullname;
     }
 
     /**
