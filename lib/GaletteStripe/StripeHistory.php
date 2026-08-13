@@ -69,6 +69,11 @@ class StripeHistory extends History
         $stripe = new Stripe($this->zdb, $this->preferences);
         $request = $action;
         $payment_method = $this->getStripePaymentMethod($request['data']['object']['payment_method']);
+
+        // Retrieve receipt URL and add it to the request
+        $charge = $this->getStripeCharge($request['data']['object']['latest_charge']);
+        $request['receipt_url'] = $charge['receipt_url'];
+
         try {
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
@@ -194,6 +199,23 @@ class StripeHistory extends History
 
         $paymentMethod = $stripe_client->paymentMethods->retrieve($id, []);
         $content = json_encode($paymentMethod);
+
+        return json_decode($content, true);
+    }
+
+    /**
+     * Gets Stripe Charge details
+     *
+     * @param string $id ID of the charge to retrieve
+     * @return array<string, mixed>
+     */
+    public function getStripeCharge(string $id): array
+    {
+        $stripe = new Stripe($this->zdb, $this->preferences);
+        $stripe_client = new StripeClient($stripe->getPrivKey());
+
+        $charge = $stripe_client->charges->retrieve($id, []);
+        $content = json_encode($charge);
 
         return json_decode($content, true);
     }
