@@ -97,10 +97,10 @@
         {% if log.request is iterable %}
             {% if log.request.data.object.metadata.member_id is defined %}
                 <a href="{{ url_for("member", {"id": log.request.data.object.metadata.member_id}) }}">
-                {{ log.request.data.object.metadata.member_id }}
+            {% endif %}
+                {{ log.member_fullname }}
+            {% if log.request.data.object.metadata.member_id is defined %}
                 </a>
-            {% else %}
-                {{ _T("None", "stripe") }}
             {% endif %}
         {% else %}
                 {{ _T("No request or unable to read request.", "stripe") }}
