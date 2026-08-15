@@ -5,7 +5,7 @@
 ## English
 
 > [!IMPORTANT]
-> This plugin is currently in *alpha* stage. It notably lacks support for delayed payment methods (multibanco, bank transfers) and would need to be tested by users on the features already implemented.
+> This plugin is currently in *alpha* stage and would need to be tested by users on the features already implemented. It is not recommended to use it in production at the moment.
 
 A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [Stripe](https://stripe.com/).
 
@@ -21,7 +21,7 @@ To use Galette Stripe plugin, you'll need a reliable Galette version, and of cou
 ## Français
 
 > [!IMPORTANT]
-> Ce plugin est actuellement en phase *alpha*. Il manque notamment le support des méthodes de paiement différées (multibanco, virements bancaires) et nécessiterait d'être testé par des utilisateurs sur les fonctionnalités déjà implémentées.
+> Ce plugin est actuellement en phase *alpha* et nécessiterait d'être testé par des utilisateurs sur les fonctionnalités déjà implémentées. Il n’est pas recommandé de l’utiliser en production pour le moment.
 
 Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [Stripe](https://stripe.com/).
 
