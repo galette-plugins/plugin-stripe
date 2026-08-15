@@ -4,7 +4,7 @@ This plugin provides:
 * a payment history,
 * automatic creation of contributions in Galette once payments are validated.
 
-**Note**: this plugin requires **Galette version 1.2.1 or later**.
+**Note**: this plugin currently requires **Galette nightly version**, so **it is not recommended to use it in production at the moment**.
 
 ![Payment form visible by unlogged users](images/form_public.jpg)
 
@@ -14,8 +14,8 @@ This plugin provides:
 
 First of all, download the plugin:
 
-[![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-alpha1&color=ffb619
-)](https://github.com/galette-community/plugin-stripe/releases/tag/1.0.0-alpha1) [![Get Stripe plugin nightly build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
+[![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-alpha2&color=ffb619
+)](https://github.com/galette-community/plugin-stripe/releases/tag/1.0.0-alpha2) [![Get Stripe plugin nightly build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
 )](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
 
 Extract the downloaded archive into Galette `plugins` directory. For example, on linux (replacing *{url}* and *{version}* with the corresponding values):
@@ -44,7 +44,7 @@ Only users logged into their account can pay contributions with a membership ext
 
 ![Payment form visible by logged in users](images/form.jpg)
 
-Regular visitors (users not logged into their account) can only pay contributions without a membership extension (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history.
+Regular visitors (users not logged into their account) can only pay contributions without a membership extension (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history with the value “None” entered in the “Member” column.
 
 ![Payment history screen](images/history.jpg)
 
@@ -122,8 +122,6 @@ The *API keys* required for the proper functioning of the plugin can be obtained
 ### Enable the necessary payment methods
 
 Stripe offers many payment methods. In your account settings, you should enable only the methods you wish to use.
-
-**Warning**: do not enable delayed payment methods (Multibanco, ACH direct debit, SEPA direct debit, Bank transfer), because the different corresponding payment statuses are not handled by the plugin at the moment and they cannot be tracked in the history.
 
 * *Settings > Payments > Payment methods*
 
