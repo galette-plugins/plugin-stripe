@@ -13,10 +13,10 @@ $this->register(
     name: 'Galette Stripe',                                     //Name
     desc: 'Stripe integration',                                 //Short description
     author: 'Mathieu PELLEGRIN, manuelh78, Guillaume AGNIERAY', //Author
-    version: '1.0.0-alpha1',                                    //Version
+    version: '1.0.0-alpha2',                                    //Version
     compver: '1.3.0',                                           //Galette compatible version
     route: 'stripe',                                            //Routing name and translation domain
-    date: '2025-12-08',                                         //Release date
+    date: '2026-08-15',                                         //Release date
     acls: [                                                     //Permissions needed
         'stripe_preferences'        => 'staff',
         'store_stripe_preferences'  => 'staff',
