@@ -52,13 +52,13 @@ Regular visitors (users not logged into their account) can only pay contribution
 
 ![Settings screen](images/settings.jpg)
 
-* **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook)).
-* **Stripe webhook event**: name of the event to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook)).
-* **Stripe public key**: you will find this information in your association’s account on Stripe ([read more below](#create-api-keys)).
-* **Stripe secret key**: you will find this information in your association’s account on Stripe ([read more below](#create-api-keys)).
-* **Stripe webhook secret key**: you will find this information in the details of the "Webhook" you need to create in your association’s account on Stripe ([read more below](#create-a-webhook)).
-* **Country of your Stripe account**: choose a country according to your Stripe account settings ([read more below](#set-a-country-and-a-currency)).
-* **Currency for payments**: choose a currency according to your Stripe account settings ([read more below](#set-a-country-and-a-currency)).
+* **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Stripe webhook event**: name of the event to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Stripe public key**: you will find this information in your association’s account on Stripe ([read more below](#get-the-api-keys)).
+* **Stripe secret key**: you will find this information in your association’s account on Stripe ([read more below](#get-the-api-keys)).
+* **Stripe webhook secret key**: you will find this information in the details of the "Webhook" you need to create in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Country of your Stripe account**: choose a country according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
+* **Currency for payments**: choose a currency according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
 * **Contribution types**: in this table, you can disable [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be offered as a payment reason on the online payment form.
 
   *Contribution types with a zero amount, or whose amount is not configured, will not be offered as payment reasons on the form, even if they are not marked as inactive in the table.*
