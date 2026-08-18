@@ -8,14 +8,17 @@ DROP TABLE IF EXISTS galette_stripe_history;
 CREATE TABLE galette_stripe_history (
   id_stripe int(11) NOT NULL auto_increment,
   history_date datetime NOT NULL,
-  intent_id varchar(255) COLLATE utf8_unicode_ci,
+  intent_id varchar(255),
   amount double NOT NULL,
-  payer_name varchar(255) COLLATE utf8_unicode_ci,
-  comments varchar(255) COLLATE utf8_unicode_ci,
-  request text COLLATE utf8_unicode_ci,
+  comments varchar(255),
+  request text,
   state tinyint(4) NOT NULL DEFAULT 0,
+  payer_name varchar(255),
+  member_id int(10) NOT NULL,
+  method varchar(20) NOT NULL,
+  receipt_url varchar(255),
   PRIMARY KEY (`id_stripe`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
 -- Table structure for table `galette_stripe_preferences`
@@ -27,7 +30,7 @@ CREATE TABLE galette_stripe_preferences (
   val_pref varchar(200) NOT NULL default '',
   PRIMARY KEY (id_pref),
   UNIQUE KEY (nom_pref)
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_pubkey', '');
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_privkey', '');
