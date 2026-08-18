@@ -26,9 +26,3 @@ $this->register(
     ],
     dbver: 1.00                                                 //DB version
 );
-
-$this->setCsrfExclusions(
-    [
-        '/stripe_(webhook|success|cancel)/',
-    ]
-);
