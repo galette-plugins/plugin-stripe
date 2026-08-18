@@ -69,20 +69,20 @@ class StripeHistory extends History
         $stripe = new Stripe($this->zdb, $this->preferences);
         $request = $action;
         $payment_method = $this->getStripePaymentMethod($request['data']['object']['payment_method']);
-
-        // Retrieve receipt URL and add it to the request
         $charge = $this->getStripeCharge($request['data']['object']['latest_charge']);
-        $request['receipt_url'] = $charge['receipt_url'];
 
         try {
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
                 'intent_id'     => $request['data']['object']['id'],
-                'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $request['data']['object']['amount'] : $request['data']['object']['amount'] / 100,
                 'payer_name'    => $payment_method['billing_details']['name'],
+                'member_id'     => $request['data']['object']['metadata']['member_id'] ?? 0,
                 'comments'      => $request['data']['object']['metadata']['item_name'],
-                'request'       => Galette::jsonEncode($request),
-                'state'         => self::STATE_NONE
+                'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $request['data']['object']['amount'] : $request['data']['object']['amount'] / 100,
+                'method'        => $payment_method['type'],
+                'state'         => self::STATE_NONE,
+                'receipt_url'   => $charge['receipt_url'],
+                'request'       => Galette::jsonEncode($request)
             ];
 
             $insert = $this->zdb->insert($this->getTableName());
@@ -145,9 +145,7 @@ class StripeHistory extends History
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
-                    $member_id = $oa['data']['object']['metadata']['member_id'] ?? '0';
-
-                    $o['member_fullname'] = $this->getMemberFullName($member_id);
+                    $o['member_fullname'] = $this->getMemberFullName($o['member_id']);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 
@@ -167,9 +165,9 @@ class StripeHistory extends History
     /**
      * Gets Member full name
      *
-     * @param string $id ID of the member to retrieve
+     * @param int $id ID of the member to retrieve
      */
-    protected function getMemberFullName(string $id): string
+    protected function getMemberFullName(int $id): string
     {
         $fullname = _T('None', 'stripe');
 
@@ -180,7 +178,7 @@ class StripeHistory extends History
         $row = $result->current();
 
         if ($row) {
-            $fullname = mb_strtoupper($row['nom_adh']) . ' ' . $row['prenom_adh'];
+            $fullname = mb_strtoupper($row['nom_adh'], 'UTF-8') . ' ' . $row['prenom_adh'];
         }
 
         return $fullname;
