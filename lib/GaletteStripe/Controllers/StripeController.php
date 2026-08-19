@@ -20,8 +20,11 @@ use Galette\Entity\PaymentType;
 use Galette\Filters\HistoryList;
 use GaletteStripe\Stripe;
 use GaletteStripe\StripeHistory;
+use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpForbiddenException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Stripe\StripeClient;
 use Throwable;
 
 /**
@@ -495,17 +498,49 @@ class StripeController extends AbstractPluginController
      */
     public function successUrl(Request $request, Response $response): Response
     {
-        $params = [
-            'page_title'    => _T('Payment success', 'stripe')
-        ];
+        $query_params = $request->getQueryParams();
+        $session_id = $query_params['session_id'] ?? null;
+        $details = [];
 
-        // display page
-        $this->view->render(
-            $response,
-            $this->getTemplate('stripe_success'),
-            $params
-        );
-        return $response;
+        if (!$session_id) {
+            throw new HttpNotFoundException($request);
+        }
+
+        try {
+            $stripe = new Stripe($this->zdb, $this->preferences);
+            $stripe_client = new StripeClient($stripe->getPrivKey());
+            $checkout_session = $stripe_client->checkout->sessions->retrieve($session_id, []);
+            $payment_intent = $stripe_client->paymentIntents->retrieve($checkout_session->payment_intent, []);
+            $metadata = $payment_intent->metadata->toArray();
+
+            $details = [
+                'amount' => $stripe->isZeroDecimal($stripe->getCurrency()) ? $payment_intent->amount_received : $payment_intent->amount_received / 100,
+                'date' => $payment_intent->created,
+                'method' => $payment_intent->payment_method_types[0],
+                'reason' => $metadata['item_name']
+            ];
+
+            $params = [
+                'page_title' => _T('Payment done', 'stripe'),
+                'stripe' => $stripe,
+                'details' => $details
+            ];
+
+            // display page
+            $this->view->render(
+                $response,
+                $this->getTemplate('stripe_success'),
+                $params
+            );
+            return $response;
+        } catch (Throwable $e) {
+            Analog::log(
+                'Stripe payment details could not be retrieved and displayed on the confirmation page: '
+                . $e->getMessage(),
+                Analog::WARNING
+            );
+            throw new HttpForbiddenException($request);
+        }
     }
 
     /**

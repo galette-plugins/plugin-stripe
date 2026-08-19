@@ -7,10 +7,34 @@
 {% extends not login.isLogged() ? "public_page.html.twig" : "page.html.twig" %}
 
 {% block content %}
-    <div class="ui info visible icon message">
-        <i class="check icon"></i>
-        <div class="content">
-            {{ _T("Your payment has succeeded. You will receive an email from Stripe with details.", "stripe") }}
+    {% if details is not empty %}
+        {% set amount = stripe.isZeroDecimal(stripe.getCurrency()) ? details.amount|round : details.amount %}
+        <div class="ui info visible icon attached message">
+            <i class="check icon"></i>
+            <div class="content">
+                <div class="header">
+                    {{ _T('Your payment has succeeded', "stripe") }}
+                </div>
+                <p>{{ _T('You will receive an email with the following details', 'stripe') }}</p>
+            </div>
         </div>
-    </div>
+        <table class="ui striped definition attached table">
+            <tr>
+                <th class="collapsing">{{ _T('Amount paid', 'stripe') }}</th>
+                <td>{{ amount|format_currency(stripe.getCurrency(), {}, galette_lang) }}</td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment date', 'stripe') }}</th>
+                <td>{{ details.date|date("Y-m-d H:i") }}</td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment method', 'stripe') }}</th>
+                <td>{{ details.method }}</td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment reason', 'stripe') }}</th>
+                <td>{{ details.reason }}</td>
+            </tr>
+        </table>
+    {% endif %}
 {% endblock %}
