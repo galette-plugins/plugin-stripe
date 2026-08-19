@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-13 11:00+0200\n"
-"PO-Revision-Date: 2026-08-13 11:03+0200\n"
+"POT-Creation-Date: 2026-08-19 14:54+0200\n"
+"PO-Revision-Date: 2026-08-19 15:03+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:59
+#: ../lib/GaletteStripe/Controllers/StripeController.php:60
 msgid "Online payment"
 msgstr "Paiement en ligne"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:67
+#: ../lib/GaletteStripe/Controllers/StripeController.php:68
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
@@ -33,11 +33,11 @@ msgstr ""
 "enregistrée) est survenue lors du chargement des préférences Stripe depuis "
 "la base de données.<br/>Merci de rapporter ce problème aux membres du bureau."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:68
+#: ../lib/GaletteStripe/Controllers/StripeController.php:69
 msgid "Our apologies for the annoyance."
 msgstr "Toutes nos excuses pour le désagrément."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:75
+#: ../lib/GaletteStripe/Controllers/StripeController.php:76
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
@@ -45,8 +45,8 @@ msgstr ""
 "Les clés Stripe n'ont pas été configurées. Veuillez demander à un "
 "administrateur de les ajouter à partir des préférences du plugin."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:109
-#: ../tempcache/stripe_form.html.twig:270
+#: ../lib/GaletteStripe/Controllers/StripeController.php:110
+#: ../tempcache/stripe_form.html.twig:266
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
@@ -54,37 +54,37 @@ msgstr ""
 "Le montant que vous avez entré est inférieur au montant minimum de l'option "
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:131
+#: ../lib/GaletteStripe/Controllers/StripeController.php:132
 msgid "An error occured loading the checkout form."
 msgstr "Une erreur est survenue lors du chargement du formulaire de paiement."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:186
+#: ../lib/GaletteStripe/Controllers/StripeController.php:187
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:55
 msgid "Stripe History"
 msgstr "Historique Stripe"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:250
+#: ../lib/GaletteStripe/Controllers/StripeController.php:251
 msgid "Stripe Settings"
 msgstr "Préférences Stripe"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:303
+#: ../lib/GaletteStripe/Controllers/StripeController.php:304
 msgid "You have to select a currency."
 msgstr "Vous devez sélectionner une devise."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:309
+#: ../lib/GaletteStripe/Controllers/StripeController.php:310
 msgid "Stripe settings have been saved."
 msgstr "Les préférences Stripe ont été sauvegardées."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:315
+#: ../lib/GaletteStripe/Controllers/StripeController.php:316
 msgid "An error occured saving stripe settings."
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:499
-msgid "Payment success"
+#: ../lib/GaletteStripe/Controllers/StripeController.php:521
+msgid "Payment done"
 msgstr "Paiement effectué"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:521
+#: ../lib/GaletteStripe/Controllers/StripeController.php:553
 msgid "Your payment has been aborted!"
 msgstr "Votre paiement a été annulé !"
 
@@ -97,18 +97,34 @@ msgstr "Stripe"
 msgid "Payment form"
 msgstr "Formulaire de paiement"
 
-#: ../lib/GaletteStripe/StripeHistory.php:174
-#: ../tempcache/stripe_history.html.twig:235
+#: ../lib/GaletteStripe/StripeHistory.php:172
 msgid "None"
 msgstr "Aucun"
 
-#: ../tempcache/stripe_success.html.twig:63
-msgid ""
-"Your payment has succeeded. You will receive an email from Stripe with "
-"details."
-msgstr ""
-"Votre paiement a été effectué avec succès. Vous allez recevoir un courriel "
-"de Stripe en contenant les détails."
+#: ../tempcache/stripe_success.html.twig:70
+msgid "Your payment has succeeded"
+msgstr "Votre paiement a bien été effectué"
+
+#: ../tempcache/stripe_success.html.twig:75
+msgid "You will receive an email with the following details"
+msgstr "Vous recevrez un email reprenant les détails suivants"
+
+#: ../tempcache/stripe_success.html.twig:83
+msgid "Amount paid"
+msgstr "Montant payé"
+
+#: ../tempcache/stripe_success.html.twig:93
+msgid "Payment date"
+msgstr "Date de paiement"
+
+#: ../tempcache/stripe_success.html.twig:103
+msgid "Payment method"
+msgstr "Moyen de paiement"
+
+#: ../tempcache/stripe_success.html.twig:113
+#: ../tempcache/stripe_form.html.twig:72
+msgid "Payment reason"
+msgstr "Motif de paiement"
 
 #: ../tempcache/stripe_history.html.twig:91
 #: ../tempcache/stripe_history.html.twig:151
@@ -121,12 +137,12 @@ msgid "Payer name"
 msgstr "Nom du payeur"
 
 #: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:255
+#: ../tempcache/stripe_history.html.twig:225
 msgid "Method"
 msgstr "Méthode"
 
 #: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:282
+#: ../tempcache/stripe_history.html.twig:234
 msgid "Status"
 msgstr "Statut"
 
@@ -134,45 +150,36 @@ msgstr "Statut"
 msgid "None given"
 msgstr "Aucun renseigné"
 
-#: ../tempcache/stripe_history.html.twig:211
-#: ../tempcache/stripe_history.html.twig:274
-msgid "No request or unable to read request."
-msgstr "Pas de requête ou impossible de lire la requête."
-
-#: ../tempcache/stripe_history.html.twig:293
+#: ../tempcache/stripe_history.html.twig:245
 msgid "Payment properly processed"
 msgstr "Paiement traité correctement"
 
-#: ../tempcache/stripe_history.html.twig:306
+#: ../tempcache/stripe_history.html.twig:258
 msgid ""
 "An error occurred and the corresponding contribution has not been created"
 msgstr ""
 "Une erreur est survenue et la contribution correspondante n'a pas pu être "
 "créée"
 
-#: ../tempcache/stripe_history.html.twig:319
+#: ../tempcache/stripe_history.html.twig:271
 msgid "Duplicate"
 msgstr "Doublon"
 
-#: ../tempcache/stripe_history.html.twig:345
+#: ../tempcache/stripe_history.html.twig:294
 #, php-format
 msgid "View Stripe receipt of payment nb. %1$s sent by email to the payer"
 msgstr ""
 "Voir le reçu Stripe pour le paiement n°%1$s envoyé par e-mail au payeur"
 
-#: ../tempcache/stripe_history.html.twig:362
+#: ../tempcache/stripe_history.html.twig:308
 #, php-format
 msgid "View full request of payment nb. %1$s"
 msgstr "Voir la requête complète du paiement n° %1$s"
 
-#: ../tempcache/stripe_history.html.twig:431
+#: ../tempcache/stripe_history.html.twig:377
 #, php-format
 msgid "Full request of payment nb. %1$s"
 msgstr "Requête complète du paiement n° %1$s"
-
-#: ../tempcache/stripe_form.html.twig:72
-msgid "Payment reason"
-msgstr "Motif de paiement"
 
 #: ../tempcache/stripe_form.html.twig:79
 msgid "Select a payment reason"
@@ -182,15 +189,15 @@ msgstr "Sélectionnez un motif de paiement"
 msgid "Proceed to payment"
 msgstr "Procéder au paiement"
 
-#: ../tempcache/stripe_form.html.twig:213
+#: ../tempcache/stripe_form.html.twig:209
 msgid "No payment reasons are available."
 msgstr "Aucun motif de paiement n'est disponible."
 
-#: ../tempcache/stripe_form.html.twig:255
+#: ../tempcache/stripe_form.html.twig:251
 msgid "You have to select an option."
 msgstr "Vous devez sélectionner une option."
 
-#: ../tempcache/stripe_form.html.twig:264
+#: ../tempcache/stripe_form.html.twig:260
 msgid "Please enter an amount."
 msgstr "Veuillez entrer un montant."
 
@@ -267,9 +274,15 @@ msgstr ""
 "ou définir une valeur positive dans les paramètres des types de "
 "contributions."
 
-#: ../tempcache/stripe_preferences.html.twig:299
+#: ../tempcache/stripe_preferences.html.twig:295
 msgid "Select a currency"
 msgstr "Sélectionner une devise"
+
+#~ msgid "Payment success"
+#~ msgstr "Paiement effectué"
+
+#~ msgid "No request or unable to read request."
+#~ msgstr "Pas de requête ou impossible de lire la requête."
 
 #~ msgid "Request"
 #~ msgstr "Requête"

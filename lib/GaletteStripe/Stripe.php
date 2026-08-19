@@ -266,7 +266,7 @@ class Stripe
             $stripe = new StripeClient($this->getPrivKey());
             $checkout_amount = $this->isZeroDecimal($currency) ? round((float)$amount) : (float)$amount * 100;
             $session = $stripe->checkout->sessions->create([
-                'success_url' => $this->preferences->getURL() . '/plugins/stripe/success',
+                'success_url' => $this->preferences->getURL() . '/plugins/stripe/success?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $this->preferences->getURL() . '/plugins/stripe/cancel',
                 'line_items' => [
                     [
