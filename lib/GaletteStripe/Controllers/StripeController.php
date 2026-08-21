@@ -17,9 +17,9 @@ use Galette\Entity\Adherent;
 use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
 use Galette\Entity\PaymentType;
-use Galette\Filters\HistoryList;
 use GaletteStripe\Stripe;
 use GaletteStripe\StripeHistory;
+use GaletteStripe\Filters\StripeHistoryList;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Psr7\Request;
@@ -153,15 +153,23 @@ class StripeController extends AbstractPluginController
      * @param string|null     $option   Either order, reset or page
      * @param string|int|null $value    Option value
      */
-    public function history(Request $request, Response $response, ?string $option = null, string|int|null $value = null): Response
-    {
+    public function history(
+        Request $request,
+        Response $response,
+        ?string $option = null,
+        string|int|null $value = null
+    ): Response {
         $stripe_history = new StripeHistory($this->zdb, $this->login, $this->preferences);
 
         $filters = [];
         if (isset($this->session->filter_stripe_history)) {
             $filters = $this->session->filter_stripe_history;
         } else {
-            $filters = new HistoryList();
+            $filters = new StripeHistoryList();
+        }
+
+        if (isset($request->getQueryParams()['nbshow'])) {
+            $filters->show = $request->getQueryParams()['nbshow'];
         }
 
         if ($option !== null) {
@@ -172,17 +180,18 @@ class StripeController extends AbstractPluginController
                 case 'order':
                     $filters->orderby = $value;
                     break;
-                case 'reset':
-                    $filters = new HistoryList();
+                default:
                     break;
             }
         }
+
         $this->session->filter_stripe_history = $filters;
 
-        //assign pagination variables to the template and add pagination links
         $stripe_history->setFilters($filters);
         $logs = $stripe_history->getStripeHistory();
         $logs_count = $stripe_history->getCount();
+
+        //assign pagination variables to the template and add pagination links
         $filters->setViewPagination($this->routeparser, $this->view);
 
         $params = [
@@ -192,8 +201,6 @@ class StripeController extends AbstractPluginController
             'nb'                => $logs_count,
             'module_id'         => $this->getModuleId()
         ];
-
-        $this->session->filter_stripe_history = $filters;
 
         // display page
         $this->view->render(
@@ -214,12 +221,39 @@ class StripeController extends AbstractPluginController
     {
         $post = $request->getParsedBody();
 
-        //reset history
-        $filters = $this->session->filter_stripe_history ?? new HistoryList();
-        if (isset($post['reset']) && isset($post['nbshow'])) {
+        $filters = $this->session->filter_stripe_history ?? new StripeHistoryList();
+
+        if (isset($post['clear_filter'])) {
+            $filters->reinit();
         } else {
-            //number of rows to show
-            $filters->show = $post['nbshow'];
+            if (isset($post['nbshow']) && is_numeric($post['nbshow'])) {
+                $filters->show = (int)$post['nbshow'];
+            }
+
+            if (isset($post['end_date_filter']) || isset($post['start_date_filter'])) {
+                if (isset($post['start_date_filter'])) {
+                    $filters->start_date_filter = $post['start_date_filter'];
+                }
+                if (isset($post['end_date_filter'])) {
+                    $filters->end_date_filter = $post['end_date_filter'];
+                }
+            }
+
+            if (isset($post['payment_filter'])) {
+                $filters->payment_filter = $post['payment_filter'];
+            }
+
+            if (isset($post['payer_filter']) && $post['payer_filter'] !== '') {
+                $filters->payer_filter = $post['payer_filter'];
+            }
+
+            if (isset($post['reason_filter'])) {
+                $filters->reason_filter = $post['reason_filter'];
+            }
+
+            if (isset($post['method_filter'])) {
+                $filters->method_filter = $post['method_filter'];
+            }
         }
 
         $this->session->filter_stripe_history = $filters;

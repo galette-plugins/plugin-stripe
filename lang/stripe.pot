@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-19 15:03+0200\n"
+"POT-Creation-Date: 2026-08-21 22:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,64 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:60
+#: ../lib/GaletteStripe/Controllers/StripeController.php:62
 msgid "Online payment"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:68
+#: ../lib/GaletteStripe/Controllers/StripeController.php:70
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:69
+#: ../lib/GaletteStripe/Controllers/StripeController.php:71
 msgid "Our apologies for the annoyance."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:76
+#: ../lib/GaletteStripe/Controllers/StripeController.php:78
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:110
+#: ../lib/GaletteStripe/Controllers/StripeController.php:112
 #: ../tempcache/stripe_form.html.twig:266
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:132
+#: ../lib/GaletteStripe/Controllers/StripeController.php:134
 msgid "An error occured loading the checkout form."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:187
+#: ../lib/GaletteStripe/Controllers/StripeController.php:198
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:55
 msgid "Stripe History"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:251
+#: ../lib/GaletteStripe/Controllers/StripeController.php:287
 msgid "Stripe Settings"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:304
+#: ../lib/GaletteStripe/Controllers/StripeController.php:340
 msgid "You have to select a currency."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:310
+#: ../lib/GaletteStripe/Controllers/StripeController.php:346
 msgid "Stripe settings have been saved."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:316
+#: ../lib/GaletteStripe/Controllers/StripeController.php:352
 msgid "An error occured saving stripe settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:521
+#: ../lib/GaletteStripe/Controllers/StripeController.php:558
 msgid "Payment done"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:553
+#: ../lib/GaletteStripe/Controllers/StripeController.php:590
 msgid "Your payment has been aborted!"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Payment form"
 msgstr ""
 
-#: ../lib/GaletteStripe/StripeHistory.php:172
+#: ../lib/GaletteStripe/StripeHistory.php:182
 msgid "None"
 msgstr ""
 
@@ -116,60 +116,78 @@ msgstr ""
 msgid "Payment reason"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:151
+#: ../tempcache/stripe_history.html.twig:92
+#: ../tempcache/stripe_history.html.twig:153
+#: ../tempcache/stripe_history.html.twig:336
 msgid "Payment nb."
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:160
+#: ../tempcache/stripe_history.html.twig:92
+#: ../tempcache/stripe_history.html.twig:163
+#: ../tempcache/stripe_history.html.twig:345
 msgid "Payer name"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:225
+#: ../tempcache/stripe_history.html.twig:92
+#: ../tempcache/stripe_history.html.twig:179
+#: ../tempcache/stripe_history.html.twig:392
+msgid "Reason"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:92
+#: ../tempcache/stripe_history.html.twig:222
+#: ../tempcache/stripe_history.html.twig:410
 msgid "Method"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:91
-#: ../tempcache/stripe_history.html.twig:234
-msgid "Status"
+#: ../tempcache/stripe_history.html.twig:92
+#: ../tempcache/stripe_history.html.twig:419
+msgid "State"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:173
+#: ../tempcache/stripe_history.html.twig:184
+#: ../tempcache/stripe_form.html.twig:79
+msgid "Select a payment reason"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:227
+msgid "Select a payment method"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:358
 msgid "None given"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:245
+#: ../tempcache/stripe_history.html.twig:430
 msgid "Payment properly processed"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:258
+#: ../tempcache/stripe_history.html.twig:443
 msgid ""
 "An error occurred and the corresponding contribution has not been created"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:271
+#: ../tempcache/stripe_history.html.twig:456
 msgid "Duplicate"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:294
+#: ../tempcache/stripe_history.html.twig:479
 #, php-format
 msgid "View Stripe receipt of payment nb. %1$s sent by email to the payer"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:308
+#: ../tempcache/stripe_history.html.twig:493
 #, php-format
 msgid "View full request of payment nb. %1$s"
 msgstr ""
 
-#: ../tempcache/stripe_history.html.twig:377
-#, php-format
-msgid "Full request of payment nb. %1$s"
+#: ../tempcache/stripe_history.html.twig:514
+msgid "No results"
 msgstr ""
 
-#: ../tempcache/stripe_form.html.twig:79
-msgid "Select a payment reason"
+#: ../tempcache/stripe_history.html.twig:562
+#, php-format
+msgid "Full request of payment nb. %1$s"
 msgstr ""
 
 #: ../tempcache/stripe_form.html.twig:197
