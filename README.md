@@ -5,7 +5,7 @@
 ## English
 
 > [!IMPORTANT]
-> This plugin is currently in *alpha* stage and would need to be tested by users on the features already implemented. It is not recommended to use it in production at the moment.
+> This plugin is currently in *beta* stage and would need to be tested by users on the features already implemented. It is not recommended to use it in production at the moment.
 
 A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [Stripe](https://stripe.com/).
 
@@ -15,13 +15,13 @@ A [Galette](https://galette.eu) plugin to handle membership fees and donations p
 
 To use Galette Stripe plugin, you'll need a reliable Galette version, and of course the plugin itself by either:
 
-* download latest stable version available from the [Galette Stripe plugin page](https://github.com/galette-community/plugin-stripe/releases)
+* download latest version available from the [Galette Stripe plugin page](https://github.com/galette-community/plugin-stripe/releases)
 * use [Galette Stripe plugin source code from repository](https://github.com/galette-community/plugin-stripe), this solution requires some technical skills
 
 ## Français
 
 > [!IMPORTANT]
-> Ce plugin est actuellement en phase *alpha* et nécessiterait d'être testé par des utilisateurs sur les fonctionnalités déjà implémentées. Il n’est pas recommandé de l’utiliser en production pour le moment.
+> Ce plugin est actuellement en phase *beta* et nécessiterait d'être testé par des utilisateurs sur les fonctionnalités déjà implémentées. Il n’est pas recommandé de l’utiliser en production pour le moment.
 
 Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [Stripe](https://stripe.com/).
 
@@ -31,5 +31,5 @@ Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations
 
 Pour utiliser le plugin Stripe pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui même :
 
-* télécharger la dernière version stable depuis la [page du plugin Stripe pour Galette](https://github.com/galette-community/plugin-stripe/releases)
+* télécharger la dernière version depuis la [page du plugin Stripe pour Galette](https://github.com/galette-community/plugin-stripe/releases)
 * utiliser [le code source du plugin Stripe pour Galette depuis le dépôt](https://github.com/galette-community/plugin-stripe), cette solution requiert quelques compétences techniques
