@@ -32,35 +32,43 @@
             'collapse': true
         },
         {
-            'label': _T("Date"), 'order': constant("Galette\\Filters\\HistoryList::ORDERBY_DATE"),
+            'label': _T("Date"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_DATE"),
             'collapse': true
         },
         {
             'label': _T("Payment nb.", "stripe"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_PAYMENT"),
             'collapse': true
         },
         {
             'label': _T("Payer name", "stripe"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_PAYER"),
             'collapse': true
         },
         {
             'label': _T("Member"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_MEMBER"),
             'collapse': true
         },
         {
-            'label': _T("Contribution type"),
+            'label': _T("Reason", "stripe"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_REASON"),
             'collapse': true
         },
         {
             'label': _T("Amount"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_AMOUNT"),
             'collapse': true
         },
         {
             'label': _T("Method", "stripe"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_METHOD"),
             'collapse': true
         },
         {
-            'label': _T("Status", "stripe"),
+            'label': _T("State", "stripe"),
+            'order': constant("GaletteStripe\\Filters\\StripeHistoryList::ORDERBY_STATE"),
             'collapse': true
         },
         {
@@ -69,6 +77,77 @@
         }
     ] %}
     {{ parent() }}
+{% endblock %}
+
+{% block search %}
+    <form action="{{ url_for('filter_stripe_history') }}" method="post" class="ui form filters">
+        <div class="ui secondary yellow segment">
+            <div class="five fields">
+                <div class="two fields">
+                    <div class="field">
+                        <label for="start_date_filter">{{ _T('since') }}</label>
+                        <div class="ui calendar" id="payments-rangestart">
+                            <div class="ui input left icon">
+                                <i class="calendar icon" aria-hidden="true"></i>
+                                <input placeholder="{{ _T('yyyy-mm-dd format') }}" type="text" name="start_date_filter" id="start_date_filter" maxlength="10" size="10" value="{{ stripe_history.filters.start_date_filter }}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="end_date_filter">{{ _T('until') }}</label>
+                        <div class="ui calendar" id="payments-rangeend">
+                            <div class="ui input left icon">
+                                <i class="calendar icon" aria-hidden="true"></i>
+                                <input placeholder="{{ _T('yyyy-mm-dd format') }}" type="text" name="end_date_filter" id="end_date_filter" maxlength="10" size="10" value="{{ stripe_history.filters.end_date_filter }}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="payment_filter">{{ _T('Payment nb.', 'stripe') }}</label>
+                    <input type="text" name="payment_filter" id="payment_filter" value="{{ stripe_history.filters.payment_filter }}"/>
+                </div>
+                <div class="field">
+                    <label for="payer_filter">{{ _T('Payer name', 'stripe') }}</label>
+                    <input type="text" name="payer_filter" id="payer_filter" value="{{ stripe_history.filters.payer_filter }}"/>
+                </div>
+                <div class="field">
+                    {% set reasons = stripe_history.getPaymentReasonsList() %}
+                    {% if reasons|length > 0 %}
+                        <label for="reason_filter">{{ _T('Reason', 'stripe') }}</label>
+                        <select name="reason_filter" id="reason_filter" class="ui search dropdown">
+                            <option value="0">{{ _T('Select a payment reason', 'stripe') }}</option>
+                            {% for reason in reasons %}
+                                <option value="{{ reason }}"{% if stripe_history.filters.reason_filter == reason %} selected="selected"{% endif %}>{{ reason }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <div class="field">
+                    {% set methods = stripe_history.getPaymentMethodsList() %}
+                    {% if methods|length > 0 %}
+                        <label for="method_filter">{{ _T('Method', 'stripe') }}</label>
+                        <select name="method_filter" id="method_filter" class="ui search dropdown">
+                            <option value="0">{{ _T('Select a payment method', 'stripe') }}</option>
+                            {% for method in methods %}
+                                <option value="{{ method }}"{% if stripe_history.filters.method_filter == method %} selected="selected"{% endif %}>{{ method }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="ui right aligned basic fitted segment field">
+                <button type="submit" name="filter" class="tooltip action ui labeled icon primary button" title="{{ _T('Apply filters') }}">
+                    <i class="search icon" aria-hidden="true"></i>
+                    {{ _T('Filter') }}
+                </button>
+                <button type="submit" name="clear_filter" class="tooltip ui labeled icon button" title="{{ _T('Reset all filters to defaults') }}">
+                    <i class="trash alt red icon" aria-hidden="true"></i>
+                    {{ _T('Clear filter') }}
+                </button>
+            </div>
+        </div>
+    </form>
 {% endblock %}
 
 {% block body %}
@@ -102,7 +181,7 @@
                     </a>
                 {% endif %}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Contribution type") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Reason", "stripe") }}">
                 {{ log.comments }}
             </td>
             <td class="right collapsing" data-col-label="{{ _T("Amount") }}">
@@ -111,7 +190,7 @@
             <td class="left collapsing" data-col-label="{{ _T("Method", "stripe") }}">
                 {{ log.method }}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Status", "stripe") }}">
+            <td class="left collapsing" data-col-label="{{ _T("State", "stripe") }}">
                 {% if log.state == constant('GaletteStripe\\StripeHistory::STATE_PUBLIC') or log.state == constant('GaletteStripe\\StripeHistory::STATE_PROCESSED') %}
                     <span class="icon-only">
                         <i class="check green icon" aria-hidden="true"></i>
@@ -153,7 +232,7 @@
             </td>
         </tr>
     {% else %}
-        <tr><td colspan="10" class="emptylist">{{ _T("logs are empty") }}</td></tr>
+        <tr><td colspan="10" class="emptylist">{{ _T('No results', 'stripe') }}</td></tr>
     {% endfor %}
 {% endblock %}
 
