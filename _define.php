@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
+ * This file is part of Galette Stripe plugin (https://galette-plugins.github.io/plugin-stripe).
  * SPDX-FileCopyrightText: Copyright © 2021-2026 The Galette Team
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
