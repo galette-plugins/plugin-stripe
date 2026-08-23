@@ -21,7 +21,7 @@
         <table class="ui striped definition attached table">
             <tr>
                 <th class="collapsing">{{ _T('Amount paid', 'stripe') }}</th>
-                <td>{{ amount|format_currency(stripe.getCurrency(), {}, galette_lang) }}</td>
+                <td>{{ amount|format_currency(stripe.getCurrency(), {}, i18n.getWebID()) }}</td>
             </tr>
             <tr>
                 <th class="collapsing">{{ _T('Payment date', 'stripe') }}</th>
