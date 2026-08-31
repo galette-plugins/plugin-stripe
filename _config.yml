@@ -1,3 +1,10 @@
-theme: jekyll-theme-cayman
+remote_theme: galette/theme-ghpages
 title: Galette Stripe
 description: Plugin to handle membership fees and donations payments with Stripe.
+maintainer: community
+plugin:
+  archive: galette-plugin-stripe
+  min_galette: "nightly"
+defaults:
+  - scope: {path: ""}
+    values: {layout: default, lang: en}

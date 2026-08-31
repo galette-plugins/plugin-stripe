@@ -1,31 +1,128 @@
-[![GitHub license](https://img.shields.io/github/license/galette-plugins/plugin-stripe)](https://github.com/galette-plugins/plugin-stripe/blob/master/COPYING)
+This plugin provides:
 
-## English
+* a payment form,
+* a payment history,
+* automatic creation of contributions in Galette once payments are validated.
 
-**Important**: This plugin is currently in *beta* stage and would need to be tested by users on the features already implemented. It is not recommended to use it in production at the moment.
+**Note**: this plugin currently requires **Galette nightly version**, so **it is not recommended to use it in production at the moment**.
 
-A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [Stripe](https://stripe.com).
+![Payment form visible by unlogged users](images/form_public.jpg)
 
-* [website](https://galette-plugins.github.io/plugin-stripe)
-* [bugs and features](https://github.com/galette-plugins/plugin-stripe/issues)
-* [documentation](https://galette-plugins.github.io/plugin-stripe/documentation.html)
+**Important**: to use this plugin, your instance of Galette must be publically accessible and served in https.
 
-To use Galette Stripe plugin, you'll need a reliable Galette version, and of course the plugin itself by either:
+## Installation
 
-* download latest version available from the [Galette Stripe plugin page](https://github.com/galette-plugins/plugin-stripe/releases)
-* use [Galette Stripe plugin source code from repository](https://github.com/galette-plugins/plugin-stripe), this solution requires some technical skills
+First of all, download the plugin:
 
-## Français
+[![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619
+)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1) [![Get Stripe plugin nightly build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
+)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
 
-**Important** : Ce plugin est actuellement en phase *beta* et nécessiterait d'être testé par des utilisateurs sur les fonctionnalités déjà implémentées. Il n’est pas recommandé de l’utiliser en production pour le moment.
+Extract the downloaded archive into Galette `plugins` directory. For example, on linux (replacing *{url}* and *{version}* with the corresponding values):
 
-Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [Stripe](https://stripe.com).
+```
+$ cd /var/www/html/galette/plugins
+$ wget {url}
+$ tar xjvf galette-plugin-stripe-{version}.tar.bz2
+```
 
-* [site web](https://galette-plugins.github.io/plugin-stripe)
-* [bogues et fonctionnalités](https://github.com/galette-plugins/plugin-stripe/issues)
-* [documentation](https://galette-plugins.github.io/plugin-stripe/documentation.html)
+## Database initialisation
 
-Pour utiliser le plugin Stripe pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui même :
+In order to work, this plugin requires several tables in the database. See the [Galette plugins management interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-* télécharger la dernière version depuis la [page du plugin Stripe pour Galette](https://github.com/galette-plugins/plugin-stripe/releases)
-* utiliser [le code source du plugin Stripe pour Galette depuis le dépôt](https://github.com/galette-plugins/plugin-stripe), cette solution requiert quelques compétences techniques
+And that’s it, the *Stripe* plugin is installed. :)
+
+## Plugin usage
+
+When the plugin is installed, a Stripe group is added to the Galette menu when a user is logged in, allowing administrators and staff members to define the settings of the plugin and view payment history.
+
+![Plugin's menu](images/galette_menu.jpg)
+
+The payment form is accessible from Galette's public pages.
+
+Only users logged into their account can pay contributions with a membership extension (or membership fees).
+
+![Payment form visible by logged in users](images/form.jpg)
+
+Regular visitors (users not logged into their account) can only pay contributions without a membership extension (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history with the value “None” entered in the “Member” column.
+
+![Payment history screen](images/history.jpg)
+
+## Settings
+
+![Settings screen](images/settings.jpg)
+
+* **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Stripe webhook event**: name of the event to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Stripe public key**: you will find this information in your association’s account on Stripe ([read more below](#get-the-api-keys)).
+* **Stripe secret key**: you will find this information in your association’s account on Stripe ([read more below](#get-the-api-keys)).
+* **Stripe webhook secret key**: you will find this information in the details of the "Webhook" you need to create in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Country of your Stripe account**: choose a country according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
+* **Currency for payments**: choose a currency according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
+* **Contribution types**: in this table, you can disable [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be offered as a payment reason on the online payment form.
+
+  *Contribution types with a zero amount, or whose amount is not configured, will not be offered as payment reasons on the form, even if they are not marked as inactive in the table.*
+
+### Note about the sandbox mode
+
+![Stripe sandbox mode](images/stripe_menu_sandbox_mode.jpg)
+
+It is recommended to test the plugin's functionality in sandbox mode. To learn how to set up such a testing environment, please refer to the [Stripe documentation](https://docs.stripe.com/sandboxes).
+
+**Warning**: in this mode, do not use real credit card numbers, but only test cards (see the list of test cards in [Stripe documentation](https://docs.stripe.com/testing#cards)).
+
+## Configure your Stripe account
+
+To learn how to create an account, please refer to the [Stripe documentation](https://docs.stripe.com/get-started/account).
+
+### Get the country and currency defined in your account settings
+
+The choice of a country and a currency is usually requested when creating your account. You can find this information in your account settings:
+
+![Stripe settings menu](images/stripe_menu_settings.jpg)
+
+* *Settings > Business > Account details*
+
+![Country defined in the account settings](images/stripe_settings_country.jpg)
+
+* *Settings > Business > Bank accounts and currencies*
+
+![Currency defined in the account settings](images/stripe_settings_currency.jpg)
+
+### Create a Webhook and get the corresponding secret key
+
+The *Webhook* required for the proper functioning of the plugin can be created from the *Developers* menu (located at the bottom left of your dashboard):
+
+![Webhooks in developers menu](images/stripe_developers_menu_webhooks.jpg)
+
+The *Endpoint URL* to define in your webhook is indicated in the plugin settings (example: `https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
+
+Only one *Event* needs to be defined in your webhook. It is also indicated in the plugin settings; it is `payment_intent.succeeded`.
+
+![Webhook created in Stripe account](images/stripe_webhook_config.jpg)
+
+Once created, you need to get the *webhook secret key* to define in the plugin settings. From the list of webhooks, click on the one your created:
+
+![Webhooks list in Stripe account](images/stripe_webhooks_list.jpg)
+
+The *webhook secret key* can be copied from it's details:
+
+![Webhook secret](images/stripe_webhook_secret.jpg)
+
+### Get the API keys
+
+The *API keys* required for the proper functioning of the plugin can be obtained from the *Developers* menu (located at the bottom left of your dashboard):
+
+![API keys in developers menu](images/stripe_developers_menu_api_keys.jpg)
+
+**Important**: To reduce the potential impact of a compromise, create a *Restricted key*. This key can be created without customizing the permissions. Please refer to the [Stripe documentation](https://docs.stripe.com/keys#create-restricted-api-secret-key) for more information about restricted keys.
+
+![API keys created in Stripe account](images/stripe_api_keys.jpg)
+
+### Enable the necessary payment methods
+
+Stripe offers many payment methods. In your account settings, you should enable only the methods you wish to use.
+
+* *Settings > Payments > Payment methods*
+
+![Payment methods defined in the account settings](images/stripe_settings_payment_methods.jpg)
