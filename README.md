@@ -29,7 +29,7 @@ Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations
 * [bogues et fonctionnalités](https://github.com/galette-plugins/plugin-stripe/issues)
 * [documentation](https://galette-plugins.github.io/plugin-stripe/documentation.html)
 
-Pour utiliser le plugin Stripe pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui même :
+Pour utiliser le plugin Stripe pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui-même :
 
 * télécharger la dernière version depuis la [page du plugin Stripe pour Galette](https://github.com/galette-plugins/plugin-stripe/releases)
 * utiliser [le code source du plugin Stripe pour Galette depuis le dépôt](https://github.com/galette-plugins/plugin-stripe), cette solution requiert quelques compétences techniques
