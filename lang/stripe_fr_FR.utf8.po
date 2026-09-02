@@ -55,7 +55,7 @@ msgstr ""
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:134
-msgid "An error occured loading the checkout form."
+msgid "An error occurred loading the checkout form."
 msgstr "Une erreur est survenue lors du chargement du formulaire de paiement."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:198
@@ -76,7 +76,7 @@ msgid "Stripe settings have been saved."
 msgstr "Les préférences Stripe ont été sauvegardées."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:352
-msgid "An error occured saving stripe settings."
+msgid "An error occurred saving stripe settings."
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe."
 
@@ -224,7 +224,7 @@ msgid "Cannot load the settings"
 msgstr "Impossible de charger les préférences"
 
 #: ../tempcache/stripe_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
 msgstr ""
 "Une erreur est survenue lors du chargement des préférences depuis la base de "
 "données."

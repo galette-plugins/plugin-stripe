@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 22:41+0200\n"
+"POT-Creation-Date: 2026-09-02 11:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgid ""
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:134
-msgid "An error occured loading the checkout form."
+msgid "An error occurred loading the checkout form."
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:198
@@ -67,7 +67,7 @@ msgid "Stripe settings have been saved."
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:352
-msgid "An error occured saving stripe settings."
+msgid "An error occurred saving stripe settings."
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:558
@@ -211,7 +211,7 @@ msgid "Cannot load the settings"
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:83

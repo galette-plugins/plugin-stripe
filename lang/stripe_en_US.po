@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 22:41+0200\n"
-"PO-Revision-Date: 2026-08-21 22:41+0200\n"
+"POT-Creation-Date: 2026-09-02 11:54+0200\n"
+"PO-Revision-Date: 2026-09-02 11:54+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_US\n"
@@ -53,8 +53,8 @@ msgstr ""
 "option. Please choose another option or change the amount."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:134
-msgid "An error occured loading the checkout form."
-msgstr "An error occured loading the checkout form."
+msgid "An error occurred loading the checkout form."
+msgstr "An error occurred loading the checkout form."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:198
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:55
@@ -74,8 +74,8 @@ msgid "Stripe settings have been saved."
 msgstr "Stripe settings have been saved."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:352
-msgid "An error occured saving stripe settings."
-msgstr "An error occured saving stripe settings."
+msgid "An error occurred saving stripe settings."
+msgstr "An error occurred saving stripe settings."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:558
 msgid "Payment done"
@@ -219,8 +219,8 @@ msgid "Cannot load the settings"
 msgstr "Cannot load the settings"
 
 #: ../tempcache/stripe_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
-msgstr "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
+msgstr "An error occurred while loading the settings from the database."
 
 #: ../tempcache/stripe_preferences.html.twig:83
 msgid "Please, check if the plugin's database has been properly initialized."
