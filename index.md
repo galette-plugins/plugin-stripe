@@ -10,7 +10,9 @@ This plugin provides:
 * a payment history,
 * automatic creation of contributions in Galette once payments are validated.
 
-{% include alert.html type="warning" content="This plugin currently requires <strong>Galette nightly version</strong>, so <strong>it is not recommended to use it in production at the moment</strong>." %}
+{% capture warning_content_1 %}This plugin currently requires <strong>Galette nightly version</strong>, so <strong>it is not recommended to use it in production at the moment</strong>.{% endcapture %}
+
+{% include alert.html type="warning" content=warning_content_1 %}
 
 ![Payment form visible by unlogged users](images/form_public.jpg)
 
@@ -75,7 +77,9 @@ Regular visitors (users not logged into their account) can only pay contribution
 
 It is recommended to test the plugin's functionality in sandbox mode. To learn how to set up such a testing environment, please refer to the [Stripe documentation](https://docs.stripe.com/sandboxes).
 
-{% include alert.html type="warning" content="In this mode, do not use real credit card numbers, but only test cards (see the list of test cards in <a href="https://docs.stripe.com/testing#cards" target="_blank">Stripe documentation</a>" %}
+{% capture warning_content_2 %}In this mode, do not use real credit card numbers, but only test cards (see the list of test cards in <a href="https://docs.stripe.com/testing#cards" target="_blank">Stripe documentation</a>{% endcapture %}
+
+{% include alert.html type="warning" content=warning_content_2 %}
 
 ## Configure your Stripe account
 
@@ -121,7 +125,9 @@ The *API keys* required for the proper functioning of the plugin can be obtained
 
 ![API keys in developers menu](images/stripe_developers_menu_api_keys.jpg)
 
-{% include alert.html type="note" content="To reduce the potential impact of a compromise, create a <em>Restricted key</em>. This key can be created without customizing the permissions. Please refer to the <a href="https://docs.stripe.com/keys#create-restricted-api-secret-key" target="_blank">Stripe documentation</a> for more information about restricted keys." %}
+{% capture note_content %}To reduce the potential impact of a compromise, create a <em>Restricted key</em>. This key can be created without customizing the permissions. Please refer to the <a href="https://docs.stripe.com/keys#create-restricted-api-secret-key" target="_blank">Stripe documentation</a> for more information about restricted keys.{% endcapture %}
+
+{% include alert.html type="note" content=note_content %}
 
 ![API keys created in Stripe account](images/stripe_api_keys.jpg)
 
