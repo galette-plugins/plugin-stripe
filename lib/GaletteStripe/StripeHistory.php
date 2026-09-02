@@ -103,7 +103,7 @@ class StripeHistory extends History
             );
         } catch (\Exception $e) {
             Analog::log(
-                "An error occured trying to add log entry. " . $e->getMessage(),
+                "An error occurred trying to add log entry. " . $e->getMessage(),
                 Analog::ERROR
             );
             return false;

@@ -131,7 +131,7 @@ class StripeController extends AbstractPluginController
             if (!$checkout) {
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('An error occured loading the checkout form.', 'stripe')
+                    _T('An error occurred loading the checkout form.', 'stripe')
                 );
 
                 return $response
@@ -349,7 +349,7 @@ class StripeController extends AbstractPluginController
                 $this->session->stripe = $stripe;
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('An error occured saving stripe settings.', 'stripe')
+                    _T('An error occurred saving stripe settings.', 'stripe')
                 );
             }
         }
@@ -498,7 +498,7 @@ class StripeController extends AbstractPluginController
                     } else {
                         // something went wrong :'(
                         Analog::log(
-                            'An error occured while storing a new contribution from a Stripe payment',
+                            'An error occurred while storing a new contribution from a Stripe payment',
                             Analog::ERROR
                         );
                         $sh->setState(StripeHistory::STATE_ERROR);
