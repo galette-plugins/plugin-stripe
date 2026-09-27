@@ -187,6 +187,11 @@ jobs:
         with:
           path: galette-core/galette/plugins/plugin-stripe
 
+      - name: Compile translations
+        run: |
+          cd galette-core
+          bin/console galette:compile-locales plugin-stripe
+
       - name: Install dependencies
         run: |
           cd galette-core/galette/plugins/plugin-stripe
