@@ -100,9 +100,21 @@ class StripeController extends AbstractPluginController
         $stripe = new Stripe($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
 
-        // Check the amount
-        $item_id = $stripe_request['item_id'];
+        // Only reasons proposed to the current user can be paid
+        $item_id = (int)($stripe_request['item_id'] ?? 0);
         $stripe_amounts = $stripe->getAmounts($this->login);
+        if (!isset($stripe_amounts[$item_id])) {
+            $this->flash->addMessage(
+                'error_detected',
+                _T("You have to select an option.", "stripe")
+            );
+
+            return $response
+                ->withStatus(301)
+                ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
+        }
+
+        // Check the amount
         $amount = $stripe_request['amount'];
         $amount_check = $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$stripe_amounts[$item_id]['amount']) : $stripe_amounts[$item_id]['amount'];
 
