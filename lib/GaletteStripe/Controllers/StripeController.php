@@ -339,11 +339,12 @@ class StripeController extends AbstractPluginController
         if (isset($post['stripe_pubkey']) && $this->login->isAdmin()) {
             $stripe->setPubKey($post['stripe_pubkey']);
         }
-        if (isset($post['stripe_privkey']) && $this->login->isAdmin()) {
-            $stripe->setPrivKey($post['stripe_privkey']);
+        //secrets are never displayed, an empty value keeps the current one
+        if (isset($post['stripe_privkey']) && trim($post['stripe_privkey']) !== '' && $this->login->isAdmin()) {
+            $stripe->setPrivKey(trim($post['stripe_privkey']));
         }
-        if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
-            $stripe->setWebhookSecret($post['stripe_webhook_secret']);
+        if (isset($post['stripe_webhook_secret']) && trim($post['stripe_webhook_secret']) !== '' && $this->login->isAdmin()) {
+            $stripe->setWebhookSecret(trim($post['stripe_webhook_secret']));
         }
         if (isset($post['stripe_country']) && $this->login->isAdmin()) {
             $stripe->setCountry($post['stripe_country']);

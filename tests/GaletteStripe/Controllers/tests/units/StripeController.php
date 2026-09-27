@@ -82,6 +82,11 @@ class StripeController extends GaletteRoutingTestCase
                             'object' => 'charge',
                             'receipt_url' => 'https://pay.stripe.com/receipts/test'
                         ],
+                        str_starts_with($path, '/v1/country_specs/') => [
+                            'id' => 'FR',
+                            'object' => 'country_spec',
+                            'supported_payment_currencies' => ['eur', 'usd']
+                        ],
                         $path === '/v1/checkout/sessions' => [
                             'id' => 'cs_test',
                             'object' => 'checkout.session',
@@ -323,6 +328,72 @@ class StripeController extends GaletteRoutingTestCase
             ['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'],
             $params['payment_intent_data']['metadata']
         );
+    }
+
+    /**
+     * Get a plugin preference, as stored
+     *
+     * @param string $name Preference name
+     */
+    private function getStripePref(string $name): string
+    {
+        $select = $this->zdb->select(STRIPE_PREFIX . Stripe::TABLE);
+        $select->where(['nom_pref' => $name]);
+        return $this->zdb->execute($select)->current()->val_pref;
+    }
+
+    /**
+     * Post preferences
+     *
+     * @param array<string, string> $data Posted data
+     */
+    private function postPreferences(array $data): void
+    {
+        $request = $this->createRequest('store_stripe_preferences', [], 'POST')->withParsedBody(
+            $data + ['stripe_country' => 'FR', 'stripe_currency' => 'eur']
+        );
+        $test_response = $this->app->handle($request);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->expectFlashData(['success_detected' => [_T('Stripe settings have been saved.', 'stripe')]]);
+    }
+
+    /**
+     * Secrets are never sent back to the browser, and kept when left empty
+     */
+    public function testPreferencesSecrets(): void
+    {
+        $this->setStripePref('stripe_pubkey', 'pk_test_public');
+        $this->setStripePref('stripe_privkey', 'sk_test_secret');
+        $this->setStripePref('stripe_webhook_secret', 'whsec_secret');
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('stripe_preferences'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('pk_test_public', $body);
+        $this->assertStringNotContainsString('sk_test_secret', $body);
+        $this->assertStringNotContainsString('whsec_secret', $body);
+        $this->assertMatchesRegularExpression('/<input\s+type="password"\s+name="stripe_privkey"/', $body);
+        $this->assertMatchesRegularExpression('/<input\s+type="password"\s+name="stripe_webhook_secret"/', $body);
+        $this->expectNoLogEntry();
+
+        //empty secrets keep the stored ones
+        $this->postPreferences([
+            'stripe_pubkey' => 'pk_test_public',
+            'stripe_privkey' => '',
+            'stripe_webhook_secret' => ' '
+        ]);
+        $this->assertSame('sk_test_secret', $this->getStripePref('stripe_privkey'));
+        $this->assertSame('whsec_secret', $this->getStripePref('stripe_webhook_secret'));
+
+        $this->postPreferences([
+            'stripe_pubkey' => 'pk_test_public',
+            'stripe_privkey' => 'sk_test_new',
+            'stripe_webhook_secret' => 'whsec_new'
+        ]);
+        $this->assertSame('sk_test_new', $this->getStripePref('stripe_privkey'));
+        $this->assertSame('whsec_new', $this->getStripePref('stripe_webhook_secret'));
+        $this->expectNoLogEntry();
     }
 
     /**
