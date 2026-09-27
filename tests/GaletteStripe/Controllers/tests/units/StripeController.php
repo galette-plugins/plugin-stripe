@@ -19,6 +19,7 @@ use GaletteStripe\StripeHistory;
 use Psr\Http\Message\ResponseInterface;
 use Stripe\ApiRequestor;
 use Stripe\HttpClient\ClientInterface;
+use Stripe\HttpClient\CurlClient;
 
 /**
  * Stripe controller tests
@@ -44,31 +45,37 @@ class StripeController extends GaletteRoutingTestCase
     {
         parent::setUp();
         $this->api_calls = [];
-        $calls = &$this->api_calls;
         //never reach Stripe: answer as the API would
         ApiRequestor::setHttpClient(
-            new class ($calls) implements ClientInterface {
+            new class (fn(array $call) => $this->api_calls[] = $call) implements ClientInterface {
                 /**
-                 * @param array<int, array<string, mixed>> $calls Recorded calls
+                 * @param \Closure(array<string, mixed>): mixed $record Records calls
                  */
-                public function __construct(private array &$calls)
+                public function __construct(private readonly \Closure $record)
                 {
                 }
 
                 /**
-                 * @param string               $method            HTTP method
-                 * @param string               $absUrl            URL
-                 * @param array<string>        $headers           Headers
-                 * @param array<string, mixed> $params            Parameters
-                 * @param bool                 $hasFile           Has file
-                 * @param string               $apiMode           API mode
-                 * @param ?int                 $maxNetworkRetries Retries
+                 * @param mixed $method            HTTP method
+                 * @param mixed $absUrl            URL
+                 * @param mixed $headers           Headers
+                 * @param mixed $params            Parameters
+                 * @param mixed $hasFile           Has file
+                 * @param mixed $apiMode           API mode
+                 * @param mixed $maxNetworkRetries Retries
                  *
                  * @return array{0: string, 1: int, 2: array<string, string>}
                  */
-                public function request($method, $absUrl, $headers, $params, $hasFile, $apiMode = 'v1', $maxNetworkRetries = null): array
-                {
-                    $this->calls[] = ['method' => $method, 'url' => $absUrl, 'params' => $params];
+                public function request(
+                    mixed $method,
+                    mixed $absUrl,
+                    mixed $headers,
+                    mixed $params,
+                    mixed $hasFile,
+                    mixed $apiMode = 'v1',
+                    mixed $maxNetworkRetries = null
+                ): array {
+                    ($this->record)(['method' => $method, 'url' => $absUrl, 'params' => $params]);
                     $path = (string)parse_url($absUrl, PHP_URL_PATH);
                     $body = match (true) {
                         str_starts_with($path, '/v1/payment_methods/') => [
@@ -108,7 +115,7 @@ class StripeController extends GaletteRoutingTestCase
      */
     public function tearDown(): void
     {
-        ApiRequestor::setHttpClient(null);
+        ApiRequestor::setHttpClient(CurlClient::instance());
         $this->login->logout();
         parent::tearDown();
     }
@@ -311,7 +318,10 @@ class StripeController extends GaletteRoutingTestCase
         foreach (['9.99', '-20', '0'] as $amount) {
             $this->expectCheckoutRefused(
                 $this->postCheckout(['item_id' => '5', 'amount' => $amount]),
-                _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")
+                _T(
+                    "The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.",
+                    "stripe"
+                )
             );
         }
 
