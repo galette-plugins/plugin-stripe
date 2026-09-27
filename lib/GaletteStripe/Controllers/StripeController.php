@@ -114,11 +114,22 @@ class StripeController extends AbstractPluginController
                 ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
         }
 
-        // Check the amount
-        $amount = $stripe_request['amount'];
+        // Check the amount, accepting a decimal comma
+        $amount = $stripe_request['amount'] ?? '';
+        $amount = is_string($amount) ? str_replace(',', '.', trim($amount)) : '';
+        if (!is_numeric($amount)) {
+            $this->flash->addMessage(
+                'error_detected',
+                _T("Please enter an amount.", "stripe")
+            );
+
+            return $response
+                ->withStatus(301)
+                ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
+        }
         $amount_check = $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$stripe_amounts[$item_id]['amount']) : $stripe_amounts[$item_id]['amount'];
 
-        if ($amount < $amount_check) {
+        if ((float)$amount < (float)$amount_check) {
             $this->flash->addMessage(
                 'error_detected',
                 _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")

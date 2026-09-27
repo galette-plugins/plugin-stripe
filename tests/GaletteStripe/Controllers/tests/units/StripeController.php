@@ -288,6 +288,44 @@ class StripeController extends GaletteRoutingTestCase
     }
 
     /**
+     * Amount must be a number, at least the one of the payment reason
+     */
+    public function testCheckoutChecksAmount(): void
+    {
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        $this->setTypeAmount(5, 10);
+        $member = $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+
+        foreach (['', 'abc', '12abc', ['12']] as $amount) {
+            $this->expectCheckoutRefused(
+                $this->postCheckout(['item_id' => '5', 'amount' => $amount]),
+                _T("Please enter an amount.", "stripe")
+            );
+        }
+        foreach (['9.99', '-20', '0'] as $amount) {
+            $this->expectCheckoutRefused(
+                $this->postCheckout(['item_id' => '5', 'amount' => $amount]),
+                _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")
+            );
+        }
+
+        //decimal comma is accepted
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '12,50']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertSame(['https://checkout.stripe.com/c/pay/cs_test'], $test_response->getHeader('Location'));
+        $this->expectNoLogEntry();
+
+        $this->assertCount(1, $this->api_calls);
+        $params = $this->api_calls[0]['params'];
+        $this->assertSame(1250, $params['line_items'][0]['price_data']['unit_amount']);
+        $this->assertSame(
+            ['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'],
+            $params['payment_intent_data']['metadata']
+        );
+    }
+
+    /**
      * Webhook refuses notifications while no secret is configured
      */
     public function testWebhookRefusedWithoutSecret(): void
