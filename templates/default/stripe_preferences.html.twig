@@ -41,19 +41,25 @@
                         tip: _T("Enter here your Stripe public key.", "stripe")
                     } %}
 
-                    {% include "components/forms/text.html.twig" with {
+                    {% include "components/forms/input.html.twig" with {
+                        type: 'password',
                         id: 'stripe_privkey',
-                        value: stripe.getPrivKey(),
+                        value: null,
                         label: _T("Stripe secret key", "stripe"),
-                        required: true,
+                        required: stripe.getPrivKey() == '',
+                        autocomplete: 'off',
+                        placeholder: stripe.getPrivKey() != '' ? _T("Leave empty to keep the current one") : '',
                         tip: _T("Enter here your Stripe secret key.", "stripe")
                     } %}
 
-                    {% include "components/forms/text.html.twig" with {
+                    {% include "components/forms/input.html.twig" with {
+                        type: 'password',
                         id: 'stripe_webhook_secret',
-                        value: stripe.getWebhookSecret(),
+                        value: null,
                         label: _T("Stripe webhook secret key", "stripe"),
-                        required: true,
+                        required: stripe.getWebhookSecret() == '',
+                        autocomplete: 'off',
+                        placeholder: stripe.getWebhookSecret() != '' ? _T("Leave empty to keep the current one") : '',
                         tip: _T("Enter here your Stripe secret key for the webhook.", "stripe")
                     } %}
 
