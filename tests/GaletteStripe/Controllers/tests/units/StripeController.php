@@ -12,6 +12,7 @@ namespace GaletteStripe\Controllers\tests\units;
 
 use Analog\Analog;
 use Galette\Entity\Contribution;
+use Galette\Entity\ContributionsTypes;
 use Galette\Tests\GaletteRoutingTestCase;
 use GaletteStripe\Stripe;
 use GaletteStripe\StripeHistory;
@@ -209,6 +210,81 @@ class StripeController extends GaletteRoutingTestCase
     private function countHistory(): int
     {
         return $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE))->count();
+    }
+
+    /**
+     * Set the amount of a contribution type
+     *
+     * @param int   $id_type Contribution type ID
+     * @param float $amount  Amount
+     */
+    private function setTypeAmount(int $id_type, float $amount): void
+    {
+        $update = $this->zdb->update(ContributionsTypes::TABLE);
+        $update->set(['amount' => $amount])->where([ContributionsTypes::PK => $id_type]);
+        $this->zdb->execute($update);
+    }
+
+    /**
+     * Post the payment form
+     *
+     * @param array<string, mixed> $data Posted data
+     */
+    private function postCheckout(array $data): ResponseInterface
+    {
+        $request = $this->createRequest('stripe_formCheckout', [], 'POST')->withParsedBody($data);
+        return $this->app->handle($request);
+    }
+
+    /**
+     * Assert payment form has been refused with given message
+     *
+     * @param ResponseInterface $test_response Response
+     * @param string            $message       Expected error message
+     */
+    private function expectCheckoutRefused(ResponseInterface $test_response, string $message): void
+    {
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertSame(
+            [$this->routeparser->urlFor('stripe_form')],
+            $test_response->getHeader('Location')
+        );
+        $this->expectFlashData(['error_detected' => [$message]]);
+        $this->assertSame([], $this->api_calls);
+    }
+
+    /**
+     * Only payment reasons proposed to the current user can be paid
+     */
+    public function testCheckoutRefusesUnproposedReason(): void
+    {
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        //type 1 (annual fee) is proposed, type 7 is inactive by default
+        $this->setTypeAmount(1, 20);
+        $this->setTypeAmount(7, 20);
+        $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+
+        $this->expectCheckoutRefused(
+            $this->postCheckout(['item_id' => '7', 'amount' => '1']),
+            _T("You have to select an option.", "stripe")
+        );
+        $this->expectCheckoutRefused(
+            $this->postCheckout(['item_id' => '9999', 'amount' => '1']),
+            _T("You have to select an option.", "stripe")
+        );
+        $this->expectCheckoutRefused(
+            $this->postCheckout(['amount' => '20']),
+            _T("You have to select an option.", "stripe")
+        );
+
+        //membership fees are not proposed to visitors
+        $this->login->logout();
+        $this->expectCheckoutRefused(
+            $this->postCheckout(['item_id' => '1', 'amount' => '20']),
+            _T("You have to select an option.", "stripe")
+        );
+        $this->expectNoLogEntry();
     }
 
     /**
