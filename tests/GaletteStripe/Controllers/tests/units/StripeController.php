@@ -496,6 +496,26 @@ class StripeController extends GaletteRoutingTestCase
     }
 
     /**
+     * Payment form is displayed even when no currency has been configured
+     */
+    public function testFormWithoutCurrency(): void
+    {
+        $this->setTypeAmount(5, 10);
+        $this->setStripePref('stripe_pubkey', 'pk_test_public');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        $delete = $this->zdb->delete(STRIPE_PREFIX . Stripe::TABLE);
+        $delete->where(['nom_pref' => 'stripe_currency']);
+        $this->zdb->execute($delete);
+
+        $test_response = $this->app->handle($this->createRequest('stripe_form'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('name="item_id" id="in5"', $body);
+        $this->assertStringContainsString('€', $body);
+    }
+
+    /**
      * Webhook refuses notifications while no secret is configured
      */
     public function testWebhookRefusedWithoutSecret(): void
