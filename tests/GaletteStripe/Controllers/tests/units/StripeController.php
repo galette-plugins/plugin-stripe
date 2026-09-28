@@ -446,7 +446,19 @@ class StripeController extends GaletteRoutingTestCase
         $this->assertSame(1, $this->countContributions($member->id));
 
         $history = $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE))->current();
+        $this->assertSame(StripeHistory::STATE_PROCESSED, (int)$history->state);
         $this->assertSame('Jane Doe', $history->payer_name);
+
+        //Stripe sends notifications again until it gets an answer: store only once
+        $test_response = $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_test');
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectLogEntry(Analog::WARNING, 'has already been processed');
+        $this->expectNoLogEntry();
+        $this->assertSame(2, $this->countHistory());
+        $this->assertSame(1, $this->countContributions($member->id));
+        $select = $this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE);
+        $select->order(StripeHistory::PK . ' DESC');
+        $this->assertSame(StripeHistory::STATE_ALREADYDONE, (int)$this->zdb->execute($select)->current()->state);
 
         //a notification signed with another secret is refused
         $test_response = $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_other');
