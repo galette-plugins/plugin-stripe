@@ -580,6 +580,9 @@ class StripeController extends GaletteRoutingTestCase
         $history = $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE))->current();
         $this->assertSame(StripeHistory::STATE_PROCESSED, (int)$history->state);
         $this->assertSame('Jane Doe', $history->payer_name);
+        //time is kept
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $history->history_date);
+        $this->assertEquals(12.5, $history->amount);
 
         //Stripe sends notifications again until it gets an answer: store only once
         $test_response = $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_test');
