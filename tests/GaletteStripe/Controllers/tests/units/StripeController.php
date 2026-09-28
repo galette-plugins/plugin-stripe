@@ -516,6 +516,29 @@ class StripeController extends GaletteRoutingTestCase
     }
 
     /**
+     * History lists stored payments
+     */
+    public function testHistory(): void
+    {
+        $member = $this->getMemberOne();
+        $this->setStripePref('stripe_webhook_secret', 'whsec_test');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        $this->assertSame(
+            200,
+            $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_test')->getStatusCode()
+        );
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('stripe_history'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('pi_test', $body);
+        $this->assertStringContainsString('Jane Doe', $body);
+        $this->assertStringContainsString(mb_strtoupper($member->name) . ' ' . $member->surname, $body);
+    }
+
+    /**
      * Webhook refuses notifications while no secret is configured
      */
     public function testWebhookRefusedWithoutSecret(): void
