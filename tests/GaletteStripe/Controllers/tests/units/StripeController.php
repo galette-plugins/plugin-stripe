@@ -355,6 +355,12 @@ class StripeController extends GaletteRoutingTestCase
             ['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'],
             $params['payment_intent_data']['metadata']
         );
+
+        //amount is rounded to the cent, not truncated
+        $this->api_calls = [];
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '19.99']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertSame(1999, $this->api_calls[0]['params']['line_items'][0]['price_data']['unit_amount']);
     }
 
     /**
