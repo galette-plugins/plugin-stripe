@@ -62,8 +62,9 @@ class Stripe
         $this->pubkey = null;
         $this->privkey = null;
         $this->webhook_secret = null;
+        //installation defaults
         $this->country = 'FR';
-        $this->currency = null;
+        $this->currency = 'eur';
         $this->load();
     }
 
@@ -607,9 +608,9 @@ class Stripe
      * Is currency a zero-decimal?
      * https://docs.stripe.com/currencies#zero-decimal
      *
-     * @param string $currency Currency
+     * @param ?string $currency Currency, null when not configured
      */
-    public function isZeroDecimal(string $currency): bool
+    public function isZeroDecimal(?string $currency): bool
     {
         $zeroDecimalCurrencies = [
             "bif",
@@ -629,7 +630,7 @@ class Stripe
             "xpf"
         ];
 
-        return in_array($currency, $zeroDecimalCurrencies);
+        return in_array(strtolower((string)$currency), $zeroDecimalCurrencies, true);
     }
 
     /**
