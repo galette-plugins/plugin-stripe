@@ -95,7 +95,10 @@ class StripeHistory extends History
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            $this->id = (int)$this->zdb->driver->getLastGeneratedValue();
+            //without the sequence name, pgsql gives no value
+            $this->id = (int)$this->zdb->connection->getLastGeneratedValue(
+                $this->zdb->isPostgres() ? $this->zdb->getSequenceName($this->getTableName(), 'id', prefixed: true) : null
+            );
 
             Analog::log(
                 'An entry has been added in stripe history',
