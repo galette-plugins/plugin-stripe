@@ -3,6 +3,7 @@
 $finder = (new PhpCsFixer\Finder())
     ->in([
         __DIR__ . '/lib',
+        __DIR__ . '/tests',
     ])
 ;
 

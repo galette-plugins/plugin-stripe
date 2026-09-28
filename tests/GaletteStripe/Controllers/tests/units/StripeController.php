@@ -61,7 +61,7 @@ class StripeController extends GaletteRoutingTestCase
             ) implements ClientInterface {
                 /**
                  * @param \Closure(array<string, mixed>): mixed $record  Records calls
-                 * @param \Closure(string): bool               $is_down Is API path failing
+                 * @param \Closure(string): bool                $is_down Is API path failing
                  */
                 public function __construct(
                     private readonly \Closure $record,
@@ -357,10 +357,10 @@ class StripeController extends GaletteRoutingTestCase
         );
 
         //amount is rounded to the cent, not truncated
-        $this->api_calls = [];
         $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '19.99']);
         $this->assertSame(301, $test_response->getStatusCode());
-        $this->assertSame(1999, $this->api_calls[0]['params']['line_items'][0]['price_data']['unit_amount']);
+        $this->assertCount(2, $this->api_calls);
+        $this->assertSame(1999, $this->api_calls[1]['params']['line_items'][0]['price_data']['unit_amount']);
     }
 
     /**
