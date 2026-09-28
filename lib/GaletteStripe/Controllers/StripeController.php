@@ -462,10 +462,13 @@ class StripeController extends AbstractPluginController
         if (
             isset($post['type'])
             && $post['type'] == 'payment_intent.succeeded'
-            && $post['data']['object']['metadata']['item_id']
+            && !empty($post['data']['object']['metadata']['item_id'])
         ) {
             $sh = new StripeHistory($this->zdb, $this->login, $this->preferences);
-            $sh->add($post);
+            if (!$sh->add($post)) {
+                //Stripe will send it again
+                return $response->withStatus(500, 'Internal error');
+            }
 
             // are we working on a real contribution?
             $real_contrib = false;
