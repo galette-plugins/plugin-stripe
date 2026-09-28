@@ -4,28 +4,34 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 --
 
-DROP TABLE galette_stripe_types_cotisation_prices;
+-- Prices are the amounts of core contributions types; keep those already set
+UPDATE galette_types_cotisation t
+  SET amount = p.amount
+  FROM galette_stripe_types_cotisation_prices p
+  WHERE p.id_type_cotis = t.id_type_cotis AND t.amount IS NULL AND p.amount IS NOT NULL;
+DROP TABLE IF EXISTS galette_stripe_types_cotisation_prices;
+
+ALTER TABLE galette_stripe_history RENAME COLUMN metadata TO request;
 
 ALTER TABLE galette_stripe_history
-  RENAME COLUMN metadata TO request,
   ADD COLUMN payer_name character varying(255),
-  ADD COLUMN member_id integer,
-  ADD COLUMN method character varying(20),
+  ADD COLUMN member_id integer DEFAULT 0 NOT NULL,
+  ADD COLUMN method character varying(20) DEFAULT '' NOT NULL,
   ADD COLUMN receipt_url character varying(255);
+ALTER TABLE galette_stripe_history
+  ALTER COLUMN member_id DROP DEFAULT,
+  ALTER COLUMN method DROP DEFAULT;
 
+-- Previous versions stored the serialized payment metadata only, with the member
+-- as "adherent_id"; their states were 0 (public donation), 2 (done) and 3 (error)
 UPDATE galette_stripe_history
 SET
-  state = CASE
-    WHEN state = 0 THEN 3
+  state = CASE state
+    WHEN 0 THEN 3
+    WHEN 2 THEN 1
+    WHEN 3 THEN 2
     ELSE state
   END,
-  member_id = COALESCE(
-    (request #>> '{data,object,metadata,member_id}')::int,
-    0
-  ),
-  method = request #>> '{data,object,payment_method_types,0}',
-  receipt_url = request #>> '{receipt_url}';
+  member_id = COALESCE(substring(request from '"adherent_id";s:[0-9]+:"([0-9]+)"')::integer, 0);
 
-ALTER TABLE galette_stripe_history
-  ALTER COLUMN member_id SET NOT NULL,
-  ALTER COLUMN method SET NOT NULL;
+UPDATE galette_stripe_preferences SET val_pref = UPPER(val_pref) WHERE nom_pref = 'stripe_country';
