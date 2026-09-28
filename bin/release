@@ -478,8 +478,7 @@ def add_libs(rel_name, galette_archive):
         # cleaunp files not required in releases
         todrop = [
             'composer.lock',
-            'composer.json',
-            'composer.json.checker'
+            'composer.json'
         ]
         for td in todrop:
             if os.path.exists(os.path.join(build_dir, td)):
