@@ -133,4 +133,15 @@ class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface
             && $this->zdb->TableExists(STRIPE_PREFIX . StripeHistory::TABLE)
         ;
     }
+
+    /**
+     * Database version of tables installed before versions tracking
+     *
+     * 0.0.x releases had their own prices table, dropped in 1.0.0 when
+     * amounts moved to core contributions types.
+     */
+    public function getLegacyDbVersion(): ?float
+    {
+        return $this->zdb->tableExists(STRIPE_PREFIX . 'types_cotisation_prices') ? 0.0 : null;
+    }
 }
