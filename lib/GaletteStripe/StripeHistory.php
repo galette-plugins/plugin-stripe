@@ -174,7 +174,7 @@ class StripeHistory extends History
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
-                    $o['member_fullname'] = $this->getMemberFullName($o['member_id']);
+                    $o['member_fullname'] = $this->getMemberFullName((int)$o['member_id']);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 
