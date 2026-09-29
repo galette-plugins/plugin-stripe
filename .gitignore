@@ -5,3 +5,4 @@ tempcache/
 templates/
 webroot/
 vendor/
+lang/

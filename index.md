@@ -1,14 +1,20 @@
+---
+ref: home
+title: Galette Stripe
+description: Plugin to handle membership fees and donations payments with Stripe
+---
+
 This plugin provides:
 
 * a payment form,
 * a payment history,
 * automatic creation of contributions in Galette once payments are validated.
 
-**Note**: this plugin currently requires **Galette nightly version**, so **it is not recommended to use it in production at the moment**.
+> **Warning** — This plugin currently requires **Galette nightly version**, so **it is not recommended to use it in production at the moment**.
 
 ![Payment form visible by unlogged users](images/form_public.jpg)
 
-**Important**: to use this plugin, your instance of Galette must be publically accessible and served in https.
+> **Note** — To use this plugin, your instance of Galette must be publically accessible and served in https.
 
 ## Installation
 
@@ -69,7 +75,7 @@ Regular visitors (users not logged into their account) can only pay contribution
 
 It is recommended to test the plugin's functionality in sandbox mode. To learn how to set up such a testing environment, please refer to the [Stripe documentation](https://docs.stripe.com/sandboxes).
 
-**Warning**: in this mode, do not use real credit card numbers, but only test cards (see the list of test cards in [Stripe documentation](https://docs.stripe.com/testing#cards)).
+> **Warning** — In this mode, do not use real credit card numbers, but only test cards (see the list of test cards in [Stripe documentation](https://docs.stripe.com/testing#cards))
 
 ## Configure your Stripe account
 
@@ -115,7 +121,7 @@ The *API keys* required for the proper functioning of the plugin can be obtained
 
 ![API keys in developers menu](images/stripe_developers_menu_api_keys.jpg)
 
-**Important**: To reduce the potential impact of a compromise, create a *Restricted key*. This key can be created without customizing the permissions. Please refer to the [Stripe documentation](https://docs.stripe.com/keys#create-restricted-api-secret-key) for more information about restricted keys.
+> **Note** — To reduce the potential impact of a compromise, create a *Restricted key*. This key can be created without customizing the permissions. Please refer to the [Stripe documentation](https://docs.stripe.com/keys#create-restricted-api-secret-key) for more information about restricted keys.
 
 ![API keys created in Stripe account](images/stripe_api_keys.jpg)
 
