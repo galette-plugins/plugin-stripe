@@ -404,20 +404,30 @@ class StripeController extends AbstractPluginController
         $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
         if (!empty($stripe_signatures)) {
             try {
-                \Stripe\Webhook::constructEvent((string)$body, $stripe_signatures[0], $stripe->getWebhookSecret());
+                \Stripe\Webhook::constructEvent(
+                    (string)$body,
+                    $stripe_signatures[0],
+                    (string)$stripe->getWebhookSecret()
+                );
             } catch (\Stripe\Exception\SignatureVerificationException $e) {
                 Analog::log(
                     'Error verifying webhook signature: ' . $e->getMessage(),
                     Analog::ERROR
                 );
-                return $response->withStatus(403);
+                return $response->withStatus(400);
+            } catch (\UnexpectedValueException $e) {
+                Analog::log(
+                    'Invalid webhook payload: ' . $e->getMessage(),
+                    Analog::ERROR
+                );
+                return $response->withStatus(400);
             }
         } else {
             Analog::log(
                 'Request to the webhook is not signed!',
                 Analog::ERROR
             );
-            return $response->withStatus(403);
+            return $response->withStatus(400);
         }
 
         Analog::log(
