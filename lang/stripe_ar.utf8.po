@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-02 11:54+0200\n"
-"PO-Revision-Date: 2025-07-03 15:53+0200\n"
-"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-09-29 19:56+0000\n"
+"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/galette/plugins-"
+"stripe/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:62
 msgid "Online payment"
@@ -78,7 +79,7 @@ msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:590
 msgid "Your payment has been aborted!"
-msgstr ""
+msgstr "تم إبطال عملية الدفع!"
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:47
 msgid "Stripe"
@@ -87,7 +88,7 @@ msgstr ""
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:82
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:106
 msgid "Payment form"
-msgstr ""
+msgstr "إستمارة الدفع"
 
 #: ../lib/GaletteStripe/StripeHistory.php:182
 msgid "None"
@@ -111,12 +112,12 @@ msgstr ""
 
 #: ../tempcache/stripe_success.html.twig:103
 msgid "Payment method"
-msgstr ""
+msgstr "طريقة الدفع"
 
 #: ../tempcache/stripe_success.html.twig:113
 #: ../tempcache/stripe_form.html.twig:72
 msgid "Payment reason"
-msgstr ""
+msgstr "سبب الدفع"
 
 #: ../tempcache/stripe_history.html.twig:92
 #: ../tempcache/stripe_history.html.twig:153
