@@ -52,12 +52,14 @@ class StripeController extends GaletteRoutingTestCase
     {
         parent::setUp();
         $this->api_calls = [];
-        $this->api_down = [];
         //never reach Stripe: answer as the API would
         ApiRequestor::setHttpClient(
             new class (
                 fn(array $call) => $this->api_calls[] = $call,
-                fn(string $path): bool => array_any($this->api_down, fn(string $down) => str_starts_with($path, $down))
+                fn(string $path): bool => array_filter(
+                    $this->api_down,
+                    fn(string $down) => str_starts_with($path, $down)
+                ) !== []
             ) implements ClientInterface {
                 /**
                  * @param \Closure(array<string, mixed>): mixed $record  Records calls
