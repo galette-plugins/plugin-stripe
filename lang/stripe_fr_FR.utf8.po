@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-02 11:54+0200\n"
-"PO-Revision-Date: 2026-09-29 19:56+0000\n"
+"PO-Revision-Date: 2026-09-30 06:26+0000\n"
 "Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/galette/plugins-"
 "stripe/fr/>\n"
@@ -279,7 +279,7 @@ msgstr "Devise pour les paiements"
 #: ../tempcache/stripe_preferences.html.twig:171
 msgid "Amounts can be defined in the contributions types settings."
 msgstr ""
-"Les montants peuvent être définis dans les paramètres des types de "
+"Les montants peuvent être définis depuis la configuration des types de "
 "contributions."
 
 #: ../tempcache/stripe_preferences.html.twig:215
