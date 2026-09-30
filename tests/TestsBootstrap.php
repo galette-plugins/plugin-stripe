@@ -15,7 +15,7 @@ declare(strict_types=1);
  */
 
 define('GALETTE_PLUGINS_PATH', __DIR__ . '/../../');
-$basepath = '../../../galette/';
+$basepath = __DIR__ . '/../../../'; // phpcs:ignore SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable -- used from Core testBootstrap
 
-include_once '../../../tests/TestsBootstrap.php';
+include_once __DIR__ . '/../../../../tests/TestsBootstrap.php';
 require_once __DIR__ . '/../_config.inc.php';

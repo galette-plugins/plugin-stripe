@@ -62,8 +62,9 @@ class Stripe
         $this->pubkey = null;
         $this->privkey = null;
         $this->webhook_secret = null;
+        //installation defaults
         $this->country = 'FR';
-        $this->currency = null;
+        $this->currency = 'eur';
         $this->load();
     }
 
@@ -264,7 +265,8 @@ class Stripe
     {
         try {
             $stripe = new StripeClient($this->getPrivKey());
-            $checkout_amount = $this->isZeroDecimal($currency) ? round((float)$amount) : (float)$amount * 100;
+            //19.99 * 100 is 1998.9999999999998
+            $checkout_amount = $this->isZeroDecimal($currency) ? round((float)$amount) : round((float)$amount * 100);
             $session = $stripe->checkout->sessions->create([
                 'success_url' => $this->preferences->getURL() . '/plugins/stripe/success?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $this->preferences->getURL() . '/plugins/stripe/cancel',
@@ -606,9 +608,9 @@ class Stripe
      * Is currency a zero-decimal?
      * https://docs.stripe.com/currencies#zero-decimal
      *
-     * @param string $currency Currency
+     * @param ?string $currency Currency, null when not configured
      */
-    public function isZeroDecimal(string $currency): bool
+    public function isZeroDecimal(?string $currency): bool
     {
         $zeroDecimalCurrencies = [
             "bif",
@@ -628,7 +630,7 @@ class Stripe
             "xpf"
         ];
 
-        return in_array($currency, $zeroDecimalCurrencies);
+        return in_array(strtolower((string)$currency), $zeroDecimalCurrencies, true);
     }
 
     /**

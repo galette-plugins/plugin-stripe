@@ -39,6 +39,13 @@ class StripeController extends GaletteRoutingTestCase
     private array $api_calls = [];
 
     /**
+     * Paths of the (fake) Stripe API that fail
+     *
+     * @var array<int, string>
+     */
+    private array $api_down = [];
+
+    /**
      * Set up tests
      */
     public function setUp(): void
@@ -47,12 +54,21 @@ class StripeController extends GaletteRoutingTestCase
         $this->api_calls = [];
         //never reach Stripe: answer as the API would
         ApiRequestor::setHttpClient(
-            new class (fn(array $call) => $this->api_calls[] = $call) implements ClientInterface {
+            new class (
+                fn(array $call) => $this->api_calls[] = $call,
+                fn(string $path): bool => array_filter(
+                    $this->api_down,
+                    fn(string $down) => str_starts_with($path, $down)
+                ) !== []
+            ) implements ClientInterface {
                 /**
-                 * @param \Closure(array<string, mixed>): mixed $record Records calls
+                 * @param \Closure(array<string, mixed>): mixed $record  Records calls
+                 * @param \Closure(string): bool                $is_down Is API path failing
                  */
-                public function __construct(private readonly \Closure $record)
-                {
+                public function __construct(
+                    private readonly \Closure $record,
+                    private readonly \Closure $is_down
+                ) {
                 }
 
                 /**
@@ -77,6 +93,9 @@ class StripeController extends GaletteRoutingTestCase
                 ): array {
                     ($this->record)(['method' => $method, 'url' => $absUrl, 'params' => $params]);
                     $path = (string)parse_url($absUrl, PHP_URL_PATH);
+                    if (($this->is_down)($path)) {
+                        return [json_encode(['error' => ['message' => 'Service unavailable']]), 503, []];
+                    }
                     $body = match (true) {
                         str_starts_with($path, '/v1/payment_methods/') => [
                             'id' => 'pm_test',
@@ -338,6 +357,12 @@ class StripeController extends GaletteRoutingTestCase
             ['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'],
             $params['payment_intent_data']['metadata']
         );
+
+        //amount is rounded to the cent, not truncated
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '19.99']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertCount(2, $this->api_calls);
+        $this->assertSame(1999, $this->api_calls[1]['params']['line_items'][0]['price_data']['unit_amount']);
     }
 
     /**
@@ -407,6 +432,115 @@ class StripeController extends GaletteRoutingTestCase
     }
 
     /**
+     * Payment is stored even without its details
+     */
+    public function testWebhookWithoutPaymentDetails(): void
+    {
+        $member = $this->getMemberOne();
+        $this->setStripePref('stripe_webhook_secret', 'whsec_test');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+
+        $event = $this->getSucceededEvent($member->id, 5, 1250);
+        $event['data']['object']['payment_method'] = null;
+        $event['data']['object']['latest_charge'] = null;
+        $event['data']['object']['payment_method_types'] = ['sepa_debit'];
+        $test_response = $this->postWebhook($event, 'whsec_test');
+
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $this->assertSame([], $this->api_calls);
+        $this->assertSame(1, $this->countContributions($member->id));
+        $history = $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE))->current();
+        $this->assertNull($history->payer_name);
+        $this->assertNull($history->receipt_url);
+        $this->assertSame('sepa_debit', $history->method);
+
+        //details cannot be retrieved
+        $this->api_down = ['/v1/payment_methods/'];
+        $event = $this->getSucceededEvent($member->id, 5, 1250);
+        $event['data']['object']['id'] = 'pi_other';
+        $test_response = $this->postWebhook($event, 'whsec_test');
+
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectLogEntry(Analog::WARNING, 'Unable to get details of Stripe payment pi_other');
+        $this->expectNoLogEntry();
+        $this->assertSame(2, $this->countContributions($member->id));
+    }
+
+    /**
+     * No contribution is stored when the payment cannot be added to history
+     */
+    public function testWebhookHistoryFailure(): void
+    {
+        $member = $this->getMemberOne();
+        $this->setStripePref('stripe_webhook_secret', 'whsec_test');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+
+        //too long for its column
+        $event = $this->getSucceededEvent($member->id, 5, 1250);
+        $event['data']['object']['id'] = str_repeat('pi_', 100);
+        //on PostgreSQL, an error aborts the whole test transaction
+        $savepoint = $this->zdb->isPostgres();
+        if ($savepoint) {
+            $this->zdb->db->query('SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+        $test_response = $this->postWebhook($event, 'whsec_test');
+        if ($savepoint) {
+            $this->zdb->db->query('ROLLBACK TO SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+
+        $this->assertSame(500, $test_response->getStatusCode());
+        $this->expectLogEntry(Analog::ERROR, 'Query error');
+        $this->expectLogEntry(Analog::ERROR, 'An error occurred trying to add log entry.');
+        $this->expectNoLogEntry();
+        $this->assertSame(0, $this->countHistory());
+        $this->assertSame(0, $this->countContributions($member->id));
+    }
+
+    /**
+     * Payment form is displayed even when no currency has been configured
+     */
+    public function testFormWithoutCurrency(): void
+    {
+        $this->setTypeAmount(5, 10);
+        $this->setStripePref('stripe_pubkey', 'pk_test_public');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        $delete = $this->zdb->delete(STRIPE_PREFIX . Stripe::TABLE);
+        $delete->where(['nom_pref' => 'stripe_currency']);
+        $this->zdb->execute($delete);
+
+        $test_response = $this->app->handle($this->createRequest('stripe_form'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('name="item_id" id="in5"', $body);
+        $this->assertStringContainsString('€', $body);
+    }
+
+    /**
+     * History lists stored payments
+     */
+    public function testHistory(): void
+    {
+        $member = $this->getMemberOne();
+        $this->setStripePref('stripe_webhook_secret', 'whsec_test');
+        $this->setStripePref('stripe_privkey', 'sk_test_fake');
+        $this->assertSame(
+            200,
+            $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_test')->getStatusCode()
+        );
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('stripe_history'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('pi_test', $body);
+        $this->assertStringContainsString('Jane Doe', $body);
+        $this->assertStringContainsString(mb_strtoupper($member->name) . ' ' . $member->surname, $body);
+    }
+
+    /**
      * Webhook refuses notifications while no secret is configured
      */
     public function testWebhookRefusedWithoutSecret(): void
@@ -446,7 +580,22 @@ class StripeController extends GaletteRoutingTestCase
         $this->assertSame(1, $this->countContributions($member->id));
 
         $history = $this->zdb->execute($this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE))->current();
+        $this->assertSame(StripeHistory::STATE_PROCESSED, (int)$history->state);
         $this->assertSame('Jane Doe', $history->payer_name);
+        //time is kept
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $history->history_date);
+        $this->assertEquals(12.5, $history->amount);
+
+        //Stripe sends notifications again until it gets an answer: store only once
+        $test_response = $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_test');
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectLogEntry(Analog::WARNING, 'has already been processed');
+        $this->expectNoLogEntry();
+        $this->assertSame(2, $this->countHistory());
+        $this->assertSame(1, $this->countContributions($member->id));
+        $select = $this->zdb->select(STRIPE_PREFIX . StripeHistory::TABLE);
+        $select->order(StripeHistory::PK . ' DESC');
+        $this->assertSame(StripeHistory::STATE_ALREADYDONE, (int)$this->zdb->execute($select)->current()->state);
 
         //a notification signed with another secret is refused
         $test_response = $this->postWebhook($this->getSucceededEvent($member->id, 5, 1250), 'whsec_other');

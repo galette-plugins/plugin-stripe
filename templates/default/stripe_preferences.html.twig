@@ -133,8 +133,9 @@
 
 {% block javascripts %}
     <script type="text/javascript">
+        //country is only proposed to administrators, once keys are set
         const stripeCountry = document.getElementById('stripe_country');
-        stripeCountry.addEventListener('change', function() {
+        stripeCountry?.addEventListener('change', function() {
             let countryCode = this.value;
             let refreshedCurrencies = {};
             $('#stripe_currency_field .ui.dropdown').addClass('loading disabled');
@@ -151,8 +152,8 @@
                     $('#stripe_currency_field .ui.dropdown').removeClass('loading disabled');
                     $('#stripe_currency_field .ui.dropdown').transition('glow');
                 },
-                error: function(error) {
-                    console.log('Error fetching data:', error);
+                error: function() {
+                    $('#stripe_currency_field .ui.dropdown').removeClass('loading disabled');
                 }
             });
         });

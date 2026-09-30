@@ -75,27 +75,46 @@ class StripeHistory extends History
     {
         $stripe = new Stripe($this->zdb, $this->preferences);
         $request = $action;
-        $payment_method = $this->getStripePaymentMethod($request['data']['object']['payment_method']);
-        $charge = $this->getStripeCharge($request['data']['object']['latest_charge']);
+        $intent = $request['data']['object'];
+
+        //payer, method and receipt are details: the payment is stored without them
+        $payment_method = [];
+        $charge = [];
+        try {
+            if (!empty($intent['payment_method'])) {
+                $payment_method = $this->getStripePaymentMethod($intent['payment_method']);
+            }
+            if (!empty($intent['latest_charge'])) {
+                $charge = $this->getStripeCharge($intent['latest_charge']);
+            }
+        } catch (\Throwable $e) {
+            Analog::log(
+                'Unable to get details of Stripe payment ' . $intent['id'] . ' | ' . $e->getMessage(),
+                Analog::WARNING
+            );
+        }
 
         try {
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
-                'intent_id'     => $request['data']['object']['id'],
-                'payer_name'    => $payment_method['billing_details']['name'],
-                'member_id'     => $request['data']['object']['metadata']['member_id'] ?? 0,
-                'comments'      => $request['data']['object']['metadata']['item_name'],
-                'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $request['data']['object']['amount'] : $request['data']['object']['amount'] / 100,
-                'method'        => $payment_method['type'],
+                'intent_id'     => $intent['id'],
+                'payer_name'    => $payment_method['billing_details']['name'] ?? null,
+                'member_id'     => $intent['metadata']['member_id'] ?? 0,
+                'comments'      => $intent['metadata']['item_name'] ?? null,
+                'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $intent['amount'] : $intent['amount'] / 100,
+                'method'        => $payment_method['type'] ?? $intent['payment_method_types'][0] ?? '',
                 'state'         => self::STATE_NONE,
-                'receipt_url'   => $charge['receipt_url'],
+                'receipt_url'   => $charge['receipt_url'] ?? null,
                 'request'       => Galette::jsonEncode($request)
             ];
 
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            $this->id = (int)$this->zdb->driver->getLastGeneratedValue();
+            //without the sequence name, pgsql gives no value
+            $this->id = (int)$this->zdb->connection->getLastGeneratedValue(
+                $this->zdb->isPostgres() ? $this->zdb->getSequenceName($this->getTableName(), 'id', prefixed: true) : null
+            );
 
             Analog::log(
                 'An entry has been added in stripe history',
@@ -150,12 +169,13 @@ class StripeHistory extends History
             foreach ($orig as $o) {
                 try {
                     if (Galette::isSerialized($o['request'])) {
-                        $oa = unserialize($o['request']);
+                        //legacy entries: only plain data is expected
+                        $oa = unserialize($o['request'], ['allowed_classes' => false]);
                     } else {
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
-                    $o['member_fullname'] = $this->getMemberFullName($o['member_id']);
+                    $o['member_fullname'] = $this->getMemberFullName((int)$o['member_id']);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 
