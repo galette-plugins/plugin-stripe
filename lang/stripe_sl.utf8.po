@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-30 12:25+0200\n"
-"PO-Revision-Date: 2026-09-29 19:56+0000\n"
-"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
+"PO-Revision-Date: 2026-09-30 11:43+0000\n"
+"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/galette/"
 "plugins-stripe/sl/>\n"
 "Language: sl\n"
@@ -127,7 +127,7 @@ msgstr "Način plačila"
 #: ../templates/default/stripe_success.html.twig:35
 #: ../templates/default/stripe_form.html.twig:15
 msgid "Payment reason"
-msgstr ""
+msgstr "Razlog za plačilo"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:107
@@ -267,7 +267,7 @@ msgstr ""
 
 #: ../templates/default/stripe_preferences.html.twig:92
 msgid "Amounts can be defined in the contributions types settings."
-msgstr ""
+msgstr "Zneske je mogoče določiti v nastavitvah vrst prispevkov."
 
 #: ../templates/default/stripe_preferences.html.twig:108
 msgid ""
