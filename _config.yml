@@ -7,9 +7,9 @@ plugin:
   min_galette: "nightly"
 defaults:
   - scope: {path: ""}
-    values: {layout: default, lang: en}
+    values: {layout: default}
 # Without this, README.md would be copied into the published site. It used to be
-# the index page; index.md is now, which is what gives the theme a `ref: home`
+# the index page; index.md is now, which the theme reads as the home page
 # to build the menu and the language selector from.
 exclude:
   - README.md

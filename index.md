@@ -1,5 +1,4 @@
 ---
-ref: home
 title: Galette Stripe
 description: Plugin to handle membership fees and donations payments with Stripe
 ---
