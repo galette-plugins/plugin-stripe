@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-30 12:25+0200\n"
-"PO-Revision-Date: 2026-09-29 19:56+0000\n"
-"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
+"PO-Revision-Date: 2026-09-30 11:43+0000\n"
+"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/galette/"
 "plugins-stripe/pt/>\n"
 "Language: pt\n"
@@ -267,6 +267,7 @@ msgstr ""
 #: ../templates/default/stripe_preferences.html.twig:92
 msgid "Amounts can be defined in the contributions types settings."
 msgstr ""
+"Os valores podem ser definidos nas configurações dos tipos de contribuição."
 
 #: ../templates/default/stripe_preferences.html.twig:108
 msgid ""
