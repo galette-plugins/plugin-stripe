@@ -15,7 +15,7 @@ Ce plugin fournit :
 ![Formulaire de paiement visible par les utilisateurs non
 connectés](images/form_public.jpg)
 
-> **Note** — To use this plugin, your instance of Galette must be publically
+> **Note** — To use this plugin, your instance of Galette must be publicly
 > accessible and served in https.
 
 ## Installation
