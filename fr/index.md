@@ -15,20 +15,21 @@ Ce plugin fournit :
 ![Formulaire de paiement visible par les utilisateurs non
 connectés](images/form_public.jpg)
 
-> **Note** — To use this plugin, your instance of Galette must be publicly
-> accessible and served in https.
+> **Note** — Pour utiliser ce plugin, votre instance de Galette doit être
+> accessible publiquement et servie en https.
 
 ## Installation
 
-First of all, download the plugin:
+Tout d'abord, téléchargez le plugin :
 
 [![Get latest Stripe
 plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1)
 [![Get Stripe plugin nightly
 build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-linux (replacing *{url}* and *{version}* with the corresponding values):
+Décompressez l'archive téléchargée dans le répertoire `plugins` de Galette. Par
+exemple, sous linux (en remplaçant *{url}* et *{version}* par les valeurs
+correspondantes) :
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -36,28 +37,29 @@ $ wget {url}
 $ tar xjvf galette-plugin-stripe-{version}.tar.bz2
 ```
 
-## Database initialisation
+## Initialisation de la base de données
 
-In order to work, this plugin requires several tables in the database. See the
-[Galette plugins management
-interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
+Pour fonctionner, ce plugin requiert des tables dans la base de données.
+Référez-vous [à l'interface de gestion des plugins de
+Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that’s it, the *Stripe* plugin is installed. :)
+Et c'est tout, le plugin *Stripe* est installé. :)
 
-## Plugin usage
+## Utilisation
 
 When the plugin is installed, a Stripe group is added to the Galette menu when a
 user is logged in, allowing administrators and staff members to define the
 settings of the plugin and view payment history.
 
-![Plugin's menu](images/galette_menu.jpg)
+![Menu du plugin](images/galette_menu.jpg)
 
-The payment form is accessible from Galette's public pages.
+Le formulaire de paiement est accessible depuis les pages publiques de Galette.
 
-Only users logged into their account can pay contributions with a membership
-extension (or membership fees).
+Seuls les utilisateurs connectés à leur compte peuvent payer des contributions
+avec extension d'adhésion (ou cotisations).
 
-![Payment form visible by logged in users](images/form.jpg)
+![Formulaire de paiement visible par les utilisateurs non
+connectés](images/form.jpg)
 
 Regular visitors (users not logged into their account) can only pay
 contributions without a membership extension (or donations). In this case, no
@@ -65,11 +67,11 @@ contribution is automatically created in Galette, the payment only appears in
 the plugin's payment history with the value “None” entered in the “Member”
 column.
 
-![Payment history screen](images/history.jpg)
+![Écran de l'historique des paiements](images/history.jpg)
 
-## Settings
+## Paramètres
 
-![Settings screen](images/settings.jpg)
+![Écran des préférences](images/settings.jpg)
 
 * **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your
   association’s account on Stripe ([read more
@@ -100,7 +102,7 @@ column.
   will not be offered as payment reasons on the form, even if they are not
   marked as inactive in the table.*
 
-### Note about the sandbox mode
+### Note sur le mode bac à sable
 
 ![Stripe sandbox mode](images/stripe_menu_sandbox_mode.jpg)
 
