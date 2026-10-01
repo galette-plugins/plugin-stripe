@@ -13,7 +13,7 @@ This plugin provides:
 
 ![Payment form visible by unlogged users](images/form_public.jpg)
 
-> **Note** — To use this plugin, your instance of Galette must be publically accessible and served in https.
+> **Note** — To use this plugin, your instance of Galette must be publicly accessible and served in https.
 
 ## Installation
 
