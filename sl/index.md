@@ -123,11 +123,11 @@ account. You can find this information in your account settings:
 
 ![Stripe settings menu](images/stripe_menu_settings.jpg)
 
-* *Settings > Business > Account details*
+* *Nastavitve > Podjetje > Podrobnosti računa*
 
 ![Country defined in the account settings](images/stripe_settings_country.jpg)
 
-* *Settings > Business > Bank accounts and currencies*
+* *Nastavitve > Podjetje > Bančni računi in valute*
 
 ![Currency defined in the account settings](images/stripe_settings_currency.jpg)
 
@@ -175,7 +175,7 @@ from the *Developers* menu (located at the bottom left of your dashboard):
 Stripe offers many payment methods. In your account settings, you should enable
 only the methods you wish to use.
 
-* *Settings > Payments > Payment methods*
+* *Nastavitve > Plačila > Plačilna sredstva*
 
 ![Payment methods defined in the account
 settings](images/stripe_settings_payment_methods.jpg)
