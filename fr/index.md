@@ -1,18 +1,19 @@
 ---
 title: Galette Stripe
-description: Plugin to handle membership fees and donations payments with Stripe
+description: Plugin pour gérer les paiements de cotisations et de dons via Stripe
 ---
 
-This plugin provides:
+Ce plugin fournit :
 
-* a payment form,
-* a payment history,
-* automatic creation of contributions in Galette once payments are validated.
+* un formulaire de paiement,
+* un historique des paiements,
+* la création automatique de contributions une fois les paiements validés.
 
 > **Warning** — This plugin currently requires **Galette nightly version**, so
 > **it is not recommended to use it in production at the moment**.
 
-![Payment form visible by unlogged users](images/form_public.jpg)
+![Formulaire de paiement visible par les utilisateurs non
+connectés](images/form_public.jpg)
 
 > **Note** — To use this plugin, your instance of Galette must be publically
 > accessible and served in https.
