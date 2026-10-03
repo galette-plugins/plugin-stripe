@@ -1,33 +1,33 @@
 ---
-title: Galette Stripe
-description: Plugin to handle membership fees and donations payments with Stripe
+title: Galette Strip
+description: Vtičnik za upravljanje članarin in plačil donacij s Stripe
 ---
 
-This plugin provides:
+Ta vtičnik zagotavlja:
 
-* a payment form,
-* a payment history,
-* automatic creation of contributions in Galette once payments are validated.
+* obrazec za plačilo,
+* zgodovino plačil,
+* samodejno ustvarjanje prispevkov v Galette, ko so plačila potrjena.
 
-> **Warning** — This plugin currently requires **Galette nightly version**, so
-> **it is not recommended to use it in production at the moment**.
+> **Opozorilo** — Ta vtičnik trenutno zahteva **nočno različico Galette**, zato
+> **trenutno ni priporočljivo, da bi ga uporabljali v proizvodnji**.
 
-![Payment form visible by unlogged users](images/form_public.jpg)
+![Plačilni obrazec viden neprijavljenim uporabnikom](images/form_public.jpg)
 
-> **Note** — To use this plugin, your instance of Galette must be publicly
-> accessible and served in https.
+> **Opomba** — Če želite uporabljati ta vtičnik, mora biti vaš primerek Galette
+> javno dostopen in postrežen na https.
 
-## Installation
+## Namestitev
 
-First of all, download the plugin:
+Najprej prenesite vtičnik:
 
-[![Get latest Stripe
-plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1)
-[![Get Stripe plugin nightly
-build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
+[![Pridobite najnovejši vtičnik
+Stripe!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1)
+[![Pridobite nočno gradnjo vtičnika
+Stripe!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-linux (replacing *{url}* and *{version}* with the corresponding values):
+Ekstrahirajte preneseni arhiv v imenik Galette `plugins`. Na primer v linuxu
+(zamenjava *{url}* in *{version}* z ustreznima vrednostma):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -35,147 +35,149 @@ $ wget {url}
 $ tar xjvf galette-plugin-stripe-{version}.tar.bz2
 ```
 
-## Database initialisation
+## Inicializacija baze podatkov
 
-In order to work, this plugin requires several tables in the database. See the
-[Galette plugins management
-interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
+Za delovanje ta vtičnik potrebuje več tabel v bazi podatkov. Oglejte si [vmesnik
+za upravljanje vtičnikov
+Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that’s it, the *Stripe* plugin is installed. :)
+In to je to, vtičnik *Stripe* je nameščen. :)
 
-## Plugin usage
+## Uporaba vtičnika
 
-When the plugin is installed, a Stripe group is added to the Galette menu when a
-user is logged in, allowing administrators and staff members to define the
-settings of the plugin and view payment history.
+Ko je vtičnik nameščen, je skupina Stripe dodana v meni Galette, ko je uporabnik
+prijavljen, kar omogoča skrbnikom in članom osebja, da določijo nastavitve
+vtičnika in si ogledajo zgodovino plačil.
 
-![Plugin's menu](images/galette_menu.jpg)
+![Meni vtičnika](images/galette_menu.jpg)
 
-The payment form is accessible from Galette's public pages.
+Obrazec za plačilo je dostopen na javnih straneh Galette.
 
-Only users logged into their account can pay contributions with a membership
-extension (or membership fees).
+Prispevke s podaljšanjem članstva (oz. članarino) lahko plačujejo le uporabniki,
+ki so prijavljeni v svoj račun.
 
-![Payment form visible by logged in users](images/form.jpg)
+![Plačilni obrazec viden prijavljenim uporabnikom](images/form.jpg)
 
-Regular visitors (users not logged into their account) can only pay
-contributions without a membership extension (or donations). In this case, no
-contribution is automatically created in Galette, the payment only appears in
-the plugin's payment history with the value “None” entered in the “Member”
-column.
+Redni obiskovalci (uporabniki, ki niso prijavljeni v svoj račun) lahko plačajo
+samo prispevke brez podaljšanja članstva (ali donacije). V tem primeru se
+prispevek v Galette ne ustvari samodejno, plačilo se pojavi samo v zgodovini
+plačil vtičnika z vrednostjo “Brez“, vneseno v stolpcu “Član“.
 
-![Payment history screen](images/history.jpg)
+![Zaslon zgodovine plačil](images/history.jpg)
 
-## Settings
+## Nastavitve
 
-![Settings screen](images/settings.jpg)
+![Zaslon z nastavitvami](images/settings.jpg)
 
-* **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your
-  association’s account on Stripe ([read more
-  below](#create-a-webhook-and-get-the-corresponding-secret-key)).
-* **Stripe webhook event**: name of the event to use to create a “Webhook” in
-  your association’s account on Stripe ([read more
-  below](#create-a-webhook-and-get-the-corresponding-secret-key)).
-* **Stripe public key**: you will find this information in your association’s
-  account on Stripe ([read more below](#get-the-api-keys)).
-* **Stripe secret key**: you will find this information in your association’s
-  account on Stripe ([read more below](#get-the-api-keys)).
-* **Stripe webhook secret key**: you will find this information in the details
-  of the "Webhook" you need to create in your association’s account on Stripe
-  ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
-* **Country of your Stripe account**: choose a country according to your Stripe
-  account settings ([read more
-  below](#get-the-country-and-currency-defined-in-your-account-settings)).
-* **Currency for payments**: choose a currency according to your Stripe account
-  settings ([read more
-  below](#get-the-country-and-currency-defined-in-your-account-settings)).
-* **Contribution types**: in this table, you can disable [contribution types
-  configured in
-  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to be offered as a payment reason on the online payment
-  form.
+* **URL končne točke webhooka Stripe**: URL za ustvarjanje “Webhooka“ v računu
+  vašega združenja na Stripe ([preberite več
+  spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Dogodek webhook Stripe**: ime dogodka za ustvarjanje “Webhooka“ v računu
+  vašega združenja na Stripe ([preberite več
+  spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Javni ključ Stripe**: te informacije boste našli v računu svojega združenja
+  na Stripe ([preberite več spodaj](#get-the-api-keys)).
+* **Skrivni ključ Stripe**: te informacije boste našli v računu svojega
+  združenja na Stripe ([preberite več spodaj](#get-the-api-keys)).
+* **Skrivni ključ webhooka Stripe**: te informacije boste našli v podrobnostih o
+  "Webhooku", ki ga morate ustvariti v računu svojega združenja na Stripe
+  ([preberite več
+  spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
+* **Država vašega računa Stripe**: izberite državo glede na nastavitve vašega
+  računa Stripe ([preberite več
+  spodaj](#get-the-country-and-currency-defined-in-your-account-settings)).
+* **Valuta za plačila**: izberite valuto glede na nastavitve računa Stripe
+  ([preberite več
+  spodaj](#get-the-country-and-currency-defined-in-your-account-settings)).
+* **Vrste prispevkov**: v tej tabeli lahko onemogočite [vrste prispevkov,
+  konfigurirane v
+  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types),
+  za katere ne želite, da so ponujene kot razlog za plačilo na obrazcu za
+  spletno plačilo.
 
-  *Contribution types with a zero amount, or whose amount is not configured,
-  will not be offered as payment reasons on the form, even if they are not
-  marked as inactive in the table.*
+  *Vrste prispevkov z ničelnim zneskom ali katerih znesek ni konfiguriran, ne
+  bodo ponujeni kot razlogi za plačilo na obrazcu, tudi če v tabeli niso
+  označeni kot neaktivni.*
 
-### Note about the sandbox mode
+### Opomba o načinu peskovnika
 
-![Stripe sandbox mode](images/stripe_menu_sandbox_mode.jpg)
+![Način črtastega peskovnika](images/stripe_menu_sandbox_mode.jpg)
 
-It is recommended to test the plugin's functionality in sandbox mode. To learn
-how to set up such a testing environment, please refer to the [Stripe
-documentation](https://docs.stripe.com/sandboxes).
+Priporočamo, da preizkusite delovanje vtičnika v načinu peskovnika. Če želite
+izvedeti, kako nastaviti takšno testno okolje, si oglejte [dokumentacijo
+Stripe](https://docs.stripe.com/sandboxes).
 
-> **Warning** — In this mode, do not use real credit card numbers, but only test
-> cards (see the list of test cards in [Stripe
-> documentation](https://docs.stripe.com/testing#cards))
+> **Opozorilo** — V tem načinu ne uporabljajte pravih številk kreditnih kartic,
+> ampak samo testne kartice (glejte seznam testnih kartic v [dokumentaciji
+> Stripe](https://docs.stripe.com/testing#cards))
 
-## Configure your Stripe account
+## Konfigurirajte svoj račun Stripe
 
-To learn how to create an account, please refer to the [Stripe
-documentation](https://docs.stripe.com/get-started/account).
+Če želite izvedeti, kako ustvariti račun, si oglejte [dokumentacijo
+Stripe](https://docs.stripe.com/get-started/account).
 
-### Get the country and currency defined in your account settings
+### V nastavitvah računa določite državo in valuto
 
-The choice of a country and a currency is usually requested when creating your
-account. You can find this information in your account settings:
+Izbira države in valute se običajno zahteva pri ustvarjanju vašega računa. Te
+informacije najdete v nastavitvah računa:
 
-![Stripe settings menu](images/stripe_menu_settings.jpg)
+![Meni z nastavitvami Stripe](images/stripe_menu_settings.jpg)
 
 * *Nastavitve > Podjetje > Podrobnosti računa*
 
-![Country defined in the account settings](images/stripe_settings_country.jpg)
+![država določena v nastavitvah računa](images/stripe_settings_country.jpg)
 
 * *Nastavitve > Podjetje > Bančni računi in valute*
 
-![Currency defined in the account settings](images/stripe_settings_currency.jpg)
+![Valuta, določena v nastavitvah računa](images/stripe_settings_currency.jpg)
 
-### Create a Webhook and get the corresponding secret key
+### Ustvarite Webhook in pridobite ustrezen skrivni ključ
 
-The *Webhook* required for the proper functioning of the plugin can be created
-from the *Developers* menu (located at the bottom left of your dashboard):
+*Webhook*, ki je potreben za pravilno delovanje vtičnika, lahko ustvarite v
+meniju *Razvijalci* (nahaja se na spodnji levi strani vaše nadzorne plošče):
 
-![Webhooks in developers menu](images/stripe_developers_menu_webhooks.jpg)
+![Webhooks v meniju za razvijalce](images/stripe_developers_menu_webhooks.jpg)
 
-The *Endpoint URL* to define in your webhook is indicated in the plugin settings
-(example: `https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
+*URL končne točke*, ki ga želite določiti v svojem webhooku, je naveden v
+nastavitvah vtičnika (primer:
+`https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
 
-Only one *Event* needs to be defined in your webhook. It is also indicated in
-the plugin settings; it is `payment_intent.succeeded`.
+Samo en *Event* mora biti definiran v vašem webhooku. Navedeno je tudi v
+nastavitvah vtičnika; je `payment_intent.succeeded`.
 
-![Webhook created in Stripe account](images/stripe_webhook_config.jpg)
+![Webhook ustvarjen v računu Stripe](images/stripe_webhook_config.jpg)
 
-Once created, you need to get the *webhook secret key* to define in the plugin
-settings. From the list of webhooks, click on the one your created:
+Ko je ustvarjen, morate dobiti *skrivni ključ webhook*, ki ga želite določiti v
+nastavitvah vtičnika. Na seznamu webhookov kliknite tistega, ki ste ga
+ustvarili:
 
-![Webhooks list in Stripe account](images/stripe_webhooks_list.jpg)
+![Seznam spletnih povezav v računu Stripe](images/stripe_webhooks_list.jpg)
 
-The *webhook secret key* can be copied from it's details:
+*Skrivni ključ webhooka* je mogoče kopirati iz njegovih podrobnosti:
 
-![Webhook secret](images/stripe_webhook_secret.jpg)
+![Skrivnost spletnega trnka](images/stripe_webhook_secret.jpg)
 
-### Get the API keys
+### Pridobite ključe API
 
-The *API keys* required for the proper functioning of the plugin can be obtained
-from the *Developers* menu (located at the bottom left of your dashboard):
+*API ključe*, ki so potrebni za pravilno delovanje vtičnika, lahko dobite v
+meniju *Razvijalci* (nahaja se v spodnjem levem kotu nadzorne plošče):
 
-![API keys in developers menu](images/stripe_developers_menu_api_keys.jpg)
+![Ključi API-ja v meniju za
+razvijalce](images/stripe_developers_menu_api_keys.jpg)
 
-> **Note** — To reduce the potential impact of a compromise, create a
-> *Restricted key*. This key can be created without customizing the permissions.
-> Please refer to the [Stripe
-> documentation](https://docs.stripe.com/keys#create-restricted-api-secret-key)
-> for more information about restricted keys.
+> **Opomba** — Če želite zmanjšati potencialni vpliv kompromisa, ustvarite
+> *Omejeni ključ*. Ta ključ je mogoče ustvariti brez prilagajanja dovoljenj. Za
+> več informacij o omejenih ključih si oglejte [dokumentacijo
+> Stripe](https://docs.stripe.com/keys#create-restricted-api-secret-key).
 
-![API keys created in Stripe account](images/stripe_api_keys.jpg)
+![Ključi API-ja, ustvarjeni v računu Stripe](images/stripe_api_keys.jpg)
 
-### Enable the necessary payment methods
+### Omogočite potrebne načine plačila
 
-Stripe offers many payment methods. In your account settings, you should enable
-only the methods you wish to use.
+Stripe ponuja veliko načinov plačila. V nastavitvah računa morate omogočiti samo
+metode, ki jih želite uporabiti.
 
 * *Nastavitve > Plačila > Plačilna sredstva*
 
-![Payment methods defined in the account
-settings](images/stripe_settings_payment_methods.jpg)
+![Načini plačila, določeni v nastavitvah
+računa](images/stripe_settings_payment_methods.jpg)
