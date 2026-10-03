@@ -7,9 +7,10 @@ Ce plugin fournit :
 
 * un formulaire de paiement,
 * un historique des paiements,
-* la création automatique de contributions une fois les paiements validés.
+* la création automatique de contributions dans Galette une fois les paiements
+  validés.
 
-> **Attention** — Ce plugin nécessite actuellement **la version nightly de
+> **Warning** — Ce plugin nécessite actuellement **la version nightly de
 > Galette**, donc **il n'est pas recommandé de l'utiliser en production pour le
 > moment**.
 
@@ -23,7 +24,7 @@ connectés](images/form_public.jpg)
 
 Tout d'abord, téléchargez le plugin :
 
-[![Obtenir le dernier plugin Stripe
+[![Obtenir la dernière version du plugin Stripe
 !](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1)
 [![Obtenir la nightly du plugin Stripe
 !](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
@@ -64,19 +65,19 @@ avec extension d'adhésion (ou cotisations).
 connectés](images/form.jpg)
 
 Les visiteurs standards (les utilisateurs non connectés à leur compte) ne
-peuvent payer que des contributions sans prolongation d'adhésion (ou des dons).
-Dans ce cas, aucune contribution n'est créée automatiquement dans Galette, le
+peuvent payer que des contributions sans prolongation d'adhésion (ou dons). Dans
+ce cas, aucune contribution n'est créée automatiquement dans Galette, le
 paiement n'apparaît que dans l'historique de paiement du plugin avec la valeur
-“Aucune” entrée dans la colonne “Adhérent”.
+“Aucun” entrée dans la colonne “Adhérent”.
 
 ![Écran de l'historique des paiements](images/history.jpg)
 
-## Paramètres
+## Préférences
 
 ![Écran des préférences](images/settings.jpg)
 
-* **URL du webhook Stripe** : URL à utiliser pour créer un « Webhook » dans le
-  compte de votre association sur Stripe ([lire plus
+* **URL du point de terminaison du webhook Stripe** : URL à utiliser pour créer
+  un « Webhook » dans le compte de votre association sur Stripe ([lire plus
   bas](#create-a-webhook-and-get-the-corresponding-secret-key)).
 * **Évènement webhook Stripe** : nom de l'évènement à utiliser pour créer un «
   Webhook » sur le compte Stripe de votre association ([lire plus
@@ -101,9 +102,10 @@ paiement n'apparaît que dans l'historique de paiement du plugin avec la valeur
   que vous ne souhaitez pas voir proposés comme motif de paiement sur le
   formulaire de paiement en ligne.
 
-  *Les types de cotisation avec un montant nul, ou dont le montant n'est pas
-  configuré, ne seront pas offerts comme raisons de paiement sur le formulaire,
-  même s'ils ne sont pas marqués comme inactifs dans le tableau.*
+  *Les types de contribution dont le montant est nul, ou dont le montant n'est
+  pas configuré, ne seront pas proposés comme motifs de paiement sur le
+  formulaire, même ci ceux-ci ne sont pas marqués comme inactifs dans le
+  tableau.*
 
 ### Note sur le mode bac à sable
 
@@ -113,7 +115,7 @@ Il est recommandé de tester les fonctionnalités du plugin en mode bac à sable
 Pour savoir comment mettre en place un tel environnement d'essai, veuillez vous
 référer à la [documentation de Stripe](https://docs.stripe.com/sandboxes).
 
-> **Attention** — Dans ce mode, n'utilisez pas de numéros de carte de crédit
+> **Warning** — Dans ce mode, n'utilisez pas de numéros de carte de crédit
 > réels, mais seulement des cartes de test (voir la liste des cartes de test
 > dans la [documentation de Stripe](https://docs.stripe.com/testing#cards))
 
@@ -128,13 +130,13 @@ Le choix d'un pays et d'une devise est généralement demandé lors de la créat
 de votre compte. Vous pouvez trouver ces informations dans les paramètres de
 votre compte :
 
-![Menu des préférences Stripe](images/stripe_menu_settings.jpg)
+![Menu des paramètres de Stripe](images/stripe_menu_settings.jpg)
 
-* *Préférences > Business > Détails du compte*
+* *Paramètres > Entreprise > Informations du compte*
 
 ![Pays défini dans les paramètres du compte](images/stripe_settings_country.jpg)
 
-* *Préférences > Business > Comptes bancaires et devises*
+* *Paramètres > Entreprise > Comptes bancaires et devises*
 
 ![Devise définie dans les paramètres du
 compte](images/stripe_settings_currency.jpg)
@@ -146,11 +148,12 @@ du menu *Développeurs* (situé en bas à gauche de votre tableau de bord) :
 
 ![Webhooks dans le meu développeurs](images/stripe_developers_menu_webhooks.jpg)
 
-L'*URL* pour définir dans votre webhook est indiquée dans les paramètres du
-plugin (exemple : `https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
+L'*URL du point de terminaison* à définir dans votre webhook est indiquée dans
+les préférences du plugin (exemple :
+`https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
 
 Un seul *Évènement* doit être défini dans votre webhook. Il est également
-indiqué dans les paramètres du plugin ; c'est `payment_intent.succeed`.
+indiqué dans les préférences du plugin ; c'est `payment_intent.succeed`.
 
 ![Webhook créé dans le compte Stripe](images/stripe_webhook_config.jpg)
 
@@ -160,32 +163,33 @@ vous avez créé :
 
 ![Liste des Webhooks dans le compte Stripe](images/stripe_webhooks_list.jpg)
 
-La *clé secrète du webhook secret key* peut être copiée depuis ses détails :
+La *clé secrète du webhook* peut être copiée depuis ses détails :
 
 ![Secret Webhook](images/stripe_webhook_secret.jpg)
 
-### Obtenir les clés API
+### Obtenir les clés d'API
 
-Le *Clés d'API* requis pour le bon fonctionnement du plugin peut être créé à
-partir du menu *Développeurs* (situé en bas à gauche de votre tableau de bord) :
+Les *Clés d'API* requises pour le bon fonctionnement du plugin peuvent être
+créées à partir du menu *Développeurs* (situé en bas à gauche de votre tableau
+de bord) :
 
-![Clés API dans le menu
+![Clés d'API dans le menu
 développeurs](images/stripe_developers_menu_api_keys.jpg)
 
-> **Note** — Pour réduire l'impact potentiel d'un compromis, créez une clé
+> **Note** — Pour réduire l'impact potentiel d'une compromission, créez une clé
 > *restreinte*. Cette clé peut être créée sans personnaliser les permissions.
 > Veuillez consulter la [documentation
 > Stripe](https://docs.stripe.com/keys#create-restricted-api-secret-key) pour
 > plus d'informations sur les clés restreintes.
 
-![Clés API créés dans le compte Stripe](images/stripe_api_keys.jpg)
+![Clés d'API créés dans le compte Stripe](images/stripe_api_keys.jpg)
 
-### Activer les méthodes de paiement nécessaires
+### Activer les moyens de paiement nécessaires
 
-Stripe offre de nombreuses méthodes de paiement. Dans les paramètres de votre
-compte, vous devez activer uniquement les méthodes que vous souhaitez utiliser.
+Stripe offre de nombreux moyens de paiement. Dans les paramètres de votre
+compte, vous devez activer uniquement les moyens que vous souhaitez utiliser.
 
-* *Paramètres > Paiements > Méthodes de paiement*
+* *Paramètres > Paiements > Moyens de paiement*
 
-![Les méthodes de paiement définies dans les paramètres du
+![Les moyens de paiement définis dans les paramètres du
 compte](images/stripe_settings_payment_methods.jpg)
