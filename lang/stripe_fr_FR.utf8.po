@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-09-30 12:25+0200\n"
-"PO-Revision-Date: 2026-10-03 19:26+0000\n"
+"PO-Revision-Date: 2026-10-03 21:06+0000\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/galette/plugins-"
 "stripe/fr/>\n"
@@ -240,7 +240,7 @@ msgstr ""
 
 #: ../templates/default/stripe_preferences.html.twig:28
 msgid "Stripe webhook endpoint URL"
-msgstr "URL du webhook Stripe"
+msgstr "URL du point de terminaison du webhook Stripe"
 
 #: ../templates/default/stripe_preferences.html.twig:32
 msgid "Stripe webhook event"
