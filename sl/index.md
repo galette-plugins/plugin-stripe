@@ -9,12 +9,12 @@ Ta vtičnik zagotavlja:
 * zgodovino plačil,
 * samodejno ustvarjanje prispevkov v Galette, ko so plačila potrjena.
 
-> **Opozorilo** — Ta vtičnik trenutno zahteva **nočno različico Galette**, zato
+> **Warning** — Ta vtičnik trenutno zahteva **nočno različico Galette**, zato
 > **trenutno ni priporočljivo, da bi ga uporabljali v proizvodnji**.
 
 ![Plačilni obrazec viden neprijavljenim uporabnikom](images/form_public.jpg)
 
-> **Opomba** — Če želite uporabljati ta vtičnik, mora biti vaš primerek Galette
+> **Note** — Če želite uporabljati ta vtičnik, mora biti vaš primerek Galette
 > javno dostopen in postrežen na https.
 
 ## Namestitev
@@ -107,7 +107,7 @@ Priporočamo, da preizkusite delovanje vtičnika v načinu peskovnika. Če želi
 izvedeti, kako nastaviti takšno testno okolje, si oglejte [dokumentacijo
 Stripe](https://docs.stripe.com/sandboxes).
 
-> **Opozorilo** — V tem načinu ne uporabljajte pravih številk kreditnih kartic,
+> **Warning** — V tem načinu ne uporabljajte pravih številk kreditnih kartic,
 > ampak samo testne kartice (glejte seznam testnih kartic v [dokumentaciji
 > Stripe](https://docs.stripe.com/testing#cards))
 
@@ -165,7 +165,7 @@ meniju *Razvijalci* (nahaja se v spodnjem levem kotu nadzorne plošče):
 ![Ključi API-ja v meniju za
 razvijalce](images/stripe_developers_menu_api_keys.jpg)
 
-> **Opomba** — Če želite zmanjšati potencialni vpliv kompromisa, ustvarite
+> **Note** — Če želite zmanjšati potencialni vpliv kompromisa, ustvarite
 > *Omejeni ključ*. Ta ključ je mogoče ustvariti brez prilagajanja dovoljenj. Za
 > več informacij o omejenih ključih si oglejte [dokumentacijo
 > Stripe](https://docs.stripe.com/keys#create-restricted-api-secret-key).
