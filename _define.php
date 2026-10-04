@@ -24,5 +24,5 @@ $this->register(
         'filter_stripe_history'     => 'staff',
         'refresh_currencies'        => 'admin'
     ],
-    dbver: 1.1                                                  //DB version
+    dbver: 1.00                                                 //DB version
 );
