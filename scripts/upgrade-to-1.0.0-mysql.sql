@@ -27,7 +27,8 @@ ALTER TABLE galette_stripe_history
   MODIFY request text;
 
 -- Previous versions stored the serialized payment metadata only, with the member
--- as "adherent_id"; their states were 0 (public donation), 2 (done) and 3 (error)
+-- as "adherent_id", and card was the only payment method; their states were
+-- 0 (public donation), 2 (done) and 3 (error)
 UPDATE galette_stripe_history
 SET
   state = CASE state
@@ -40,7 +41,8 @@ SET
     WHEN request REGEXP '"adherent_id";s:[0-9]+:"[0-9]+"'
       THEN CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(request, '"adherent_id";s:', -1), '"', 2), '"', -1) AS UNSIGNED)
     ELSE 0
-  END;
+  END,
+  method = 'card';
 
 ALTER TABLE galette_stripe_preferences
   ENGINE=InnoDB,
