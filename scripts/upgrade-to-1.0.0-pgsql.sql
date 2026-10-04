@@ -22,8 +22,14 @@ ALTER TABLE galette_stripe_history
   ALTER COLUMN member_id DROP DEFAULT,
   ALTER COLUMN method DROP DEFAULT;
 
+-- Keep time of payments, and do not store amounts as floating point numbers
+ALTER TABLE galette_stripe_history
+  ALTER COLUMN history_date TYPE timestamp,
+  ALTER COLUMN amount TYPE numeric(15,2);
+
 -- Previous versions stored the serialized payment metadata only, with the member
--- as "adherent_id"; their states were 0 (public donation), 2 (done) and 3 (error)
+-- as "adherent_id", and card was the only payment method; their states were
+-- 0 (public donation), 2 (done) and 3 (error)
 UPDATE galette_stripe_history
 SET
   state = CASE state
@@ -32,6 +38,7 @@ SET
     WHEN 3 THEN 2
     ELSE state
   END,
-  member_id = COALESCE(substring(request from '"adherent_id";s:[0-9]+:"([0-9]+)"')::integer, 0);
+  member_id = COALESCE(substring(request from '"adherent_id";s:[0-9]+:"([0-9]+)"')::integer, 0),
+  method = 'card';
 
 UPDATE galette_stripe_preferences SET val_pref = UPPER(val_pref) WHERE nom_pref = 'stripe_country';
