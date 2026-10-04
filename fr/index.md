@@ -104,7 +104,7 @@ paiement n'apparaît que dans l'historique de paiement du plugin avec la valeur
 
   *Les types de contribution dont le montant est nul, ou dont le montant n'est
   pas configuré, ne seront pas proposés comme motifs de paiement sur le
-  formulaire, même ci ceux-ci ne sont pas marqués comme inactifs dans le
+  formulaire, même si ceux-ci ne sont pas marqués comme inactifs dans le
   tableau.*
 
 ### Note sur le mode bac à sable
