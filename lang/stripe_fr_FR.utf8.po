@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-10-03 21:06+0000\n"
+"PO-Revision-Date: 2026-10-07 20:15+0000\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/galette/plugins-"
 "stripe/fr/>\n"
@@ -114,10 +114,8 @@ msgid "None"
 msgstr "Aucun"
 
 #: ../templates/default/stripe_success.html.twig:17
-#, fuzzy
-#| msgid "Your payment has been aborted!"
 msgid "Your payment is being processed"
-msgstr "Votre paiement a été annulé !"
+msgstr "Votre paiement est en cours de traitement"
 
 #: ../templates/default/stripe_success.html.twig:19
 msgid "Your payment has succeeded"
@@ -125,7 +123,7 @@ msgstr "Votre paiement a bien été effectué"
 
 #: ../templates/default/stripe_success.html.twig:22
 msgid "A receipt will be sent to you by email once it has been validated"
-msgstr ""
+msgstr "Un reçu vous sera envoyé par courriel une fois qu'il aura été validé"
 
 #: ../templates/default/stripe_success.html.twig:28
 msgid "Amount paid"
