@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
-"POT-Creation-Date: 2026-09-30 12:25+0200\n"
+"POT-Creation-Date: 2026-10-07 14:40+0200\n"
 "PO-Revision-Date: 2026-09-30 11:43+0000\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -62,7 +62,7 @@ msgid "An error occurred loading the checkout form."
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:221
-#: ../lib/GaletteStripe/PluginGaletteStripe.php:55
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:56
 msgid "Stripe History"
 msgstr ""
 
@@ -82,48 +82,55 @@ msgstr ""
 msgid "An error occurred saving stripe settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:592
+#: ../lib/GaletteStripe/Controllers/StripeController.php:596
 msgid "Payment done"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:624
+#: ../lib/GaletteStripe/Controllers/StripeController.php:628
 msgid "Your payment has been aborted!"
 msgstr "Seu pagamento foi cancelado!"
 
-#: ../lib/GaletteStripe/PluginGaletteStripe.php:47
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:48
 msgid "Stripe"
 msgstr ""
 
-#: ../lib/GaletteStripe/PluginGaletteStripe.php:82
-#: ../lib/GaletteStripe/PluginGaletteStripe.php:106
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:83
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:111
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:129
 msgid "Payment form"
 msgstr "Formulário de pagamento"
 
-#: ../lib/GaletteStripe/StripeHistory.php:182
+#: ../lib/GaletteStripe/StripeHistory.php:202
 msgid "None"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:16
+#: ../templates/default/stripe_success.html.twig:17
+#, fuzzy
+#| msgid "Your payment has been aborted!"
+msgid "Your payment is being processed"
+msgstr "Seu pagamento foi cancelado!"
+
+#: ../templates/default/stripe_success.html.twig:19
 msgid "Your payment has succeeded"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:18
-msgid "You will receive an email with the following details"
+#: ../templates/default/stripe_success.html.twig:22
+msgid "A receipt will be sent to you by email once it has been validated"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:23
+#: ../templates/default/stripe_success.html.twig:28
 msgid "Amount paid"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:27
+#: ../templates/default/stripe_success.html.twig:33
 msgid "Payment date"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:31
+#: ../templates/default/stripe_success.html.twig:37
 msgid "Payment method"
 msgstr ""
 
-#: ../templates/default/stripe_success.html.twig:35
+#: ../templates/default/stripe_success.html.twig:41
 #: ../templates/default/stripe_form.html.twig:15
 msgid "Payment reason"
 msgstr "Motivo do pagamento"
@@ -276,6 +283,6 @@ msgid ""
 "the contributions types settings."
 msgstr ""
 
-#: ../templates/default/stripe_preferences.html.twig:149
+#: ../templates/default/stripe_preferences.html.twig:150
 msgid "Select a currency"
 msgstr ""
