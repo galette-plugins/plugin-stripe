@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-09-30 11:43+0000\n"
+"PO-Revision-Date: 2026-10-07 21:51+0000\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/galette/"
 "plugins-stripe/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:62
 msgid "Online payment"
@@ -106,10 +106,8 @@ msgid "None"
 msgstr "Немає"
 
 #: ../templates/default/stripe_success.html.twig:17
-#, fuzzy
-#| msgid "Your payment has been aborted!"
 msgid "Your payment is being processed"
-msgstr "Ваш платіж перервано!"
+msgstr ""
 
 #: ../templates/default/stripe_success.html.twig:19
 msgid "Your payment has succeeded"
