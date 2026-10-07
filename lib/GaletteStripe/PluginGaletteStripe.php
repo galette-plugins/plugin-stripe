@@ -124,7 +124,7 @@ class PluginGaletteStripe extends GalettePlugin implements MenuProviderInterface
         global $preferences;
         $contents = [];
 
-        if ($preferences->showPublicPage($login, 'pref_publicpages_visibility_generic')) {
+        if ($preferences->showPublicPage($login, 'pref_stripe_publicpages_visibility_form')) {
             $contents[] = [
                 'label' => _T("Payment form", "stripe"),
                 'route' => [
