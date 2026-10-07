@@ -10,19 +10,25 @@
     {% if details is not empty %}
         {% set amount = stripe.isZeroDecimal(stripe.getCurrency()) ? details.amount|round : details.amount %}
         <div class="ui info visible icon attached message">
-            <i class="check icon"></i>
+            <i class="{% if details.status == 'processing' %}hourglass half{% else %}check{% endif %} icon"></i>
             <div class="content">
                 <div class="header">
-                    {{ _T('Your payment has succeeded', "stripe") }}
+                    {% if details.status == 'processing' %}
+                        {{ _T('Your payment is being processed', "stripe") }}
+                    {% else %}
+                        {{ _T('Your payment has succeeded', "stripe") }}
+                    {% endif %}
                 </div>
-                <p>{{ _T('You will receive an email with the following details', 'stripe') }}</p>
+                <p>{{ _T('A receipt will be sent to you by email once it has been validated', 'stripe') }}</p>
             </div>
         </div>
         <table class="ui striped definition attached table">
-            <tr>
-                <th class="collapsing">{{ _T('Amount paid', 'stripe') }}</th>
-                <td>{{ amount|format_currency(stripe.getCurrency(), {}, i18n.getWebID()) }}</td>
-            </tr>
+            {% if details.status != 'processing' %}
+                <tr>
+                    <th class="collapsing">{{ _T('Amount paid', 'stripe') }}</th>
+                    <td>{{ amount|format_currency(stripe.getCurrency(), {}, i18n.getWebID()) }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th class="collapsing">{{ _T('Payment date', 'stripe') }}</th>
                 <td>{{ details.date|date("Y-m-d H:i") }}</td>

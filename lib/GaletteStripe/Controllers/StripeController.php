@@ -588,7 +588,8 @@ class StripeController extends AbstractPluginController
                 'amount' => $stripe->isZeroDecimal($stripe->getCurrency()) ? $payment_intent->amount_received : $payment_intent->amount_received / 100,
                 'date' => $payment_intent->created,
                 'method' => $payment_intent->payment_method_types[0],
-                'reason' => $metadata['item_name']
+                'reason' => $metadata['item_name'],
+                'status' => $payment_intent->status
             ];
 
             $params = [
