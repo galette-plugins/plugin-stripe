@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-09-29 19:56+0000\n"
-"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
+"PO-Revision-Date: 2026-10-07 21:51+0000\n"
+"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/galette/plugins-"
 "stripe/ar/>\n"
 "Language: ar\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:62
 msgid "Online payment"
@@ -106,10 +106,8 @@ msgid "None"
 msgstr ""
 
 #: ../templates/default/stripe_success.html.twig:17
-#, fuzzy
-#| msgid "Your payment has been aborted!"
 msgid "Your payment is being processed"
-msgstr "تم إبطال عملية الدفع!"
+msgstr ""
 
 #: ../templates/default/stripe_success.html.twig:19
 msgid "Your payment has succeeded"
