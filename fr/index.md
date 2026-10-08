@@ -10,23 +10,24 @@ Ce plugin fournit :
 * la création automatique de contributions dans Galette une fois les paiements
   validés.
 
-![Payment form visible by users *not logged* into their
-account](images/form_public.jpg)
+![Formulaire de paiement visible par les utilisateurs *non connectés* à leur
+compte](images/form_public.jpg)
 
-> **Note** — This plugin requires your Galette instance to be publicly reachable
-> and served with a valid SSL certificate.
+> **Note** — Ce plugin nécessite que votre instance de Galette soit accessible
+> publiquement et servie avec un certificat SSL valide.
 
 ## Installation
 
 Tout d'abord, téléchargez le plugin :
 
-* [Get latest Stripe
-  plugin!](https://github.com/galette-plugins/plugin-stripe/releases/latest)
-* [Get Stripe plugin nightly
-  build!](https://github.com/galette-plugins/plugin-stripe/releases/tag/nightly)
+* [Obtenez le dernier plugin Stripe
+  !](https://github.com/galette-plugins/plugin-stripe/releases/latest)
+* [Obtenez la nightly du plugin Stripe
+  !](https://github.com/galette-plugins/plugin-stripe/releases/tag/nightly)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-Linux (replacing *{url}* and *{version}* with the corresponding values):
+Décompressez l'archive téléchargée dans le répertoire `plugins` de Galette. Par
+exemple, sous Linux (en remplaçant *{url}* et *{version}* par les valeurs
+correspondantes) :
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -40,20 +41,21 @@ Pour fonctionner, ce plugin requiert des tables dans la base de données.
 Référez-vous [à l'interface de gestion des plugins de
 Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that’s it; the *Stripe* plugin is installed. :)
+Et c'est tout ; le plugin *Stripe* est installé. :)
 
 ## Utilisation
 
-Once the plugin is installed, a *Stripe* group is added to the Galette menu when
-a user is logged-in, allowing administrators and staff members to define the
-settings of the plugin and view the payments history.
+Une fois le plugin installé, un groupe *Stipe* est ajouté au menu de Galette
+lorsqu’un utilisateur est connecté, permettant aux administrateurs et membres du
+bureau de définir les préférences du plugin et de consulter l'historique des
+paiements.
 
 ![Menu du plugin](images/galette_menu.jpg)
 
-The payment form is available from Galette's public pages.
+Le formulaire de paiement est accessible depuis les pages publiques de Galette.
 
-Only *logged-in* users can pay contributions *with membership extension* (or
-membership fees).
+Seuls les utilisateurs *connectés* peuvent payer des contributions *avec
+extension d'adhésion* (ou cotisations).
 
 ![Payment form visible by logged-in users](images/form.jpg)
 
