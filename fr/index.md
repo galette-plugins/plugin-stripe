@@ -43,7 +43,7 @@ Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
 Et c'est tout ; le plugin *Stripe* est installé. :)
 
-## Utilisation
+## Utilisation du plugin
 
 Une fois le plugin installé, un groupe *Stipe* est ajouté au menu de Galette
 lorsqu’un utilisateur est connecté, permettant aux administrateurs et membres du
@@ -57,12 +57,14 @@ Le formulaire de paiement est accessible depuis les pages publiques de Galette.
 Seuls les utilisateurs *connectés* peuvent payer des contributions *avec
 extension d'adhésion* (ou cotisations).
 
-![Payment form visible by logged-in users](images/form.jpg)
+![Formulaire de paiement visible par les utilisateurs
+connectés](images/form.jpg)
 
-Visitors (users not *logged* into their account) can only pay contributions
-*without a membership extension* (or donations). In this case, no contribution
-is automatically created in Galette, the payment only appears in the plugin's
-payment history with the value "None" in the "Member" column.
+Les visiteurs (utilisateurs *non connectés* à leur compte) ne peuvent payer que
+des contributions *sans extension d’adhésion* (ou dons). Dans ce cas, aucune
+contribution n’est créée automatiquement dans Galette, le paiement apparaît
+uniquement dans l’historique des paiements du plugin avec la valeur "Aucun" dans
+la colonne "Adhérent".
 
 ![Écran de l'historique des paiements](images/history.jpg)
 
@@ -90,37 +92,40 @@ payment history with the value "None" in the "Member" column.
 * **Devise du paiement** : choisissez une devise selon les paramètres de votre
   compte Stripe ([lire plus
   bas](#get-the-country-and-currency-defined-in-your-account-settings)).
-* **Contribution types**: in this table, you can disable the [contribution types
-  configured in
+* **Types de contribution** : dans ce tableau, vous pouvez désactiver les [types
+  de contribution configurés dans
   Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to be proposed as a payment reason on the payment form.
+  que vous ne souhaitez pas voir proposés comme motif de paiement sur le
+  formulaire de paiement.
 
   *Les types de contribution dont le montant est nul, ou dont le montant n'est
   pas configuré, ne seront pas proposés comme motifs de paiement sur le
   formulaire, même si ceux-ci ne sont pas marqués comme inactifs dans le
   tableau.*
 
-  > **Note** — A description, displayed below each payment reason proposed on
-  > the payment form, can be defined from the [configuration of the
-  > contributions
-  > types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  > of Galette.
+  > **Note** — Une description, affichée sous chaque motif de paiement proposé
+  > sur le formulaire de paiement, peut être définie dans la [configuration des
+  > types de
+  > contributions](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
+  > de Galette.
 
-> **Note** — It is possible to decide who can access the payment form in
-> Galette's settings. Choose the desired option in the [public pages visibility
-> parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
+> **Note** — Il est possible de décider qui peut accéder au formulaire de
+> paiement dans les préférences de Galette. Choisissez l'option souhaitée dans
+> les [paramètres de visibilité des pages
+> publiques](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
 ### Note sur le mode bac à sable
 
 ![Mode bac à sable Stripe](images/stripe_menu_sandbox_mode.jpg)
 
 Il est recommandé de tester les fonctionnalités du plugin en mode bac à sable.
-Pour savoir comment mettre en place un tel environnement d'essai, veuillez vous
+Pour savoir comment mettre en place un tel environnement de test, veuillez vous
 référer à la [documentation de Stripe](https://docs.stripe.com/sandboxes).
 
-> **Warning** — In this mode, never use real credit card numbers, but only test
-> cards (see the list of test cards from the [Stripe
-> documentation](https://docs.stripe.com/testing#cards))
+> **Warning** — Dans ce mode, n’utilisez jamais de véritables numéros de cartes
+> bancaire, mais uniquement des cartes fictives (voir la liste de cartes
+> fictives dans la [documentation de
+> Stripe](https://docs.stripe.com/testing#cards))
 
 ## Configurez votre compte Stripe
 
