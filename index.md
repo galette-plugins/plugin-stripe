@@ -9,21 +9,18 @@ This plugin provides:
 * a payment history,
 * automatic creation of contributions in Galette once payments are validated.
 
-> **Warning** — This plugin currently requires **Galette nightly version**, so **it is not recommended to use it in production at the moment**.
+![Payment form visible by users *not logged* into their account](images/form_public.jpg)
 
-![Payment form visible by unlogged users](images/form_public.jpg)
-
-> **Note** — To use this plugin, your instance of Galette must be publicly accessible and served in https.
+> **Note** — This plugin requires your Galette instance to be publicly reachable and served with a valid SSL certificate.
 
 ## Installation
 
 First of all, download the plugin:
 
-[![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-beta1&color=ffb619
-)](https://github.com/galette-plugins/plugin-stripe/releases/tag/1.0.0-beta1) [![Get Stripe plugin nightly build!](https://img.shields.io/badge/Nightly-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
-)](https://galette.eu/download/plugins/galette-plugin-stripe-dev.tar.bz2)
+* [Get latest Stripe plugin!](https://github.com/galette-plugins/plugin-stripe/releases/latest)
+* [Get Stripe plugin nightly build!](https://github.com/galette-plugins/plugin-stripe/releases/tag/nightly)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on linux (replacing *{url}* and *{version}* with the corresponding values):
+Extract the downloaded archive into Galette `plugins` directory. For example, on Linux (replacing *{url}* and *{version}* with the corresponding values):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -35,21 +32,21 @@ $ tar xjvf galette-plugin-stripe-{version}.tar.bz2
 
 In order to work, this plugin requires several tables in the database. See the [Galette plugins management interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that’s it, the *Stripe* plugin is installed. :)
+And that’s it; the *Stripe* plugin is installed. :)
 
 ## Plugin usage
 
-When the plugin is installed, a Stripe group is added to the Galette menu when a user is logged in, allowing administrators and staff members to define the settings of the plugin and view payment history.
+Once the plugin is installed, a *Stripe* group is added to the Galette menu when a user is logged-in, allowing administrators and staff members to define the settings of the plugin and view the payments history.
 
 ![Plugin's menu](images/galette_menu.jpg)
 
-The payment form is accessible from Galette's public pages.
+The payment form is available from Galette's public pages.
 
-Only users logged into their account can pay contributions with a membership extension (or membership fees).
+Only *logged-in* users can pay contributions *with membership extension* (or membership fees).
 
-![Payment form visible by logged in users](images/form.jpg)
+![Payment form visible by logged-in users](images/form.jpg)
 
-Regular visitors (users not logged into their account) can only pay contributions without a membership extension (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history with the value “None” entered in the “Member” column.
+Visitors (users not *logged* into their account) can only pay contributions *without a membership extension* (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history with the value "None" in the "Member" column.
 
 ![Payment history screen](images/history.jpg)
 
@@ -64,9 +61,13 @@ Regular visitors (users not logged into their account) can only pay contribution
 * **Stripe webhook secret key**: you will find this information in the details of the "Webhook" you need to create in your association’s account on Stripe ([read more below](#create-a-webhook-and-get-the-corresponding-secret-key)).
 * **Country of your Stripe account**: choose a country according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
 * **Currency for payments**: choose a currency according to your Stripe account settings ([read more below](#get-the-country-and-currency-defined-in-your-account-settings)).
-* **Contribution types**: in this table, you can disable [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be offered as a payment reason on the online payment form.
+* **Contribution types**: in this table, you can disable the [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be proposed as a payment reason on the payment form.
 
   *Contribution types with a zero amount, or whose amount is not configured, will not be offered as payment reasons on the form, even if they are not marked as inactive in the table.*
+
+  > **Note** — A description, displayed below each payment reason proposed on the payment form, can be defined from the [configuration of the contributions types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) of Galette.
+
+> **Note** — It is possible to decide who can access the payment form in Galette's settings. Choose the desired option in the [public pages visibility parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
 ### Note about the sandbox mode
 
@@ -74,7 +75,7 @@ Regular visitors (users not logged into their account) can only pay contribution
 
 It is recommended to test the plugin's functionality in sandbox mode. To learn how to set up such a testing environment, please refer to the [Stripe documentation](https://docs.stripe.com/sandboxes).
 
-> **Warning** — In this mode, do not use real credit card numbers, but only test cards (see the list of test cards in [Stripe documentation](https://docs.stripe.com/testing#cards))
+> **Warning** — In this mode, never use real credit card numbers, but only test cards (see the list of test cards from the [Stripe documentation](https://docs.stripe.com/testing#cards))
 
 ## Configure your Stripe account
 
