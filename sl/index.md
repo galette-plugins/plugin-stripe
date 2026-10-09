@@ -9,23 +9,23 @@ Ta vtičnik zagotavlja:
 * zgodovino plačil,
 * samodejno ustvarjanje prispevkov v Galette, ko so plačila potrjena.
 
-![Payment form visible by users *not logged* into their
-account](images/form_public.jpg)
+![Plačilni obrazec, ki ga vidijo uporabniki *niso prijavljeni* v svoj
+račun](images/form_public.jpg)
 
-> **Note** — This plugin requires your Galette instance to be publicly reachable
-> and served with a valid SSL certificate.
+> **Opomba** — Ta vtičnik zahteva, da je vaš primerek Galette javno dostopen in
+> postrežen z veljavnim potrdilom SSL.
 
 ## Namestitev
 
 Najprej prenesite vtičnik:
 
-* [Get latest Stripe
-  plugin!](https://github.com/galette-plugins/plugin-stripe/releases/latest)
-* [Get Stripe plugin nightly
-  build!](https://github.com/galette-plugins/plugin-stripe/releases/tag/nightly)
+* [Pridobite najnovejši vtičnik
+  Stripe!](https://github.com/galette-plugins/plugin-stripe/releases/latest)
+* [Pridobite nočno gradnjo vtičnika
+  Stripe!](https://github.com/galette-plugins/plugin-stripe/releases/tag/nightly)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-Linux (replacing *{url}* and *{version}* with the corresponding values):
+Ekstrahirajte preneseni arhiv v imenik Galette `plugins`. Na primer v sistemu
+Linux (zamenjava *{url}* in *{version}* z ustreznima vrednostma):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -39,27 +39,27 @@ Za delovanje ta vtičnik potrebuje več tabel v bazi podatkov. Oglejte si [vmesn
 za upravljanje vtičnikov
 Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that’s it; the *Stripe* plugin is installed. :)
+In to je to; vtičnik *Stripe* je nameščen. :)
 
 ## Uporaba vtičnika
 
-Once the plugin is installed, a *Stripe* group is added to the Galette menu when
-a user is logged-in, allowing administrators and staff members to define the
-settings of the plugin and view the payments history.
+Ko je vtičnik nameščen, je skupina *Stripe* dodana v meni Galette, ko je
+uporabnik prijavljen, kar omogoča skrbnikom in članom osebja, da določijo
+nastavitve vtičnika in si ogledajo zgodovino plačil.
 
 ![Meni vtičnika](images/galette_menu.jpg)
 
-The payment form is available from Galette's public pages.
+Obrazec za plačilo je na voljo na javnih straneh Galette.
 
-Only *logged-in* users can pay contributions *with membership extension* (or
-membership fees).
+Samo *prijavljeni* uporabniki lahko plačujejo prispevke *s podaljšanjem
+članstva* (oz. članarino).
 
-![Payment form visible by logged-in users](images/form.jpg)
+![Plačilni obrazec viden prijavljenim uporabnikom](images/form.jpg)
 
-Visitors (users not *logged* into their account) can only pay contributions
-*without a membership extension* (or donations). In this case, no contribution
-is automatically created in Galette, the payment only appears in the plugin's
-payment history with the value "None" in the "Member" column.
+Obiskovalci (uporabniki, ki niso *prijavljeni* v svoj račun) lahko plačujejo le
+prispevke *brez podaljšanja članstva* (ali donacije). V tem primeru se prispevek
+v Galette ne ustvari samodejno, plačilo se prikaže samo v zgodovini plačil
+vtičnika z vrednostjo »Brez« v stolpcu »Član«.
 
 ![Zaslon zgodovine plačil](images/history.jpg)
 
@@ -87,24 +87,24 @@ payment history with the value "None" in the "Member" column.
 * **Valuta za plačila**: izberite valuto glede na nastavitve računa Stripe
   ([preberite več
   spodaj](#get-the-country-and-currency-defined-in-your-account-settings)).
-* **Contribution types**: in this table, you can disable the [contribution types
-  configured in
-  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to be proposed as a payment reason on the payment form.
+* **Vrste prispevkov**: v tej tabeli lahko onemogočite [vrste prispevkov,
+  konfigurirane v
+  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types),
+  za katere ne želite, da so predlagane kot razlog za plačilo na obrazcu za
+  plačilo.
 
   *Vrste prispevkov z ničelnim zneskom ali katerih znesek ni konfiguriran, ne
   bodo ponujeni kot razlogi za plačilo na obrazcu, tudi če v tabeli niso
   označeni kot neaktivni.*
 
-  > **Note** — A description, displayed below each payment reason proposed on
-  > the payment form, can be defined from the [configuration of the
-  > contributions
-  > types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  > of Galette.
+  > **Opomba** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
+  > plačilnem obrazcu, je mogoče definirati v [konfiguraciji vrst
+  > prispevkov](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
+  > Galette.
 
-> **Note** — It is possible to decide who can access the payment form in
-> Galette's settings. Choose the desired option in the [public pages visibility
-> parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
+> **Opomba** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
+> obrazca za plačilo. Izberite želeno možnost v [parametrih vidnosti javnih
+> strani](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
 ### Opomba o načinu peskovnika
 
@@ -114,9 +114,9 @@ Priporočamo, da preizkusite delovanje vtičnika v načinu peskovnika. Če želi
 izvedeti, kako nastaviti takšno testno okolje, si oglejte [dokumentacijo
 Stripe](https://docs.stripe.com/sandboxes).
 
-> **Warning** — In this mode, never use real credit card numbers, but only test
-> cards (see the list of test cards from the [Stripe
-> documentation](https://docs.stripe.com/testing#cards))
+> **Opozorilo** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
+> kartic, ampak samo testne kartice (glejte seznam testnih kartic iz
+> [dokumentacije Stripe](https://docs.stripe.com/testing#cards))
 
 ## Konfigurirajte svoj račun Stripe
 
