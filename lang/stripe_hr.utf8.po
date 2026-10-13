@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-10-10 11:51+0000\n"
-"Last-Translator: Marko Puljic <markopuljic.uo@gmail.com>\n"
+"PO-Revision-Date: 2026-10-13 08:42+0000\n"
+"Last-Translator: Marko Puljic "
+"<markopuljic.uo@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/galette/plugins-"
 "stripe/hr/>\n"
 "Language: hr\n"
@@ -18,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:62
 msgid "Online payment"
-msgstr ""
+msgstr "Plaćanje putem interneta"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:70
 msgid ""
@@ -30,26 +31,31 @@ msgid ""
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 msgstr ""
+"<strong>Plaćanje možda neće raditi</strong>: došlo je do pogreške "
+"(zabilježene u zapisniku) pri učitavanju postavki Stripea iz baze "
+"podataka.<br/>Prijavite problem upravi."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:71
 msgid "Our apologies for the annoyance."
-msgstr ""
+msgstr "Ispričavamo se zbog poteškoća."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:78
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 msgstr ""
+"Stripe ključevi nisu postavljeni. Zamolite administratora da ih doda u "
+"postavkama dodatka."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:109
 #: ../templates/default/stripe_form.html.twig:85
 msgid "You have to select an option."
-msgstr ""
+msgstr "Morate odabrati mogućnost."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:123
 #: ../templates/default/stripe_form.html.twig:91
 msgid "Please enter an amount."
-msgstr ""
+msgstr "Unesite iznos."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:135
 #: ../templates/default/stripe_form.html.twig:94
@@ -57,39 +63,41 @@ msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
+"Uneseni iznos manji je od najnižeg iznosa za odabranu mogućnost. Odaberite "
+"drugu mogućnost ili promijenite iznos."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:157
 msgid "An error occurred loading the checkout form."
-msgstr ""
+msgstr "Došlo je do pogreške pri učitavanju obrasca za plaćanje."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:221
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:56
 msgid "Stripe History"
-msgstr ""
+msgstr "Povijest Stripe plaćanja"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:310
 msgid "Stripe Settings"
-msgstr ""
+msgstr "Postavke Stripea"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:364
 msgid "You have to select a currency."
-msgstr ""
+msgstr "Morate odabrati valutu."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:370
 msgid "Stripe settings have been saved."
-msgstr ""
+msgstr "Postavke Stripea su spremljene."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:376
 msgid "An error occurred saving stripe settings."
-msgstr ""
+msgstr "Došlo je do pogreške pri spremanju postavki Stripea."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:596
 msgid "Payment done"
-msgstr ""
+msgstr "Plaćanje je završeno"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:628
 msgid "Your payment has been aborted!"
-msgstr ""
+msgstr "Vaše plaćanje je otkazano!"
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:48
 msgid "Stripe"
@@ -99,7 +107,7 @@ msgstr "Stripe"
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:111
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:129
 msgid "Payment form"
-msgstr ""
+msgstr "Obrazac za plaćanje"
 
 #: ../lib/GaletteStripe/StripeHistory.php:202
 msgid "None"
@@ -107,23 +115,24 @@ msgstr "Nema"
 
 #: ../templates/default/stripe_success.html.twig:17
 msgid "Your payment is being processed"
-msgstr ""
+msgstr "Vaše plaćanje se obrađuje"
 
 #: ../templates/default/stripe_success.html.twig:19
 msgid "Your payment has succeeded"
-msgstr ""
+msgstr "Vaše plaćanje je uspjelo"
 
 #: ../templates/default/stripe_success.html.twig:22
 msgid "A receipt will be sent to you by email once it has been validated"
 msgstr ""
+"Potvrda o uplati bit će vam poslana e-poštom nakon potvrđivanja plaćanja"
 
 #: ../templates/default/stripe_success.html.twig:28
 msgid "Amount paid"
-msgstr ""
+msgstr "Plaćeni iznos"
 
 #: ../templates/default/stripe_success.html.twig:33
 msgid "Payment date"
-msgstr ""
+msgstr "Datum plaćanja"
 
 #: ../templates/default/stripe_success.html.twig:37
 msgid "Payment method"
@@ -132,145 +141,146 @@ msgstr "Način plaćanja"
 #: ../templates/default/stripe_success.html.twig:41
 #: ../templates/default/stripe_form.html.twig:15
 msgid "Payment reason"
-msgstr ""
+msgstr "Svrha plaćanja"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:107
 #: ../templates/default/stripe_history.html.twig:165
 msgid "Payment nb."
-msgstr ""
+msgstr "Broj plaćanja"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:111
 #: ../templates/default/stripe_history.html.twig:168
 msgid "Payer name"
-msgstr ""
+msgstr "Ime i prezime uplatitelja"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:117
 #: ../templates/default/stripe_history.html.twig:184
 msgid "Reason"
-msgstr ""
+msgstr "Svrha"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:129
 #: ../templates/default/stripe_history.html.twig:190
 msgid "Method"
-msgstr ""
+msgstr "Način"
 
 #: ../templates/default/stripe_history.html.twig:29
 #: ../templates/default/stripe_history.html.twig:193
 msgid "State"
-msgstr ""
+msgstr "Stanje"
 
 #: ../templates/default/stripe_history.html.twig:119
 #: ../templates/default/stripe_form.html.twig:17
 msgid "Select a payment reason"
-msgstr ""
+msgstr "Odaberite svrhu plaćanja"
 
 #: ../templates/default/stripe_history.html.twig:131
 msgid "Select a payment method"
-msgstr ""
+msgstr "Odaberite način plaćanja"
 
 #: ../templates/default/stripe_history.html.twig:172
 msgid "None given"
-msgstr ""
+msgstr "Nije navedeno"
 
 #: ../templates/default/stripe_history.html.twig:198
 msgid "Payment properly processed"
-msgstr ""
+msgstr "Plaćanje je pravilno obrađeno"
 
 #: ../templates/default/stripe_history.html.twig:205
 msgid ""
 "An error occurred and the corresponding contribution has not been created"
-msgstr ""
+msgstr "Došlo je do pogreške i pripadajuća uplata nije stvorena"
 
 #: ../templates/default/stripe_history.html.twig:212
 msgid "Duplicate entry"
-msgstr ""
+msgstr "Duplicirani zapis"
 
 #: ../templates/default/stripe_history.html.twig:222
 #, php-format
 msgid "View Stripe receipt of payment nb. %1$s sent by email to the payer"
 msgstr ""
+"Pregledaj Stripe potvrdu za plaćanje broj %1$s poslanu uplatitelju e-poštom"
 
 #: ../templates/default/stripe_history.html.twig:229
 #, php-format
 msgid "View full request of payment nb. %1$s"
-msgstr ""
+msgstr "Pregledaj cijeli zahtjev za plaćanje broj %1$s"
 
 #: ../templates/default/stripe_history.html.twig:235
 msgid "No results"
-msgstr ""
+msgstr "Nema rezultata"
 
 #: ../templates/default/stripe_history.html.twig:245
 #, php-format
 msgid "Full request of payment nb. %1$s"
-msgstr ""
+msgstr "Cijeli zahtjev za plaćanje broj %1$s"
 
 #: ../templates/default/stripe_form.html.twig:55
 msgid "Proceed to payment"
-msgstr ""
+msgstr "Nastavi na plaćanje"
 
 #: ../templates/default/stripe_form.html.twig:62
 msgid "No payment reasons are available."
-msgstr ""
+msgstr "Nema dostupnih svrha plaćanja."
 
 #: ../templates/default/stripe_preferences.html.twig:16
 msgid "Cannot load the settings"
-msgstr ""
+msgstr "Nije moguće učitati postavke"
 
 #: ../templates/default/stripe_preferences.html.twig:19
 msgid "An error occurred while loading the settings from the database."
-msgstr ""
+msgstr "Došlo je do pogreške pri učitavanju postavki iz baze podataka."
 
 #: ../templates/default/stripe_preferences.html.twig:20
 msgid "Please, check if the plugin's database has been properly initialized."
-msgstr ""
+msgstr "Provjerite je li baza podataka dodatka pravilno inicijalizirana."
 
 #: ../templates/default/stripe_preferences.html.twig:28
 msgid "Stripe webhook endpoint URL"
-msgstr ""
+msgstr "URL krajnje točke Stripe webhooka"
 
 #: ../templates/default/stripe_preferences.html.twig:32
 msgid "Stripe webhook event"
-msgstr ""
+msgstr "Događaj Stripe webhooka"
 
 #: ../templates/default/stripe_preferences.html.twig:38
 msgid "Stripe public key"
-msgstr ""
+msgstr "Stripe javni ključ"
 
 #: ../templates/default/stripe_preferences.html.twig:38
 msgid "Enter here your Stripe public key."
-msgstr ""
+msgstr "Unesite svoj Stripe javni ključ."
 
 #: ../templates/default/stripe_preferences.html.twig:44
 msgid "Stripe secret key"
-msgstr ""
+msgstr "Stripe tajni ključ"
 
 #: ../templates/default/stripe_preferences.html.twig:51
 msgid "Enter here your Stripe secret key."
-msgstr ""
+msgstr "Unesite svoj Stripe tajni ključ."
 
 #: ../templates/default/stripe_preferences.html.twig:55
 msgid "Stripe webhook secret key"
-msgstr ""
+msgstr "Tajni ključ Stripe webhooka"
 
 #: ../templates/default/stripe_preferences.html.twig:62
 msgid "Enter here your Stripe secret key for the webhook."
-msgstr ""
+msgstr "Unesite svoj tajni ključ za Stripe webhook."
 
 #: ../templates/default/stripe_preferences.html.twig:70
 msgid "Country of your Stripe account"
-msgstr ""
+msgstr "Država vašeg Stripe računa"
 
 #: ../templates/default/stripe_preferences.html.twig:78
 msgid "Currency for payments"
-msgstr ""
+msgstr "Valuta plaćanja"
 
 #: ../templates/default/stripe_preferences.html.twig:92
 msgid "Amounts can be defined in the contributions types settings."
-msgstr ""
+msgstr "Iznose možete definirati u postavkama vrsta uplata."
 
 #: ../templates/default/stripe_preferences.html.twig:108
 msgid ""
@@ -278,7 +288,10 @@ msgid ""
 "reason on the form. You can disable this reason, or set a positive value in "
 "the contributions types settings."
 msgstr ""
+"Nulti iznosi, čak i ako nisu isključeni, ne nude se kao svrha plaćanja na "
+"obrascu. Tu svrhu možete isključiti ili postaviti pozitivan iznos u "
+"postavkama vrsta uplata."
 
 #: ../templates/default/stripe_preferences.html.twig:150
 msgid "Select a currency"
-msgstr ""
+msgstr "Odaberite valutu"
