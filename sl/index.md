@@ -12,7 +12,7 @@ Ta vtičnik zagotavlja:
 ![Plačilni obrazec, ki ga vidijo uporabniki *niso prijavljeni* v svoj
 račun](images/form_public.jpg)
 
-> **Note** — Ta vtičnik zahteva, da je vaš primerek Galette javno dostopen in
+> **Opomba** — Ta vtičnik zahteva, da je vaš primerek Galette javno dostopen in
 > postrežen z veljavnim potrdilom SSL.
 
 ## Namestitev
@@ -97,12 +97,12 @@ vtičnika z vrednostjo »Brez« v stolpcu »Član«.
   bodo ponujeni kot razlogi za plačilo na obrazcu, tudi če v tabeli niso
   označeni kot neaktivni.*
 
-  > **Note** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
+  > **Opomba** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
   > plačilnem obrazcu, je mogoče definirati v [konfiguraciji vrst
   > prispevkov](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
   > Galette.
 
-> **Note** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
+> **Opomba** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
 > obrazca za plačilo. Izberite želeno možnost v [parametrih vidnosti javnih
 > strani](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
@@ -114,7 +114,7 @@ Priporočamo, da preizkusite delovanje vtičnika v načinu peskovnika. Če želi
 izvedeti, kako nastaviti takšno testno okolje, si oglejte [dokumentacijo
 Stripe](https://docs.stripe.com/sandboxes).
 
-> **Warning** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
+> **Opozorilo** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
 > kartic, ampak samo testne kartice (glejte seznam testnih kartic iz
 > [dokumentacije Stripe](https://docs.stripe.com/testing#cards))
 
@@ -172,7 +172,7 @@ meniju *Razvijalci* (nahaja se v spodnjem levem kotu nadzorne plošče):
 ![Ključi API-ja v meniju za
 razvijalce](images/stripe_developers_menu_api_keys.jpg)
 
-> **Note** — Če želite zmanjšati potencialni vpliv kompromisa, ustvarite
+> **Opomba** — Če želite zmanjšati potencialni vpliv kompromisa, ustvarite
 > *Omejeni ključ*. Ta ključ je mogoče ustvariti brez prilagajanja dovoljenj. Za
 > več informacij o omejenih ključih si oglejte [dokumentacijo
 > Stripe](https://docs.stripe.com/keys#create-restricted-api-secret-key).
