@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace GaletteStripe;
 
 use Analog\Analog;
+use Galette\Core\AuthThrottle;
 use Galette\Core\Db;
+use Galette\Core\History;
 use Galette\Core\Login;
 use Galette\Core\Preferences;
 use Galette\Entity\ContributionsTypes;
@@ -725,5 +727,15 @@ class Stripe
     public function unsetInactives(): void
     {
         $this->inactives = [];
+    }
+
+    /**
+     * Get the user IP address
+     */
+    public function getUserIPAddress(): string
+    {
+        // History resolves the address the way the rest of Galette does, honouring
+        // GALETTE_X_FORWARDED_FOR_INDEX when the site sits behind a proxy
+        return AuthThrottle::normalizeAddress(History::findUserIPAddress());
     }
 }

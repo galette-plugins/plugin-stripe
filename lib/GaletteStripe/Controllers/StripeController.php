@@ -13,6 +13,8 @@ namespace GaletteStripe\Controllers;
 use Analog\Analog;
 use DI\Attribute\Inject;
 use Galette\Controllers\AbstractPluginController;
+use Galette\Core\AuthThrottle;
+use Galette\Core\Login;
 use Galette\Entity\Adherent;
 use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
@@ -44,17 +46,25 @@ class StripeController extends AbstractPluginController
     #[Inject("Plugin Galette Stripe")]
     protected array $module_info;
 
+    private const string THROTTLE_SCOPE = 'stripe-payment';
+
     /**
      * Main form
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
      */
-    public function form(Request $request, Response $response): Response
+    public function form(Request $request, Response $response, AuthThrottle $throttle, Login $login): Response
     {
         $stripe = new Stripe($this->zdb, $this->preferences);
 
         $current_url = $this->preferences->getURL();
+        $address = $stripe->getUserIPAddress();
+
+        // When a member is logged there is nothing left to hold against its address
+        if ($login->isLogged() && $address !== '') {
+            $throttle->clearEvent(self::THROTTLE_SCOPE, $address);
+        }
 
         $params = [
             'stripe'        => $stripe,
@@ -94,11 +104,37 @@ class StripeController extends AbstractPluginController
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
      */
-    public function formCheckout(Request $request, Response $response): Response
+    public function formCheckout(Request $request, Response $response, AuthThrottle $throttle, Login $login): Response
     {
         $stripe_request = $request->getParsedBody();
         $stripe = new Stripe($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
+
+        $address = $stripe->getUserIPAddress();
+
+        // Throttle public form submissions
+        if (!$login->isLogged() && $address !== '') {
+            // Asked before anything is done, so that a caller being refused costs
+            // nothing but a lookup
+            $delay = $throttle->getDelayForEvent(self::THROTTLE_SCOPE, $address);
+            if ($delay > 0) {
+                $this->flash->addMessage(
+                    'error_detected',
+                    str_replace(
+                        '%seconds',
+                        (string)$delay,
+                        _T("Too many requests. Please try again in %seconds seconds.", "stripe")
+                    )
+                );
+                return $response
+                    ->withStatus(301)
+                    ->withHeader('Location', $this->routeparser->urlFor('helloasso_form'));
+            }
+
+            // The attempt is counted, not its outcome: what is limited is how many
+            // times the form can be submitted, whatever it answers
+            $throttle->recordEvent(self::THROTTLE_SCOPE, $address, 120, 3600);
+        }
 
         // Only reasons proposed to the current user can be paid
         $item_id = (int)($stripe_request['item_id'] ?? 0);
