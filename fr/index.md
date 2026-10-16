@@ -122,8 +122,8 @@ Il est recommandé de tester les fonctionnalités du plugin en mode bac à sable
 Pour savoir comment mettre en place un tel environnement de test, veuillez vous
 référer à la [documentation de Stripe](https://docs.stripe.com/sandboxes).
 
-> **Warning** — Dans ce mode, n’utilisez jamais de véritables numéros de cartes
-> bancaire, mais uniquement des cartes fictives (voir la liste de cartes
+> **Avertissement** — Dans ce mode, n’utilisez jamais de véritables numéros de
+> cartes bancaire, mais uniquement des cartes fictives (voir la liste de cartes
 > fictives dans la [documentation de
 > Stripe](https://docs.stripe.com/testing#cards))
 
