@@ -313,7 +313,7 @@ class StripeController extends AbstractPluginController
             'amounts'       => $amounts,
             'countries'     => $countries,
             'currencies'    => $currencies,
-            'documentation' => 'https://galette-plugins.github.io/plugin-stripe/documentation.html#settings'
+            'documentation' => 'https://galette-plugins.github.io/plugin-stripe/' . ($this->i18n->getAbbrev() !== 'en' ? $this->i18n->getAbbrev() : '')
         ];
 
         // display page
