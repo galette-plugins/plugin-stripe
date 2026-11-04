@@ -68,17 +68,17 @@ vtičnika z vrednostjo »Brez« v stolpcu »Član«.
 ![Zaslon z nastavitvami](images/settings.jpg)
 
 * **URL končne točke webhooka Stripe**: URL za ustvarjanje “Webhooka“ v računu
-  vašega združenja na Stripe ([preberite več
+  vašega društva na Stripe ([preberite več
   spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
 * **Dogodek webhook Stripe**: ime dogodka za ustvarjanje “Webhooka“ v računu
-  vašega združenja na Stripe ([preberite več
+  vašega društva na Stripe ([preberite več
   spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
-* **Javni ključ Stripe**: te informacije boste našli v računu svojega združenja
+* **Javni ključ Stripe**: te informacije boste našli v računu svojega društva na
+  Stripe ([preberite več spodaj](#get-the-api-keys)).
+* **Skrivni ključ Stripe**: te informacije boste našli v računu svojega društva
   na Stripe ([preberite več spodaj](#get-the-api-keys)).
-* **Skrivni ključ Stripe**: te informacije boste našli v računu svojega
-  združenja na Stripe ([preberite več spodaj](#get-the-api-keys)).
 * **Skrivni ključ webhooka Stripe**: te informacije boste našli v podrobnostih o
-  "Webhooku", ki ga morate ustvariti v računu svojega združenja na Stripe
+  "Webhooku", ki ga morate ustvariti v računu svojega društva na Stripe
   ([preberite več
   spodaj](#create-a-webhook-and-get-the-corresponding-secret-key)).
 * **Država vašega računa Stripe**: izberite državo glede na nastavitve vašega
