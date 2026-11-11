@@ -87,8 +87,8 @@ class StripeHistoryList extends HistoryList
             return parent::__get($name);
         } elseif (in_array($name, $this->list_fields)) {
             return match ($name) {
-                'raw_start_date_filter' => $this->getDate('start_date_filter', true, false),
-                'raw_end_date_filter' => $this->getDate('end_date_filter', true, false),
+                'raw_start_date_filter' => $this->getDate('start_date_filter', formatted: true, translated: false),
+                'raw_end_date_filter' => $this->getDate('end_date_filter', formatted: true, translated: false),
                 'start_date_filter', 'end_date_filter' => $this->getDate($name),
                 default => $this->$name,
             };

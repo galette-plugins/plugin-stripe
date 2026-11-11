@@ -421,12 +421,12 @@ class StripeController extends AbstractPluginController
     public function webhook(Request $request, Response $response): Response
     {
         $body = $request->getBody();
-        $post = json_decode($body->getContents(), true);
+        $post = json_decode($body->getContents(), associative: true);
         $stripe = new Stripe($this->zdb, $this->preferences);
 
         // Check webhook signature
         $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
-        if (!empty($stripe_signatures)) {
+        if ($stripe_signatures !== []) {
             try {
                 \Stripe\Webhook::constructEvent(
                     (string)$body,
@@ -455,7 +455,7 @@ class StripeController extends AbstractPluginController
         }
 
         Analog::log(
-            "Stripe webhook request: " . var_export($post, true),
+            "Stripe webhook request: " . var_export($post, return: true),
             Analog::DEBUG
         );
 

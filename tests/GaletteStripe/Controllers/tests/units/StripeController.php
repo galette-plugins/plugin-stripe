@@ -54,7 +54,7 @@ class StripeController extends GaletteRoutingTestCase
         $this->api_calls = [];
         //never reach Stripe: answer as the API would
         ApiRequestor::setHttpClient(
-            new class (
+            new readonly class (
                 fn(array $call) => $this->api_calls[] = $call,
                 fn(string $path): bool => array_filter(
                     $this->api_down,
@@ -66,8 +66,8 @@ class StripeController extends GaletteRoutingTestCase
                  * @param \Closure(string): bool                $is_down Is API path failing
                  */
                 public function __construct(
-                    private readonly \Closure $record,
-                    private readonly \Closure $is_down
+                    private \Closure $record,
+                    private \Closure $is_down
                 ) {
                 }
 
@@ -217,7 +217,12 @@ class StripeController extends GaletteRoutingTestCase
         $signature = hash_hmac('sha256', $timestamp . '.' . $payload, $secret);
 
         $sfactory = new \Slim\Psr7\Factory\StreamFactory();
-        $request = $this->createRequest('stripe_webhook', [], 'POST', 'application/json')
+        $request = $this->createRequest(
+            route_name: 'stripe_webhook',
+            route_args: [],
+            method: 'POST',
+            content_type: 'application/json'
+        )
             ->withHeader('Stripe-Signature', 't=' . $timestamp . ',v1=' . $signature)
             ->withBody($sfactory->createStream($payload));
         return $this->app->handle($request);
@@ -618,7 +623,12 @@ class StripeController extends GaletteRoutingTestCase
         $this->setStripePref('stripe_privkey', 'sk_test_fake');
 
         $sfactory = new \Slim\Psr7\Factory\StreamFactory();
-        $request = $this->createRequest('stripe_webhook', [], 'POST', 'application/json')
+        $request = $this->createRequest(
+            route_name: 'stripe_webhook',
+            route_args: [],
+            method: 'POST',
+            content_type: 'application/json'
+        )
             ->withBody($sfactory->createStream(
                 json_encode($this->getSucceededEvent($member->id, 5, 1250), JSON_THROW_ON_ERROR)
             ));
