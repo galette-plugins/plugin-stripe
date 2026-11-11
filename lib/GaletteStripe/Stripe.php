@@ -30,9 +30,6 @@ class Stripe
 {
     public const string TABLE = 'preferences';
 
-    private Db $zdb;
-    private Preferences $preferences;
-
     /** @var array<int, array<string,mixed>> */
     private array $prices;
     private ?string $pubkey;
@@ -52,10 +49,8 @@ class Stripe
      * @param Db          $zdb         Database instance
      * @param Preferences $preferences Preferences
      */
-    public function __construct(Db $zdb, Preferences $preferences)
+    public function __construct(private readonly Db $zdb, private readonly Preferences $preferences)
     {
-        $this->zdb = $zdb;
-        $this->preferences = $preferences;
         $this->loaded = false;
         $this->prices = [];
         $this->inactives = [];
@@ -100,7 +95,7 @@ class Stripe
                     default:
                         //we've got a preference not intended
                         Analog::log(
-                            '[' . get_class($this) . '] unknown preference `'
+                            '[' . static::class . '] unknown preference `'
                             . $row->nom_pref . '` in the database.',
                             Analog::WARNING
                         );
@@ -110,7 +105,7 @@ class Stripe
             $this->loadContributionsTypes();
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load stripe settings |'
+                '[' . static::class . '] Cannot load stripe settings |'
                 . $e->getMessage(),
                 Analog::ERROR
             );
@@ -131,7 +126,7 @@ class Stripe
             $this->amounts_loaded = true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load amounts from core contributions types'
+                '[' . static::class . '] Cannot load amounts from core contributions types'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -237,7 +232,7 @@ class Stripe
             $this->zdb->execute($update);
 
             Analog::log(
-                '[' . get_class($this)
+                '[' . static::class
                 . '] Stripe settings were sucessfully stored',
                 Analog::DEBUG
             );
@@ -245,7 +240,7 @@ class Stripe
             return true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot store stripe settings'
+                '[' . static::class . '] Cannot store stripe settings'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -291,10 +286,10 @@ class Stripe
             ]);
             $contents = json_encode($session);
 
-            return json_decode($contents, true);
+            return json_decode($contents, associative: true);
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot create Stripe checkout'
+                '[' . static::class . '] Cannot create Stripe checkout'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -596,7 +591,7 @@ class Stripe
             return $supportedCurrencies;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot get supported currencies'
+                '[' . static::class . '] Cannot get supported currencies'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -630,7 +625,7 @@ class Stripe
             "xpf"
         ];
 
-        return in_array(strtolower((string)$currency), $zeroDecimalCurrencies, true);
+        return in_array(strtolower((string)$currency), $zeroDecimalCurrencies, strict: true);
     }
 
     /**

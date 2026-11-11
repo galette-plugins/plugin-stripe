@@ -59,7 +59,7 @@ class StripeHistory extends History
     public function __construct(Db $zdb, Login $login, Preferences $preferences, ?StripeHistoryList $filters = null)
     {
         $this->with_lists = false;
-        parent::__construct($zdb, $login, $preferences, $filters);
+        parent::__construct(zdb: $zdb, login: $login, preferences: $preferences, filters: $filters);
     }
 
     /**
@@ -176,7 +176,7 @@ class StripeHistory extends History
                     }
 
                     $o['member_fullname'] = $this->getMemberFullName((int)$o['member_id']);
-                    $o['raw_request'] = print_r($oa, true);
+                    $o['raw_request'] = print_r($oa, return: true);
                     $o['request'] = $oa;
 
                     $new[] = $o;
@@ -284,7 +284,7 @@ class StripeHistory extends History
         $paymentMethod = $stripe_client->paymentMethods->retrieve($id, []);
         $content = json_encode($paymentMethod);
 
-        return json_decode($content, true);
+        return json_decode($content, associative: true);
     }
 
     /**
@@ -301,7 +301,7 @@ class StripeHistory extends History
         $charge = $stripe_client->charges->retrieve($id, []);
         $content = json_encode($charge);
 
-        return json_decode($content, true);
+        return json_decode($content, associative: true);
     }
 
     /**

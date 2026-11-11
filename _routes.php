@@ -13,7 +13,7 @@ use GaletteStripe\Controllers\StripeController;
 use Slim\Routing\RouteCollectorProxy;
 
 //Include specific classes (stripe/stripe-php)
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 //Constants and classes from plugin
 require_once $module['root'] . '/_config.inc.php';
